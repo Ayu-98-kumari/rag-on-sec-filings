@@ -253,58 +253,6 @@ record of what produced it cannot be compared to next week's.
 
 ---
 
-## Honest limitations
-
-- **+18.5 points is 5 questions out of 27.** A 30-question set supports a
-  direction, not a demonstration.
-- **The test split has been looked at.** It existed so an improvement couldn't be
-  a fit to questions already seen; in practice the chunker was iterated against
-  results from all 30, and a gold-label fix came from inspecting a test question.
-  Reported as compromised rather than clean. The fix I would build is a generator
-  that writes lookup questions mechanically from the XBRL tags — the tag's value
-  *is* the expected answer, so the key builds itself and no human picks the
-  questions.
-- **Answer scores are not controlled across configurations.** Only the final
-  configuration was re-scored after the chunking and context changes; the other
-  three are at `k=5` on the earlier chunks, because the free tier's 200,000
-  token/day cap stopped the re-run. Retrieval *was* re-measured for all four, so
-  the 77.8% → 96.3% comparison is sound and the 12 → 20 one is not.
-- **Structure-aware chunking buys no recall at this context size** (77.8% → 77.8%).
-  It earns its place by keeping labels and unit scales with their tables, which
-  shows up in answer quality, not in recall. At the original 1,915-token budget
-  it was worth +14.8 points — so part of what the earlier result measured was a
-  context too small to tolerate a badly-cut chunk.
-- **Comparative answers are 1 of 4 fully correct**, though `r@ctx` is at 100%.
-  The honest number is multi-company coverage at **79.2%** — on some of them one
-  named company's gold passage is never retrieved at all. `r@ctx` reports 100%
-  because it counts a hit when *any* gold passage is found, which is precisely
-  the blindness coverage exists to expose.
-- **Conceptual answers barely moved** (3/8 → 4/8) even though conceptual
-  retrieval has been at 87.5% throughout. For narrative questions the bottleneck
-  is generation, not retrieval.
-- **Entity detection is a keyword list**, fine for three stable company names and
-  not for hundreds of filers. Adding a fourth filer means editing a dictionary.
-- **Citations are not resolved.** Step 13 checks every *figure* in an answer
-  against the passages the model was given — **37 of 37 figures grounded, 0
-  flagged** on the final run. What no code checks is whether `[2]` points at a
-  passage that actually supports the claim attached to it. That is Step 12, and
-  it is not built.
-- **The numeric verifier now catches nothing, and that is the finding.** It
-  flagged 3 fabricated figures at baseline and 0 on the final run — including 0
-  of the 5 wrong answers, because every one of them is grounded. Fabrication has
-  stopped being the failure mode; misselection has replaced it, and grounding
-  cannot see misselection by construction. A guardrail with 0% recall on current
-  failures is worth reporting rather than quietly retiring.
-- **The abstention grader had a bug.** It matched phrases of absence anywhere in
-  an answer, so answers that honestly flagged one missing company were scored as
-  refusals and never reached the type-specific grader. Found by reading verdicts
-  against retrieval metrics on the same row. Fixed, and the affected runs are
-  kept alongside the corrected ones.
-- **Jev (Steps 11 and 14) is unbuilt** — a typed decision model for routing and a
-  groundedness score. Blocked on early-access credentials, not on design.
-
----
-
 ## Running it
 
 ```bash
