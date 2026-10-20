@@ -1,0 +1,34 @@
+# Pinned for deployment. requirements.in is the human-edited list; this file is
+# what Streamlit Community Cloud installs, so the versions are fixed -- a demo
+# whose dependencies float is a demo that breaks on a day you are not watching.
+
+# CPU-only torch. On Linux, `pip install torch` pulls the CUDA build, which is
+# several gigabytes and is the most likely cause of a failed build on a free
+# tier with a disk and time budget. There is no GPU here: the embedding model
+# is bge-small and runs on CPU in milliseconds.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.14.1
+
+# http + parsing
+requests==2.34.2
+beautifulsoup4==4.15.0
+lxml==6.1.3
+
+# data
+pandas==3.0.6
+numpy==2.5.4
+
+# retrieval
+sentence-transformers==6.1.0
+chromadb==1.5.9
+rank-bm25==0.2.2
+
+# llm providers (either one works; Groq is the configured default)
+groq==1.7.0
+google-genai==2.31.0
+
+# serving
+streamlit==1.66.0
+fastapi==0.143.3
+uvicorn[standard]==0.54.0
+python-dotenv==1.2.4

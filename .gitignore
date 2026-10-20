@@ -1,0 +1,28 @@
+# secrets -- never committed
+.env
+.streamlit/secrets.toml
+
+# Private learning notes. Not part of the deliverable and deliberately not
+# published: these were written as a beginner-level primer, not documentation.
+docs/
+
+# Source filings, 47 MB of SEC HTML. Not needed at runtime -- the parsed
+# blocks and chunks are derived from them. Rebuild: python -m src.fetch
+data/raw/
+
+# Intermediate parse output. Only needed to re-chunk.
+# Rebuild: python -m src.parse
+data/parsed/
+
+# caches
+.cache/
+__pycache__/
+*.pyc
+.venv/
+chroma_db/
+
+# os
+.DS_Store
+
+# Word lock files (created while a .docx is open)
+~$*

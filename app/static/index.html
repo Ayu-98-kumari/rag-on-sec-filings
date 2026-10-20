@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SEC Filings RAG</title>
+<link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+<div class="app">
+
+  <aside class="side">
+    <div class="brand">
+      <div class="mark">R</div>
+      <div><h1>Filings Retrieval</h1><p id="collCount">loading…</p></div>
+    </div>
+
+    <div class="group">
+      <label>Chunking</label>
+      <div class="seg" id="segStrategy">
+        <button data-v="improved" aria-pressed="true">Structure-aware</button>
+        <button data-v="baseline" aria-pressed="false">Baseline</button>
+      </div>
+      <p class="hint" id="hintStrategy">Tables kept whole with column headers,
+        caption and unit scale.</p>
+    </div>
+
+    <div class="group">
+      <label>Retriever</label>
+      <div class="seg" id="segRetriever">
+        <button data-v="hybrid" aria-pressed="true">Hybrid</button>
+        <button data-v="dense" aria-pressed="false">Dense</button>
+        <button data-v="bm25" aria-pressed="false">BM25</button>
+      </div>
+      <p class="hint" id="hintRetriever">Embeddings and BM25, fused by
+        reciprocal rank.</p>
+    </div>
+
+    <div class="group">
+      <label>Query plan</label>
+      <div class="switch" id="swRoute" role="switch" aria-checked="true" tabindex="0">
+        <span>Comparative routing</span><div class="track"></div>
+      </div>
+      <div class="switch" id="swGenerate" role="switch" aria-checked="true" tabindex="0">
+        <span>Generate answer</span><div class="track"></div>
+      </div>
+      <p class="hint">Routing decomposes a question naming two or more
+        companies into one rewritten, filtered search each. With generation off,
+        no API call is made at all.</p>
+    </div>
+
+    <div class="group">
+      <label>Passages</label>
+      <div class="slider">
+        <input type="range" id="kRange" min="3" max="12" value="5">
+        <output id="kOut">5</output>
+      </div>
+    </div>
+
+    <div class="statline" id="statline"></div>
+  </aside>
+
+  <main class="main">
+    <nav class="top">
+      <button class="tab" data-pane="ask" aria-selected="true">Ask</button>
+      <button class="tab" data-pane="cmp" aria-selected="false">Compare</button>
+      <button class="tab" data-pane="res" aria-selected="false">Evaluation</button>
+    </nav>
+
+    <!-- ASK -->
+    <section class="pane on" id="pane-ask">
+      <div class="metrics" id="askMetrics"></div>
+      <div id="askOut"></div>
+      <div class="composer">
+        <details class="samples">
+          <summary>▸ Test-set questions — answers are cached, so these are free and instant</summary>
+          <div class="qgrid" id="qgrid"></div>
+        </details>
+        <div class="askbar">
+          <input id="q" placeholder="What were Stewart's total revenues in fiscal 2025?"
+                 autocomplete="off">
+          <button id="go">Ask</button>
+          <button id="newchat" class="ghost" hidden>New conversation</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARE -->
+    <section class="pane" id="pane-cmp">
+      <p class="lede">The same question through the first configuration and the
+        last one. Retrieval costs nothing, so this comparison is free; generating
+        both answers costs two API calls.</p>
+      <div class="askbar">
+        <input id="cq" placeholder="Which had higher total revenues in fiscal 2025, First American or Stewart?"
+               autocomplete="off">
+        <button id="cgo">Compare</button>
+      </div>
+      <div class="switch" id="swCmpGen" role="switch" aria-checked="false"
+           tabindex="0" style="max-width:260px;margin:12px 0 22px">
+        <span>Generate both answers</span><div class="track"></div>
+      </div>
+      <div class="cols">
+        <div>
+          <div class="colhead"><h2>Baseline</h2>
+            <span>fixed 384-token chunks · dense · no routing</span></div>
+          <div id="cmpL"><p class="empty">—</p></div>
+        </div>
+        <div>
+          <div class="colhead"><h2>Final</h2>
+            <span>structure-aware · hybrid · routing</span></div>
+          <div id="cmpR"><p class="empty">—</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVALUATION -->
+    <section class="pane" id="pane-res">
+      <div class="metrics" id="resMetrics"></div>
+      <div class="note">Recall is reported at an <b>equal 1,915-token context
+        budget</b>, not a fixed <i>k</i>. Baseline chunks average 383 tokens and
+        structure-aware chunks 230, so “five chunks each” would hand one
+        configuration 40% less context than the other — and the model is limited
+        by tokens in its prompt, not by chunk count.</div>
+      <h2 class="sec">Retrieval recall</h2>
+      <div id="tblRetrieval"></div>
+      <h2 class="sec">Answer quality</h2>
+      <div id="tblAnswers"></div>
+      <div class="note warn"><b>Lookups wrong</b> and <b>Ungrounded</b> are
+        different failures, and the distinction is the point. The baseline's
+        wrong answers were not blanks: asked for First American's total revenue
+        it found a table with five revenue columns, summed three, showed its
+        working, and reported $6,810.3m against a true $7,452.2m. That figure
+        appears nowhere in the passages, so Step 13 flags it — three such
+        answers at baseline, none after table-aware chunking. The final
+        configuration's three wrong lookups are a different error: every figure
+        is present in the evidence, read from the right table on the wrong row.
+        No grounding check can catch that, which is why both columns are
+        shown.</div>
+      <h2 class="sec">What these numbers do not support</h2>
+      <ul class="caveats" id="caveats"></ul>
+      <h2 class="sec">Per question</h2>
+      <p class="lede">Configuration <code>hybrid_k10_b3830</code>, the one this
+        page serves, re-scored with the corrected abstention test. Numeric
+        ground truth comes from SEC's XBRL <code>companyfacts</code> API, not
+        from reading filings.</p>
+      <div id="tblPerQ"></div>
+    </section>
+  </main>
+</div>
+<script src="/assets/app.js"></script>
+</body>
+</html>

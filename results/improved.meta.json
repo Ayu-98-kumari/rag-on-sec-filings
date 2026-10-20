@@ -1,0 +1,32 @@
+{
+  "tickers": [
+    "FAF",
+    "FNF",
+    "STC"
+  ],
+  "n_annual": 2,
+  "n_quarterly": 1,
+  "embed_model": "BAAI/bge-small-en-v1.5",
+  "embed_dim": 384,
+  "chunk_tokens": 384,
+  "overlap_tokens": 48,
+  "strategy": "improved",
+  "k": 5,
+  "answer_model": "qwen/qwen3.8-27b",
+  "temperature": 0.0,
+  "max_output_tokens": 1024,
+  "label": "improved",
+  "retriever": "dense",
+  "route": false,
+  "ctx_tokens_budget": 1915,
+  "run_utc": "2026-10-18T12:54:40+00:00",
+  "questions": 30,
+  "split": "all",
+  "llm": true,
+  "elapsed_s": 5.5,
+  "recall_at": [
+    1,
+    5,
+    10
+  ]
+}

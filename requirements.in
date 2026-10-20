@@ -1,0 +1,18 @@
+# http + parsing
+requests
+beautifulsoup4
+lxml
+# data
+pandas
+# retrieval
+sentence-transformers
+chromadb
+rank-bm25
+# llm providers (either one works)
+groq
+google-genai
+# serving
+fastapi
+uvicorn[standard]
+streamlit
+python-dotenv

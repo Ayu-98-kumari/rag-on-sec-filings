@@ -1,0 +1,27 @@
+# Deliberately does NOT pin server.address or server.port.
+#
+# Locally this app can spend the Groq key in .env, so it should not be
+# reachable from the local network -- run it bound to loopback:
+#
+#     streamlit run app/streamlit_app.py --server.address 127.0.0.1
+#
+# That is a CLI flag rather than a setting here because a hosted deployment
+# chooses its own bind address, and a config file insisting on 127.0.0.1 is a
+# config file that makes the app unreachable in production.
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+# Matches app/static/styles.css, so the hosted app and the local FastAPI
+# frontend read as the same product: dense, dark, quiet chrome, numbers in a
+# monospaced face so columns line up.
+[theme]
+base = "dark"
+primaryColor = "#4da3ff"
+backgroundColor = "#0b0f14"
+secondaryBackgroundColor = "#161e29"
+textColor = "#e6edf6"
+font = "sans serif"
