@@ -382,10 +382,6 @@ evaluation costs nothing.
 src/     fetch · parse · chunk · embed · index · store · retrieve · route · ask · llm · config
 eval/    make_questions.py · run_eval.py · questions.csv
 results/ <config>.csv + <config>.meta.json per measured run
-docs/    project_step_documentation · doc_explanation (build log, F1–F36) · data_explanation
 data/    raw → parsed → chunks → chroma  (derived stages gitignored, rebuildable)
 ```
 
-`docs/doc_explanation.md` is a build log with a **findings register of 36 entries** —
-every difficulty hit and how it was handled. Several are defects found in the
-*measurement* rather than the method, which is the most useful thing in it.
