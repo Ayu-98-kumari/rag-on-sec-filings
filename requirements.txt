@@ -7,7 +7,13 @@
 # tier with a disk and time budget. There is no GPU here: the embedding model
 # is bge-small and runs on CPU in milliseconds.
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.14.1
+# Pinned per platform rather than left to pip. Both indexes carry 2.14.1, and
+# which one pip takes it from across two indexes is not guaranteed, so the
+# Linux build names the +cpu wheel explicitly instead of hoping. macOS has no
+# +cpu variant -- its wheels are CPU-only already -- and resolves from the same
+# index, so one file serves development and deployment.
+torch==2.14.1+cpu ; sys_platform == "linux"
+torch==2.14.1 ; sys_platform != "linux"
 
 # http + parsing
 requests==2.34.2
