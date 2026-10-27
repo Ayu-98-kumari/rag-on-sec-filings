@@ -1,0 +1,91 @@
+qid,bucket,router,question,gold,got,outcome,confidence,input_tokens,latency_ms,cached,jev_error,why
+HA001,A,rules,Which company had the lowest provision for title losses as a percentage of title operating revenue in 2025?,comparative,comparative,correct,,,,,,comparative wording ('which company') with no company named; one filtered search each
+HA002,A,rules,Which company reported the largest improvement in net income from 2024 to 2025?,comparative,comparative,correct,,,,,,comparative wording ('which company') with no company named; one filtered search each
+HA003,A,rules,Which company reported the strongest revenue growth in the first six months of 2026?,comparative,comparative,correct,,,,,,comparative wording ('which company') with no company named; one filtered search each
+HB001,B,rules,What types of claims are covered by a title insurance policy?,single,single,correct,,,,,,no company named and no comparative wording; unfiltered search
+HB002,B,rules,What is the difference between direct and agency title insurance premiums?,single,single,correct,,,,,,no company named and no comparative wording; unfiltered search
+HB003,B,rules,What is the purpose of title insurance in a real estate transaction?,single,single,correct,,,,,,no company named and no comparative wording; unfiltered search
+HB004,B,rules,What is the difference between an owner's title policy and a lender's title policy?,single,single,correct,,,,,,no company named and no comparative wording; unfiltered search
+HB005,B,rules,How is a title insurance loss ratio calculated?,single,single,correct,,,,,,no company named and no comparative wording; unfiltered search
+HB006,B,rules,How does reinsurance reduce the risk of a large title insurance claim?,single,single,correct,,,,,,no company named and no comparative wording; unfiltered search
+HB007,B,rules,What is the difference between premiums written and premiums earned?,single,single,correct,,,,,,no company named and no comparative wording; unfiltered search
+HB008,B,rules,How are cybersecurity risks disclosed in a 10-K annual report?,single,single,correct,,,,,,no company named and no comparative wording; unfiltered search
+HB009,B,rules,What is the purpose of an escrow account during a real estate closing?,single,single,correct,,,,,,no company named and no comparative wording; unfiltered search
+HC001,C,rules,Who came out ahead on title insurance profitability in 2025?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HC002,C,rules,Whose title insurance business gained the most momentum during 2025?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HC003,C,rules,Who handled title insurance claims more efficiently in 2025?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HC004,C,rules,Where did operating margins improve the most between 2024 and 2025?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HC005,C,rules,Who entered the second half of 2026 in the strongest financial position?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HC006,C,rules,Whose operating expenses grew more slowly than revenue in 2025?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HC007,C,rules,Who relied more heavily on independent title agents for premium revenue in 2025?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HC008,C,rules,Where would an investor have seen the healthiest balance sheet at the end of 2025?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HC009,C,rules,Who made better progress controlling title insurance losses between 2024 and 2025?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HC010,C,rules,Whose cash generation improved the most during 2025?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HC011,C,rules,Who appears better prepared to withstand a slowdown in residential real estate transactions?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HC012,C,rules,Who depended less on residential real estate activity for its business in 2025?,comparative,single,miss,,,,,,no company named and no comparative wording; unfiltered search
+HD001,D,rules,What does the largest source of title insurance claims typically involve?,single,comparative,waste,,,,,,comparative wording ('largest') with no company named; one filtered search each
+HD002,D,rules,What does highest and best use mean in a real estate appraisal?,single,comparative,waste,,,,,,comparative wording ('highest') with no company named; one filtered search each
+HD003,D,rules,What does the largest reporting segment mean in a 10-K filing?,single,comparative,waste,,,,,,comparative wording ('largest') with no company named; one filtered search each
+HD004,D,rules,How does a title insurer determine the highest amount of coverage available under a policy?,single,comparative,waste,,,,,,comparative wording ('highest') with no company named; one filtered search each
+HD005,D,rules,How does a title insurer compare estimated claim liabilities with actual claim payments?,single,comparative,waste,,,,,,comparative wording ('compare') with no company named; one filtered search each
+HD006,D,rules,What does the lowest level of title loss reserves indicate about potential claims?,single,comparative,waste,,,,,,comparative wording ('lowest') with no company named; one filtered search each
+HA001,A,jev,Which company had the lowest provision for title losses as a percentage of title operating revenue in 2025?,comparative,comparative,correct,1.0,536,402.4,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HA002,A,jev,Which company reported the largest improvement in net income from 2024 to 2025?,comparative,comparative,correct,1.0,535,384.9,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HA003,A,jev,Which company reported the strongest revenue growth in the first six months of 2026?,comparative,comparative,correct,1.0,532,316.1,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HB001,B,jev,What types of claims are covered by a title insurance policy?,single,single,correct,0.84,525,309.6,True,,"jev: single, confidence 0.84; unfiltered search"
+HB002,B,jev,What is the difference between direct and agency title insurance premiums?,single,single,correct,0.88,525,352.8,True,,"jev: single, confidence 0.88; unfiltered search"
+HB003,B,jev,What is the purpose of title insurance in a real estate transaction?,single,single,correct,0.98,526,294.7,True,,"jev: single, confidence 0.98; unfiltered search"
+HB004,B,jev,What is the difference between an owner's title policy and a lender's title policy?,single,single,correct,0.94,530,340.7,True,,"jev: single, confidence 0.94; unfiltered search"
+HB005,B,jev,How is a title insurance loss ratio calculated?,single,single,correct,0.96,522,406.3,True,,"jev: single, confidence 0.96; unfiltered search"
+HB006,B,jev,How does reinsurance reduce the risk of a large title insurance claim?,single,single,correct,0.96,528,303.3,True,,"jev: single, confidence 0.96; unfiltered search"
+HB007,B,jev,What is the difference between premiums written and premiums earned?,single,single,correct,0.96,524,383.7,True,,"jev: single, confidence 0.96; unfiltered search"
+HB008,B,jev,How are cybersecurity risks disclosed in a 10-K annual report?,single,single,correct,0.82,527,449.8,True,,"jev: single, confidence 0.82; unfiltered search"
+HB009,B,jev,What is the purpose of an escrow account during a real estate closing?,single,single,correct,0.98,528,306.0,True,,"jev: single, confidence 0.98; unfiltered search"
+HC001,C,jev,Who came out ahead on title insurance profitability in 2025?,comparative,comparative,correct,1.0,528,303.0,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HC002,C,jev,Whose title insurance business gained the most momentum during 2025?,comparative,comparative,correct,1.0,529,342.0,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HC003,C,jev,Who handled title insurance claims more efficiently in 2025?,comparative,comparative,correct,1.0,527,315.6,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HC004,C,jev,Where did operating margins improve the most between 2024 and 2025?,comparative,comparative,correct,1.0,533,320.5,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HC005,C,jev,Who entered the second half of 2026 in the strongest financial position?,comparative,comparative,correct,1.0,530,309.7,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HC006,C,jev,Whose operating expenses grew more slowly than revenue in 2025?,comparative,comparative,correct,1.0,529,326.3,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HC007,C,jev,Who relied more heavily on independent title agents for premium revenue in 2025?,comparative,comparative,correct,1.0,531,327.5,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HC008,C,jev,Where would an investor have seen the healthiest balance sheet at the end of 2025?,comparative,comparative,correct,1.0,535,292.5,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HC009,C,jev,Who made better progress controlling title insurance losses between 2024 and 2025?,comparative,comparative,correct,1.0,534,303.8,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HC010,C,jev,Whose cash generation improved the most during 2025?,comparative,comparative,correct,1.0,527,322.7,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HC011,C,jev,Who appears better prepared to withstand a slowdown in residential real estate transactions?,comparative,comparative,correct,1.0,527,398.3,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HC012,C,jev,Who depended less on residential real estate activity for its business in 2025?,comparative,comparative,correct,1.0,531,302.9,True,,"jev: comparative, confidence 1.00; one filtered search each"
+HD001,D,jev,What does the largest source of title insurance claims typically involve?,single,single,correct,0.82,525,303.2,True,,"jev: single, confidence 0.82; unfiltered search"
+HD002,D,jev,What does highest and best use mean in a real estate appraisal?,single,single,correct,0.96,526,319.5,True,,"jev: single, confidence 0.96; unfiltered search"
+HD003,D,jev,What does the largest reporting segment mean in a 10-K filing?,single,single,correct,0.86,528,334.7,True,,"jev: single, confidence 0.86; unfiltered search"
+HD004,D,jev,How does a title insurer determine the highest amount of coverage available under a policy?,single,single,correct,0.84,529,306.2,True,,"jev: single, confidence 0.84; unfiltered search"
+HD005,D,jev,How does a title insurer compare estimated claim liabilities with actual claim payments?,single,single,correct,0.44,527,328.6,True,,"jev: single, confidence 0.44; unfiltered search"
+HD006,D,jev,What does the lowest level of title loss reserves indicate about potential claims?,single,single,correct,0.78,527,311.0,True,,"jev: single, confidence 0.78; unfiltered search"
+HA001,A,all-comparative,Which company had the lowest provision for title losses as a percentage of title operating revenue in 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HA002,A,all-comparative,Which company reported the largest improvement in net income from 2024 to 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HA003,A,all-comparative,Which company reported the strongest revenue growth in the first six months of 2026?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HB001,B,all-comparative,What types of claims are covered by a title insurance policy?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HB002,B,all-comparative,What is the difference between direct and agency title insurance premiums?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HB003,B,all-comparative,What is the purpose of title insurance in a real estate transaction?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HB004,B,all-comparative,What is the difference between an owner's title policy and a lender's title policy?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HB005,B,all-comparative,How is a title insurance loss ratio calculated?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HB006,B,all-comparative,How does reinsurance reduce the risk of a large title insurance claim?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HB007,B,all-comparative,What is the difference between premiums written and premiums earned?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HB008,B,all-comparative,How are cybersecurity risks disclosed in a 10-K annual report?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HB009,B,all-comparative,What is the purpose of an escrow account during a real estate closing?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HC001,C,all-comparative,Who came out ahead on title insurance profitability in 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HC002,C,all-comparative,Whose title insurance business gained the most momentum during 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HC003,C,all-comparative,Who handled title insurance claims more efficiently in 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HC004,C,all-comparative,Where did operating margins improve the most between 2024 and 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HC005,C,all-comparative,Who entered the second half of 2026 in the strongest financial position?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HC006,C,all-comparative,Whose operating expenses grew more slowly than revenue in 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HC007,C,all-comparative,Who relied more heavily on independent title agents for premium revenue in 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HC008,C,all-comparative,Where would an investor have seen the healthiest balance sheet at the end of 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HC009,C,all-comparative,Who made better progress controlling title insurance losses between 2024 and 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HC010,C,all-comparative,Whose cash generation improved the most during 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HC011,C,all-comparative,Who appears better prepared to withstand a slowdown in residential real estate transactions?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HC012,C,all-comparative,Who depended less on residential real estate activity for its business in 2025?,comparative,comparative,correct,,,,,,"baseline: every question fanned out, no decision made"
+HD001,D,all-comparative,What does the largest source of title insurance claims typically involve?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HD002,D,all-comparative,What does highest and best use mean in a real estate appraisal?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HD003,D,all-comparative,What does the largest reporting segment mean in a 10-K filing?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HD004,D,all-comparative,How does a title insurer determine the highest amount of coverage available under a policy?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HD005,D,all-comparative,How does a title insurer compare estimated claim liabilities with actual claim payments?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"
+HD006,D,all-comparative,What does the lowest level of title loss reserves indicate about potential claims?,single,comparative,waste,,,,,,"baseline: every question fanned out, no decision made"

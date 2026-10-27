@@ -1,0 +1,44 @@
+qid,bucket,question,gold_mode,why
+HA001,A,Which company had the lowest provision for title losses as a percentage of title operating revenue in 2025?,comparative,answering requires figures or statements from more than one filer
+HA002,A,Which company reported the largest improvement in net income from 2024 to 2025?,comparative,answering requires figures or statements from more than one filer
+HA003,A,Which company reported the strongest revenue growth in the first six months of 2026?,comparative,answering requires figures or statements from more than one filer
+HB001,B,What types of claims are covered by a title insurance policy?,single,the answer is the same whichever filer's filing is read
+HB002,B,What is the difference between direct and agency title insurance premiums?,single,the answer is the same whichever filer's filing is read
+HB003,B,What is the purpose of title insurance in a real estate transaction?,single,the answer is the same whichever filer's filing is read
+HB004,B,What is the difference between an owner's title policy and a lender's title policy?,single,the answer is the same whichever filer's filing is read
+HB005,B,How is a title insurance loss ratio calculated?,single,the answer is the same whichever filer's filing is read
+HB006,B,How does reinsurance reduce the risk of a large title insurance claim?,single,the answer is the same whichever filer's filing is read
+HB007,B,What is the difference between premiums written and premiums earned?,single,the answer is the same whichever filer's filing is read
+HB008,B,How are cybersecurity risks disclosed in a 10-K annual report?,single,the answer is the same whichever filer's filing is read
+HB009,B,What is the purpose of an escrow account during a real estate closing?,single,the answer is the same whichever filer's filing is read
+HC001,C,Who came out ahead on title insurance profitability in 2025?,comparative,answering requires figures or statements from more than one filer
+HC002,C,Whose title insurance business gained the most momentum during 2025?,comparative,answering requires figures or statements from more than one filer
+HC003,C,Who handled title insurance claims more efficiently in 2025?,comparative,answering requires figures or statements from more than one filer
+HC004,C,Where did operating margins improve the most between 2024 and 2025?,comparative,answering requires figures or statements from more than one filer
+HC005,C,Who entered the second half of 2026 in the strongest financial position?,comparative,answering requires figures or statements from more than one filer
+HC006,C,Whose operating expenses grew more slowly than revenue in 2025?,comparative,answering requires figures or statements from more than one filer
+HC007,C,Who relied more heavily on independent title agents for premium revenue in 2025?,comparative,answering requires figures or statements from more than one filer
+HC008,C,Where would an investor have seen the healthiest balance sheet at the end of 2025?,comparative,answering requires figures or statements from more than one filer
+HC009,C,Who made better progress controlling title insurance losses between 2024 and 2025?,comparative,answering requires figures or statements from more than one filer
+HC010,C,Whose cash generation improved the most during 2025?,comparative,answering requires figures or statements from more than one filer
+HC011,C,Who appears better prepared to withstand a slowdown in residential real estate transactions?,comparative,answering requires figures or statements from more than one filer
+HC012,C,Who depended less on residential real estate activity for its business in 2025?,comparative,answering requires figures or statements from more than one filer
+HD001,D,What does the largest source of title insurance claims typically involve?,single,the answer is the same whichever filer's filing is read
+HD002,D,What does highest and best use mean in a real estate appraisal?,single,the answer is the same whichever filer's filing is read
+HD003,D,What does the largest reporting segment mean in a 10-K filing?,single,the answer is the same whichever filer's filing is read
+HD004,D,How does a title insurer determine the highest amount of coverage available under a policy?,single,the answer is the same whichever filer's filing is read
+HD005,D,How does a title insurer compare estimated claim liabilities with actual claim payments?,single,the answer is the same whichever filer's filing is read
+HD006,D,What does the lowest level of title loss reserves indicate about potential claims?,single,the answer is the same whichever filer's filing is read
+HE001,E,What were the company's total revenues in 2025?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE002,E,What was the company's largest source of revenue in 2025?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE003,E,How does the company calculate its title loss ratio?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE004,E,How much did the company's title premiums increase compared to 2024?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE005,E,What were the company's main business segments in 2025?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE006,E,Which segment contributed the highest revenue within the company?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE007,E,How many employees did the company report at the end of 2025?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE008,E,What was the largest risk to the company's business identified in its 2025 annual report?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE009,E,How did the company's net income compare with the previous year?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE010,E,What legal proceedings did the company disclose in its 2025 annual report?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE011,E,What factors caused the highest increase in operating expenses during 2025?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE012,E,What were the company's cybersecurity risk management practices in 2025?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"
+HE013,E,How much did the company's cash and cash equivalents change compared with December 2025?,unclear,"names no company but asks for one company's own figure; the answer changes depending which filing is opened, so no single search or fan-out is correct and the user has to be asked"

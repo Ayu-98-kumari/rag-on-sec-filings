@@ -1,0 +1,33 @@
+{
+  "questions": "eval/router_questions.csv",
+  "n_questions": 45,
+  "routers": [
+    "rules",
+    "jev",
+    "all-comparative"
+  ],
+  "accuracy": {
+    "rules": 0.5111,
+    "jev": 1.0,
+    "all-comparative": 0.5333
+  },
+  "errors": {
+    "rules": {
+      "correct": 23,
+      "miss": 12,
+      "waste": 10
+    },
+    "jev": {
+      "correct": 45
+    },
+    "all-comparative": {
+      "correct": 24,
+      "waste": 21
+    }
+  },
+  "jev_model": "jev-latest",
+  "confidence_floor": 0.0,
+  "jev_failures": 0,
+  "usd_per_mtok_input": 0.042,
+  "price_verified": false
+}

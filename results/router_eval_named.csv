@@ -1,0 +1,19 @@
+qid,bucket,question,gold_mode,gold_companies,got_mode,got_companies,outcome,why
+NA001,N,What were Stewart's total revenues in 2025?,filtered,STC,filtered,STC,correct,names one filer by short alias
+NA002,N,How did First American's title premiums change in 2025?,filtered,FAF,filtered,FAF,correct,names one filer by full name
+NA003,N,What is FNF's title loss ratio?,filtered,FNF,filtered,FNF,correct,names one filer by ticker
+NA004,N,What did Fidelity National Financial report for agency premiums?,filtered,FNF,filtered,FNF,correct,names one filer by full name
+NA005,N,Describe STEWART's cybersecurity disclosures.,filtered,STC,filtered,STC,correct,alias in capitals; matching must be case-insensitive
+NA006,N,What are the risk factors listed by STC in its latest 10-K?,filtered,STC,filtered,STC,correct,three-letter ticker
+NM001,M,Compare First American and Stewart on title losses.,comparative,FAF|STC,comparative,FAF|STC,correct,names two filers
+NM002,M,"Which of FAF, FNF and STC had the lowest expense ratio?",comparative,FAF|FNF|STC,comparative,FAF|FNF|STC,correct,names all three by ticker
+NM003,M,How do all three insurers account for title loss reserves?,comparative,FAF|FNF|STC,comparative,FAF|FNF|STC,correct,"""all three"" names every filer without an alias"
+NM004,M,What do the companies say about agency commissions?,comparative,FAF|FNF|STC,comparative,FAF|FNF|STC,correct,"bare definite plural ""the companies"""
+NM005,M,Stewart versus Fidelity National on cash generation?,comparative,FNF|STC,comparative,FNF|STC,correct,two filers with a comparison word
+XA001,X,What lines of business does Westcor underwrite?,unsettled,,unsettled,,correct,"""westcor"" contains ""stc"" -- a real title insurer that is NOT one of our three"
+XA002,X,What was the defined benefit plan interest cost in 2025?,unsettled,,unsettled,,correct,"""interest cost"" is only a collision when unspaced; checks the spaced form is safe"
+XA003,X,Does the filing describe a stewardship policy for agent oversight?,unsettled,,unsettled,,correct,"""stewardship"" nearly contains ""stewart"" -- checks it does not"
+XA004,X,How are post-closing costs recognised?,unsettled,,unsettled,,correct,ordinary finance vocabulary near the ticker strings
+XA005,X,What does the faff around escrow disbursement refer to?,unsettled,,unsettled,,correct,"""faff"" contains ""faf"" -- the dictionary collision made into a question"
+XA006,X,What is the largest first-class mail expense disclosed?,unsettled,,unsettled,,correct,"""first"" alone must not match ""first american"""
+XA007,X,How is interest credited to policyholder account balances?,unsettled,,unsettled,,correct,the spaced form of the biggest XBRL-tag collision found in the corpus

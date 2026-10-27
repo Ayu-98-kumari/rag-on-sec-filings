@@ -1,0 +1,64 @@
+{
+  "questions": "eval/router_questions_ask.csv",
+  "n_questions": 43,
+  "buckets": {
+    "A": 3,
+    "B": 9,
+    "C": 12,
+    "D": 6,
+    "E": 13
+  },
+  "gold": {
+    "comparative": 15,
+    "single": 15,
+    "unclear": 13
+  },
+  "routers": [
+    "rules",
+    "jev",
+    "jev-ask",
+    "all-comparative"
+  ],
+  "accuracy_all": {
+    "rules": 0.2791,
+    "jev": 0.6977,
+    "jev-ask": 1.0,
+    "all-comparative": 0.3488
+  },
+  "accuracy_ad_only": {
+    "rules": 0.4,
+    "jev": 1.0,
+    "jev-ask": 1.0,
+    "all-comparative": 0.5
+  },
+  "errors": {
+    "rules": {
+      "correct": 12,
+      "miss": 12,
+      "waste": 6,
+      "silent": 6,
+      "hedged": 7
+    },
+    "jev": {
+      "correct": 30,
+      "silent": 11,
+      "hedged": 2
+    },
+    "jev-ask": {
+      "correct": 43
+    },
+    "all-comparative": {
+      "correct": 15,
+      "waste": 15,
+      "hedged": 13
+    }
+  },
+  "jev_model": "jev-latest",
+  "confidence_floor": 0.0,
+  "jev_failures": {
+    "jev": 0,
+    "jev-ask": 0
+  },
+  "usd_per_mtok_input": 0.042,
+  "price_verified": false
+}
