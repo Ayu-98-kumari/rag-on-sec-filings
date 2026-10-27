@@ -1,0 +1,756 @@
+pair_id,qid,type,question,claim_idx,n_claims,claim,cited,n_passages,passages,supported
+L001-1,L001,lookup,What was First American Financial's total revenues in fiscal 2025?,1,1,First American Financial's total revenues in fiscal 2025 were $7.5 billion,2,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+The Company’s total revenues for 2025 were $7.5 billion, which reflected an increase of $1.3 billion, or 21.6%, when compared with $6.1 billion for 2024. This increase was primarily attributable to increases in direct premiums and escrow fees of $316.7 million, or 12.9%, agent premiums of $397.5 million, or 15.5%, and information and other revenue of $127.4 million, or 13.3%. The Company’s total revenues for 2025 also included $20.9 million of net investment gains compared to $401.6 million of net investment losses for the prior year. The increase in direct premiums and escrow fees attributable to the title insurance and services segment for 2025 totaled $299.2 million, or 14.6%, which included increases from domestic commercial and residential refinance transactions of $241.4 million, or 31.7%, and $39.7 million, or 42.1%, respectively, in 2025 when compared to 2024. Direct premiums and escrow fees from domestic residential purchase transactions decreased $21.5 million, or 2.2%, in 2025 when compared to 2024.",
+L002-1,L002,lookup,What was Fidelity National Financial's total revenues in fiscal 2025?,1,1,"Fidelity National Financial's total revenues in fiscal 2025 were $14,445 million",3,1,"Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 8
+[TABLE] part 2 of 2
+Section: Item 8 - Financial Statements
+Caption: Our revenue consists of:
+Columns: Year Ended December 31,
+Other | Escrow, title-related and other fees | Corporate and other | 44 | 44 | 36
+Interest and investment income | Interest and investment income | Various | 3,237 | 3,124 | 2,607
+Recognized gains and losses, net | Recognized gains and losses, net | Various | ( 60 ) | 83 | ( 164 )
+Total revenues | Total revenues | 14,445 | 13,681 | 11,752
+(1) Includes $ 2,108 , $ 2,217 , and $ 1,964 of life-contingent pension risk transfer premiums in 2025, 2024, and 2023, respectively.)",
+L003-1,L003,lookup,What was Stewart Information Services' total revenues in fiscal 2025?,1,1,Stewart Information Services' total operating revenues in fiscal 2025 were $2.86 billion,2,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 6
+Item 6. Reserved.
+
+Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations (MD&A)
+
+MANAGEMENT'S OVERVIEW
+
+Net income attributable to Stewart for 2025 was $115.5 million, or $4.05 per diluted share, compared to $73.3 million, or $2.61 per diluted share, in 2024. Pretax income before noncontrolling interests in 2025 was $165.6 million (5.7% pretax margin) compared to $114.3 million (4.6% pretax margin) in 2024. During 2025, total operating revenues increased 18% to $2.86 billion compared to $2.42 billion in 2024, while total expenses increased 16% to $2.76 billion, compared to $2.38 billion in 2024, primarily driven by higher revenues in the title and real estate solutions services operations. Refer to "" Results of Operations "" for detailed year-to-year income statement discussions, and "" Liquidity and Capital Resources "" for an analysis of Stewart's financial condition.",
+L004-1,L004,lookup,What was First American Financial's net income attributable to the parent in fiscal 2025?,1,1,First American Financial's net income attributable to the Company in fiscal 2025 was $621.8 million,4,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+[TABLE]
+Section: Item 7 - Management's Discussion and Analysis (MD&A)
+Caption: Net income and per share information are summarized as follows:
+Figures in millions.
+Columns: Year ended December 31,
+2025 | 2024 | 2023
+(in millions, except per share amounts)
+Net income attributable to the Company | 621.8 | 131.1 | 216.8
+Net income per share attributable to the Company’s stockholders:
+Basic | 6.02 | 1.26 | 2.08
+Diluted | 6.00 | 1.26 | 2.07
+Weighted-average common shares outstanding:
+Basic | 103.3 | 103.9 | 104.3
+Diluted | 103.7 | 104.3 | 104.6",
+L006-1,L006,lookup,What was Stewart Information Services' net income attributable to the parent in fiscal 2025?,1,1,Stewart Information Services' net income attributable to the parent in fiscal 2025 was $115.5 million,2,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 6
+Item 6. Reserved.
+
+Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations (MD&A)
+
+MANAGEMENT'S OVERVIEW
+
+Net income attributable to Stewart for 2025 was $115.5 million, or $4.05 per diluted share, compared to $73.3 million, or $2.61 per diluted share, in 2024. Pretax income before noncontrolling interests in 2025 was $165.6 million (5.7% pretax margin) compared to $114.3 million (4.6% pretax margin) in 2024. During 2025, total operating revenues increased 18% to $2.86 billion compared to $2.42 billion in 2024, while total expenses increased 16% to $2.76 billion, compared to $2.38 billion in 2024, primarily driven by higher revenues in the title and real estate solutions services operations. Refer to "" Results of Operations "" for detailed year-to-year income statement discussions, and "" Liquidity and Capital Resources "" for an analysis of Stewart's financial condition.",
+L007-1,L007,lookup,What was First American Financial's income tax expense in fiscal 2025?,1,1,First American Financial's income tax expense for fiscal 2025 was $201.0 million,2,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 8
+[TABLE]
+Section: Item 8 - Financial Statements
+Caption: Income taxes are summarized as follows:
+Figures in millions.
+Columns: Year ended December 31,
+2025 | 2024 | 2023
+(in millions)
+Current:
+Federal | 24.2 | (0.7) | 55.4
+State | 11.7 | 6.1 | 2.8
+Foreign | 27.3 | 17.3 | 11.6
+Current Income Tax Expense Benefit | 63.2 | 22.7 | 69.8
+Deferred:
+Federal | 114.6 | 21.4 | (8.6)
+State | 17.5 | (16.6) | (10.9)
+Foreign | 5.7 | 5.3 | 8.6
+Deferred Income Tax Expense Benefit | 137.8 | 10.1 | (10.9)
+Income Tax Expense Benefit | 201.0 | 32.8 | 58.9",
+L008-1,L008,lookup,What was Fidelity National Financial's income tax expense in fiscal 2025?,1,1,"Fidelity National Financial's income tax expense for the fiscal year ended December 31, 2025, was $753 million",3,1,"Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 7
+The Provision for title claim losses includes an estimate of anticipated title and title-related claims, and escrow losses.
+
+The change in expenses attributable to our reportable segments is discussed in further detail at the segment level below.
+
+Income tax expense was $753 million, $367 million and $192 million for the years ended December 31, 2025, 2024, and 2023, respectively. Income tax expense as a percentage of earnings before income taxes was 53.9%, 21.1% and 27.7% in the years ended December 31, 2025, 2024, and 2023 respectively. The increase in income tax expense as a percentage of earnings before taxes in 2025 as compared to 2024 is primarily attributable to the recording of the deferred tax liability for the outside basis difference in FNF's investment in F&G, offset by releasing a portion of the valuation allowances in the 2025 period that were recorded in prior periods. The decrease in income tax expense as a percentage of earnings before taxes in 2024 as compared to 2023 is primarily attributable to favorable movement in the valuation allowance in 2024 as compared to 2023.
+
+For the years ended December 31, 2025 and 2024, changes in market conditions, including varying interest rates, resulted in deferred tax assets related to the net unrealized capital losses in the Company’s investment portfolio. U.S. GAAP requires the evaluation of the recoverability of deferred tax assets and the establishment of a valuation allowance, if necessary, to reduce the deferred tax asset to an amount that is more likely than not to be realized.",
+L009-1,L009,lookup,What was Stewart Information Services' income tax expense in fiscal 2025?,1,1,"Stewart Information Services' total income tax expense for fiscal 2025 was $35,411 thousand",1,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 8
+[TABLE]
+Section: Item 8 - Financial Statements
+Caption: Income tax expense consists of the following:
+Figures in thousands.
+Columns: 2025 | 2024 | 2023
+(in $ thousands)
+Current income tax expense:
+Federal | 12,555 | 7,170 | 5,638
+State | 583 | 955 | 62
+Foreign | 13,999 | 13,409 | 16,347
+Current Income Tax Expense Benefit | 27,137 | 21,534 | 22,047
+Deferred income tax expense (benefit):
+Federal | 11,587 | 6,536 | ( 1,919 )
+State | ( 1,852 ) | ( 179 ) | 107
+Foreign | ( 1,461 ) | ( 1,736 ) | ( 4,972 )
+Deferred Income Tax Expense Benefit | 8,274 | 4,621 | ( 6,784 )
+Total income tax expense | 35,411 | 26,155 | 15,263",
+L010-1,L010,lookup,What was First American Financial's net cash provided by operating activities in fiscal 2025?,1,1,First American Financial Corp's net cash provided by operating activities for fiscal year 2025 was $950.8 million,2,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+Cash provided by operating activities totaled $950.8 million, $897.5 million and $354.3 million for 2025, 2024 and 2023, respectively, after claim payments, net of recoveries, of $358.4 million, $397.8 million and $381.8 million, respectively. The principal nonoperating uses of cash and cash equivalents for 2025, 2024 and 2023 were advances and repayments under secured financing agreements, purchases of debt and equity securities, dividends to common stockholders, capital expenditures and repurchases of company common shares. Principal nonoperating uses of cash and cash equivalents also included decreases in deposits at the Company’s banking operations for 2024 and repayments of senior unsecured notes for 2024 and 2023. The most significant nonoperating sources of cash and cash equivalents for 2025, 2024 and 2023 were borrowings and collections under secured financing agreements, and proceeds from the sales and maturities of debt and equity securities. Principal nonoperating sources of cash and cash equivalents also included increases in deposits at the Company’s banking operations for 2025 and 2023 and proceeds from issuance of unsecured senior notes in 2024. The net effect of all activities on total cash and cash equivalents were decreases of $330.8 million and $1.9 billion for 2025 and 2024, respectively, and an increase of $2.4 billion for 2023.",
+L011-1,L011,lookup,What was Fidelity National Financial's net cash provided by operating activities in fiscal 2025?,1,1,"Fidelity National Financial's net cash provided by operating activities for the year ended December 31, 2025, was $5,828 million",2,1,"Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 7
+Cash flow from our operations will be used for general corporate purposes including to reinvest in operations, repay debt, pay dividends, repurchase stock, pursue other strategic initiatives and/or conserve cash.
+
+Operating Cash Flow . Our cash flows provided by operations for the years ended December 31, 2025, 2024, and 2023 were $5,828 million, $6,815 million, and $6,478 million, respectively. The decrease in cash provided by operating activities of $987 million in 2025 as compared to 2024 is primarily attributable to the decrease in cash inflows from net earnings, decreased cash inflows associated with the change in funds withheld from reinsurers of $518 million and decreased cash inflows associated with the change in future policy benefits of $143 million, partially offset by increased cash inflows from the change in derivative collateral liabilities of $158 million and increased cash inflows associated with the change in other assets and other liabilities of $206 million. The increase in cash provided by operating activities of $337 million in 2024 as compared to 2023 is primarily attributable to the increase in net earnings of $873 million, increased cash inflows associated with the change in future policy benefits of $528 million, increased cash inflows associated with the change in funds withheld from reinsurers of $409 million and net cash inflows associated with the change in income taxes of $83 million in 2024 as compared to net cash
+
+89",
+L012-1,L012,lookup,What was Stewart Information Services' net cash provided by operating activities in fiscal 2025?,1,1,Stewart Information Services' net cash provided by operating activities in fiscal 2025 was $194.3 million,3,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 8
+[TABLE] part 1 of 2
+Section: Item 8 - Financial Statements
+Caption: STATEMENTS OF CASH FLOWS
+Figures in thousands.
+Columns: For the Years Ended December 31,
+2025 | 2024 | 2023
+(in $ thousands)
+Reconciliation of net income to cash provided by operating activities:
+Net income | 115,535 | 73,310 | 30,439
+Add (deduct):
+Depreciation | 408 | 355 | 169
+(Increase) decrease in receivables – net) | ( 41,765 ) | 46,411 | ( 1,128 )
+(Increase) decrease in other assets – net) | ( 3,065 ) | 1,301 | ( 764 )
+Increase (decrease) in payables and accrued liabilities – net | 4,099 | ( 2,881 ) | 1,717
+Income from and other adjustments for subsidiaries | 119,137 | ( 13,743 ) | 11,753
+Cash provided by operating activities | 194,349 | 104,753 | 42,186
+Investing activities:
+Investments in and contributions to subsidiaries | ( 370,251 ) | ( 62,197 ) | ( 19,000 )
+Purchase of property and equipment | — | ( 346 ) | ( 1,692 )
+Cash used by investing activities | ( 370,251 ) | ( 62,543 ) | ( 20,692 )
+Financing activities:
+Dividends paid | ( 58,485 ) | ( 53,916 ) | ( 50,523 )
+Repurchases of Common Stock | ( 3,887 ) | ( 3,844 ) | ( 1,783 )",
+L013-1,L013,lookup,What was First American Financial's share-based compensation expense in fiscal 2025?,1,2,First American Financial's total allocated share-based compensation expense for fiscal year 2025 was $68.4 million,1,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 8
+[TABLE]
+Section: Item 8 - Financial Statements
+Caption: The following table summarizes the costs associated with the Company’s share-based compensation plans:
+Figures in millions.
+Columns: Year ended December 31,
+2025 | 2024 | 2023
+(in millions)
+Expense:
+RSUs | 54.7 | 40.2 | 38.4
+PRSUs | 7.3 | 5.6 | 4.5
+Employee stock purchase plan | 6.4 | 6.2 | 6.2
+Allocated Share Based Compensation Expense | 68.4 | 52.0 | 49.1",
+L013-2,L013,lookup,What was First American Financial's share-based compensation expense in fiscal 2025?,2,2,"This total comprised $54.7 million for RSUs, $7.3 million for PRSUs, and $6.4 million for the employee stock purchase plan",1,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 8
+[TABLE]
+Section: Item 8 - Financial Statements
+Caption: The following table summarizes the costs associated with the Company’s share-based compensation plans:
+Figures in millions.
+Columns: Year ended December 31,
+2025 | 2024 | 2023
+(in millions)
+Expense:
+RSUs | 54.7 | 40.2 | 38.4
+PRSUs | 7.3 | 5.6 | 4.5
+Employee stock purchase plan | 6.4 | 6.2 | 6.2
+Allocated Share Based Compensation Expense | 68.4 | 52.0 | 49.1",
+L015-1,L015,lookup,What was Stewart Information Services' share-based compensation expense in fiscal 2025?,1,1,Stewart Information Services' share-based compensation expense in fiscal 2025 was approximately $16.1 million,2,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 8
+As of December 31, 2025, the aggregate intrinsic value and weighted average remaining contractual term related to outstanding options was $ 13.8 million and 4.3 years, respectively.
+
+The fair value of grants that vested in 2025 and 2024 aggregated to $ 13.2 million and $ 13.0 million, respectively. For the years ended December 31, 2025, 2024 and 2023, compensation costs recognized related to share-based awards to employees were approximately $ 16.1 million, $ 12.7 million and $ 10.1 million, respectively. The total tax benefits recognized in the consolidated statements of income and comprehensive income from tax deductions relating to vesting of equity awards in 2025, 2024 and 2023 were $ 2.3 million, $ 2.2 million and $ 0.9 million, respectively. As of December 31, 2025, compensation costs not yet recognized related to all employee nonvested awards was $ 13.8 million, which is expected to be recognized over a weighted average period of 1.0 year.
+
+F - 28
+
+NOTE 12
+
+Earnings per share. Basic earnings per share (EPS) attributable to Stewart is calculated by dividing net income attributable to Stewart by the weighted-average number of shares of Common Stock outstanding during the reporting periods. To calculate diluted EPS, the number of shares is adjusted to include the number of additional shares that would have been outstanding if restricted units were vested and issued, and stock options were exercised. In periods of loss, dilutive shares are excluded from the calculation of the diluted EPS and diluted EPS is computed in the same manner as basic EPS.
+
+The calculation of the basic and diluted EPS is as follows:
+
+NOTE 13",
+C001-1,C001,conceptual,What risks does Stewart Information Services identify relating to interest rates?,1,3,"Stewart Information Services identifies that adverse changes in economic conditions, particularly mortgage interest rates, may reduce its revenues and negatively impact its financial condition and results of operations",1,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1A
+Stewart’s risk management program may not effectively assess, identify, and manage risks, which could negatively impact our business, financial condition and results of operations.
+
+Stewart has an enterprise risk management (ERM) program to assess, identify, and manage risks. Our ERM program involves risk management policies and procedures that operate in various functions across our organization. The risk management function is overseen broadly by our cross-functional ERM committee, but the nature of our business requires us to also rely, to some degree, on localized risk mitigation efforts. This is particularly true with respect to certain risks inherent in the process of underwriting title insurance policies and providing certain related services, which may involve a significant degree of individual judgment. Although we have policies, procedures and tools in place to mitigate these and other identified risks, these aspects of our ERM may not be sufficient to address the risks inherent in our business. Additionally, while we regularly update and evaluate our risk management policies and procedures, our existing ERM program may not successfully identify and mitigate emerging risks to our business. If our ERM program does not adequately address the risks related to our business, our financial condition and results of operations may be adversely impacted.
+
+Operational Risk Factors
+
+Adverse changes in economic conditions, especially those affecting the levels of real estate and mortgage activity, may reduce our revenues.
+
+Our financial condition and results of operations are affected by changes in economic conditions, particularly mortgage interest rates, credit availability, real estate prices and consumer confidence. Our revenues and earnings have fluctuated in the past due to the cyclical nature of the housing industry, and we expect them to continue to fluctuate in the future.",
+C001-2,C001,conceptual,What risks does Stewart Information Services identify relating to interest rates?,2,3,The company notes that its revenues and earnings have fluctuated in the past due to the cyclical nature of the housing industry and are expected to continue to fluctuate in the future,1,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1A
+Stewart’s risk management program may not effectively assess, identify, and manage risks, which could negatively impact our business, financial condition and results of operations.
+
+Stewart has an enterprise risk management (ERM) program to assess, identify, and manage risks. Our ERM program involves risk management policies and procedures that operate in various functions across our organization. The risk management function is overseen broadly by our cross-functional ERM committee, but the nature of our business requires us to also rely, to some degree, on localized risk mitigation efforts. This is particularly true with respect to certain risks inherent in the process of underwriting title insurance policies and providing certain related services, which may involve a significant degree of individual judgment. Although we have policies, procedures and tools in place to mitigate these and other identified risks, these aspects of our ERM may not be sufficient to address the risks inherent in our business. Additionally, while we regularly update and evaluate our risk management policies and procedures, our existing ERM program may not successfully identify and mitigate emerging risks to our business. If our ERM program does not adequately address the risks related to our business, our financial condition and results of operations may be adversely impacted.
+
+Operational Risk Factors
+
+Adverse changes in economic conditions, especially those affecting the levels of real estate and mortgage activity, may reduce our revenues.
+
+Our financial condition and results of operations are affected by changes in economic conditions, particularly mortgage interest rates, credit availability, real estate prices and consumer confidence. Our revenues and earnings have fluctuated in the past due to the cyclical nature of the housing industry, and we expect them to continue to fluctuate in the future.",
+C001-3,C001,conceptual,What risks does Stewart Information Services identify relating to interest rates?,3,3,"Additionally, interest rates are listed as a principal factor contributing to changes in operating revenues",5,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 7
+Factors affecting revenues. Our primary business is title insurance and settlement-related services. We close transactions and issue title policies on homes, commercial and other real properties located across the U.S. and international markets through policy-issuing offices, agencies and centralized title services centers. Our real estate solutions operations include credit and real estate information services, property preservation and field services, valuation management services, online notarization and closing services, and search services. The corporate segment includes our parent holding company and centralized support services departments. Refer to Item 1. Business for details.
+
+The principal factors that contribute to changes in our operating revenues include:
+
+• interest rates;
+
+• availability of mortgage loans;
+
+• number and average value of mortgage loan originations;
+
+• ability of potential purchasers to qualify for loans;
+
+• inventory of existing homes available for sale;
+
+• ratio of purchase transactions compared with refinance transactions;
+
+• ratio of closed orders to open orders;
+
+• home prices;
+
+• consumer confidence, including employment trends;
+
+• demand by buyers;
+
+• premium rates and related state regulations;
+
+• foreign currency exchange rates;
+
+• market share;
+
+• ability to attract and retain highly productive sales associates;
+
+• independent agency remittance rates;
+
+• opening and integration of new offices and acquisitions;
+
+• office closures;
+
+• number and value of commercial transactions, which typically yield higher premiums;
+
+• government or regulatory initiatives;
+
+• acquisitions or divestitures of businesses;
+
+• volume of distressed property transactions; and
+
+• seasonality and/or weather.",
+C002-1,C002,conceptual,How does First American account for title insurance loss reserves?,1,4,"First American Financial Corp accounts for title insurance loss reserves by recording a provision for title insurance losses, which is expressed as a percentage of title insurance premiums and escrow fees",1,1,"First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+Note 8 – Reserve for Known and Incurred But Not Reported Claims
+
+Activity in the reserve for known and incurred but not reported claims is summarized as follows:
+
+The provision for title insurance losses, expressed as a percentage of title insurance premiums and escrow fees, was 3.0 % for the three and six months ended June 30, 2026 and 2025.
+
+The 3.0 % loss provision rate for the three and six months ended June 30, 2026 reflects an ultimate loss rate of 3.75 % for the 2026 policy year and reserve releases of 0.75 %, or $ 11.3 million and $ 21.2 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2026.
+
+The 3.0 % loss provision rate for the three and six months ended June 30, 2025 reflected an ultimate loss rate of 3.75 % for the 2025 policy year and reserve releases of 0.75 %, or $ 9.9 million and $ 18.3 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2025.
+
+A summary of the Company’s loss reserves is as follows:
+
+19
+
+FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)
+
+Note 9 – Income Taxes",
+C002-2,C002,conceptual,How does First American account for title insurance loss reserves?,2,4,This provision consists of an ultimate loss rate for the current policy year and reserve releases for prior policy years,1,1,"First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+Note 8 – Reserve for Known and Incurred But Not Reported Claims
+
+Activity in the reserve for known and incurred but not reported claims is summarized as follows:
+
+The provision for title insurance losses, expressed as a percentage of title insurance premiums and escrow fees, was 3.0 % for the three and six months ended June 30, 2026 and 2025.
+
+The 3.0 % loss provision rate for the three and six months ended June 30, 2026 reflects an ultimate loss rate of 3.75 % for the 2026 policy year and reserve releases of 0.75 %, or $ 11.3 million and $ 21.2 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2026.
+
+The 3.0 % loss provision rate for the three and six months ended June 30, 2025 reflected an ultimate loss rate of 3.75 % for the 2025 policy year and reserve releases of 0.75 %, or $ 9.9 million and $ 18.3 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2025.
+
+A summary of the Company’s loss reserves is as follows:
+
+19
+
+FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)
+
+Note 9 – Income Taxes",
+C002-3,C002,conceptual,How does First American account for title insurance loss reserves?,3,4,"For example, in the three and six months ended June 30, 2026, the 3.0% loss provision rate reflected a 3.75% ultimate loss rate for the 2026 policy year and 0.75% reserve releases for prior years",1,1,"First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+Note 8 – Reserve for Known and Incurred But Not Reported Claims
+
+Activity in the reserve for known and incurred but not reported claims is summarized as follows:
+
+The provision for title insurance losses, expressed as a percentage of title insurance premiums and escrow fees, was 3.0 % for the three and six months ended June 30, 2026 and 2025.
+
+The 3.0 % loss provision rate for the three and six months ended June 30, 2026 reflects an ultimate loss rate of 3.75 % for the 2026 policy year and reserve releases of 0.75 %, or $ 11.3 million and $ 21.2 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2026.
+
+The 3.0 % loss provision rate for the three and six months ended June 30, 2025 reflected an ultimate loss rate of 3.75 % for the 2025 policy year and reserve releases of 0.75 %, or $ 9.9 million and $ 18.3 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2025.
+
+A summary of the Company’s loss reserves is as follows:
+
+19
+
+FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)
+
+Note 9 – Income Taxes",
+C002-4,C002,conceptual,How does First American account for title insurance loss reserves?,4,4,The company maintains separate reserves for known title claims and incurred but not reported (IBNR) title claims,2,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+A summary of the Company’s loss reserves is as follows:
+
+30
+
+Activity in the reserve for known title claims is summarized as follows:
+
+Activity in the reserve for IBNR title claims is summarized as follows:
+
+The provisions for title insurance losses, expressed as a percentage of title insurance premiums and escrow fees, were 3.0% for the years ended December 31, 2025 and 2024 and 3.25% for the year ended December 31, 2023. The 3.0% loss provision rate in the current year reflects an ultimate loss rate of 3.75% for the current policy year and a reserve release of 0.75%, or $39.8 million, for prior policy years, all of which are based on title insurance premiums and escrow fees for the year ended December 31, 2025.
+
+The provision in 2025 related to current year increased by $26.1 million, or 15.1%, from 2024 as a result of increases in title premiums and escrow fees in 2025 from 2024. The provision in 2024 related to current year increased by $11.4 million, or 7.1%, from 2023 as a result of increases in title premiums and escrow fees in 2024 from 2023.
+
+For further discussion of title provision recorded in 2025, 2024 and 2023, see Results of Operations, page 38 .
+
+31
+
+Fair value of debt securities",
+C003-1,C003,conceptual,What does Fidelity National Financial describe as its principal business segments?,1,3,"Fidelity National Financial describes its principal business segments as Title, F&G, and Corporate and Other",4,1,"Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1
+As of December 31, 2025, we had the following reporting segments:
+
+• Title. This segment consists of the operations of our title insurance underwriters and related businesses, which provide title insurance and escrow and other title-related services including trust activities, trustee sales guarantees, and home warranty products. This segment also includes our transaction services business, which includes other title-related services used in the production and management of mortgage loans, including mortgage loans that experience default.
+
+• F&G . This segment primarily consists of operations of our annuities and life insurance related businesses. This segment issues a broad portfolio of annuity and life insurance products, including deferred annuities, immediate annuities, and IUL insurance, through its retail distribution channels. This segment also provides funding agreements and PRTs through its institutional channels.
+
+• Corporate and Other. This segment consists of the operations of the parent holding company, our real estate technology subsidiaries, other smaller, non-title businesses and certain unallocated corporate overhead expenses and eliminations of revenues and expenses between it and our Title segment.
+
+4
+
+C ompetitive Strengths
+
+We believe that our competitive strengths include the following:
+
+Corporate principles. A cornerstone of our management philosophy and operating success is the six fundamental precepts upon which we were founded, which are:
+
+• Autonomy and entrepreneurship;
+
+• Bias for action;
+
+• Customer-oriented and motivated;
+
+• Minimize bureaucracy;
+
+• Employee ownership; and
+
+• Highest standard of conduct.
+
+These six precepts are emphasized to our employees from the first day of employment and are integral to many of our strategies described below.
+
+Title",
+C003-2,C003,conceptual,What does Fidelity National Financial describe as its principal business segments?,2,3,"The Title segment consists of title insurance underwriters and related businesses, while the F&G segment primarily consists of annuities and life insurance related businesses",4,1,"Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1
+As of December 31, 2025, we had the following reporting segments:
+
+• Title. This segment consists of the operations of our title insurance underwriters and related businesses, which provide title insurance and escrow and other title-related services including trust activities, trustee sales guarantees, and home warranty products. This segment also includes our transaction services business, which includes other title-related services used in the production and management of mortgage loans, including mortgage loans that experience default.
+
+• F&G . This segment primarily consists of operations of our annuities and life insurance related businesses. This segment issues a broad portfolio of annuity and life insurance products, including deferred annuities, immediate annuities, and IUL insurance, through its retail distribution channels. This segment also provides funding agreements and PRTs through its institutional channels.
+
+• Corporate and Other. This segment consists of the operations of the parent holding company, our real estate technology subsidiaries, other smaller, non-title businesses and certain unallocated corporate overhead expenses and eliminations of revenues and expenses between it and our Title segment.
+
+4
+
+C ompetitive Strengths
+
+We believe that our competitive strengths include the following:
+
+Corporate principles. A cornerstone of our management philosophy and operating success is the six fundamental precepts upon which we were founded, which are:
+
+• Autonomy and entrepreneurship;
+
+• Bias for action;
+
+• Customer-oriented and motivated;
+
+• Minimize bureaucracy;
+
+• Employee ownership; and
+
+• Highest standard of conduct.
+
+These six precepts are emphasized to our employees from the first day of employment and are integral to many of our strategies described below.
+
+Title",
+C003-3,C003,conceptual,What does Fidelity National Financial describe as its principal business segments?,3,3,"The Corporate and Other segment includes the parent holding company, real estate technology subsidiaries, and other smaller, non-title businesses",4,1,"Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1
+As of December 31, 2025, we had the following reporting segments:
+
+• Title. This segment consists of the operations of our title insurance underwriters and related businesses, which provide title insurance and escrow and other title-related services including trust activities, trustee sales guarantees, and home warranty products. This segment also includes our transaction services business, which includes other title-related services used in the production and management of mortgage loans, including mortgage loans that experience default.
+
+• F&G . This segment primarily consists of operations of our annuities and life insurance related businesses. This segment issues a broad portfolio of annuity and life insurance products, including deferred annuities, immediate annuities, and IUL insurance, through its retail distribution channels. This segment also provides funding agreements and PRTs through its institutional channels.
+
+• Corporate and Other. This segment consists of the operations of the parent holding company, our real estate technology subsidiaries, other smaller, non-title businesses and certain unallocated corporate overhead expenses and eliminations of revenues and expenses between it and our Title segment.
+
+4
+
+C ompetitive Strengths
+
+We believe that our competitive strengths include the following:
+
+Corporate principles. A cornerstone of our management philosophy and operating success is the six fundamental precepts upon which we were founded, which are:
+
+• Autonomy and entrepreneurship;
+
+• Bias for action;
+
+• Customer-oriented and motivated;
+
+• Minimize bureaucracy;
+
+• Employee ownership; and
+
+• Highest standard of conduct.
+
+These six precepts are emphasized to our employees from the first day of employment and are integral to many of our strategies described below.
+
+Title",
+C004-1,C004,conceptual,What cybersecurity risk management processes does Stewart describe?,1,4,Stewart Information Services Corp describes an enterprise risk management (ERM) program where cybersecurity risks are evaluated alongside other critical business risks and monitored by the Vice President of IT and the Senior Leadership Team,1;2,2,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 1B
+Item 1B. Unresolved Staff Comments
+
+None.
+
+Item 1C. Cybersecurity
+
+Stewart recognizes the importance of protecting our customers', employees' and partners’ confidentiality and data integrity. To that end, we continuously and methodically evaluate cyber risks, how they evolve and how they may affect us. We utilize considerable resources in our cybersecurity efforts, and we are committed to continuous cybersecurity education and training across our entire organization as well as our partners and customers. We continuously evaluate and monitor third-party risk relating to the protection of sensitive data. Our program focuses on a broad area of security domains, including, but not limited to: risk management, data protection, incident response, identity and access management, threat and vulnerability management, disaster recovery, business resiliency, and continuity.
+
+Risk assessment and management
+
+Stewart has an enterprise risk management (ERM) program to assess, identify, and manage risks. Cybersecurity risks are evaluated alongside other critical business risks under the ERM program to align cybersecurity efforts with Stewart’s broader business goals and objectives. The cybersecurity risk is assigned to the Vice President, Information Technology (IT), who is a member of the ERM committee, for monitoring. The cybersecurity risk is also under the management oversight of Stewart's Senior Leadership Team.
+
+14
+
+---
+
+STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1B
+Item 1B. Unresolved Staff Comments
+
+None.
+
+Item 1C. Cybersecurity
+
+Stewart recognizes the importance of protecting our customers', employees' and partners’ confidentiality and data integrity. To that end, we continuously and methodically evaluate cyber risks, how they evolve and how they may affect us. We utilize considerable resources in our cybersecurity efforts, and we are committed to continuous cybersecurity education and training across our entire organization as well as our partners and customers. We continuously evaluate and monitor third-party risk relating to the protection of sensitive data. Our program focuses on a broad area of security domains, including, but not limited to: risk management, data protection, incident response, identity and access management, threat and vulnerability management, disaster recovery, business resiliency, and continuity.
+
+13
+
+Risk assessment and management
+
+Stewart has an enterprise risk management (ERM) program to assess, identify, and manage risks. Cybersecurity risks are evaluated alongside other critical business risks under the ERM program to align cybersecurity efforts with Stewart’s broader business goals and objectives. The cybersecurity risk is assigned to the Vice President, Information Technology (IT), who is a member of the ERM committee, for monitoring. The cybersecurity risk is also under the management oversight of Stewart's Senior Leadership Team.",
+C004-2,C004,conceptual,What cybersecurity risk management processes does Stewart describe?,2,4,"The company takes a risk-based approach to identify, evaluate, and prioritize cybersecurity risks based on potential impact and likelihood, implementing mitigation strategies through policies, technologies, and employee training",4,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1C
+Stewart takes a risk-based approach to cybersecurity, which begins with the identification and evaluation of cybersecurity risks that could affect Stewart’s operations, finances, legal or regulatory compliance, or reputation. Once identified, cybersecurity risks and related mitigation efforts are prioritized based upon their potential impact and likelihood. Risk mitigation strategies are developed and implemented based upon the specific nature of each cybersecurity risk. These strategies include the application of cybersecurity policies, procedures, and technologies, and employee training, education, and awareness. Additionally, Stewart’s cybersecurity program provides mechanisms for employees to report any unusual or potentially malicious activity.
+
+Stewart is regularly assessed against the cybersecurity frameworks of the National Institute of Standards and Technology (NIST CSF) and also evaluated for compliance with the SSAE-18 Systems and Organization Controls (SOC) standards of the American Institute of Certified Public Accountants (AICPA).
+
+Vendor risk management is an essential part of Stewart’s Enterprise Governance Risk and Compliance (GRC) program. Critical vendors, which includes vendors that have access to personal information, are assessed and measured against standard security frameworks. Critical vendors are monitored for performance and compliance, and vendor security requirements are well defined and included with all master service agreements and contracts.
+
+Incident response",
+C004-3,C004,conceptual,What cybersecurity risk management processes does Stewart describe?,3,4,"Additionally, Stewart utilizes third-party consultants, conducts annual tabletop exercises, and regularly assesses its program against NIST CSF and SSAE-18 SOC standards",3;4,2,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1C
+Management’s role
+
+Stewart’s cybersecurity function is led by Stewart’s CISO, who reports to the Group President, Technology and Operations. The Group President, Technology and Operations, is responsible for all areas of Stewart’s digital business strategy, enterprise technology solutions, innovation, and global information technology. The CISO leads a holistic security program to defend enterprises against emerging threats. He has served in various roles in information technology and security leadership for over 30 years.
+
+Management uses third party consultants , as necessary, to assist in assessing, identifying and managing risks from cybersecurity threats. Annually, senior management participates in tabletop exercises to assess its readiness responding to cybersecurity incidents. Our cybersecurity team routinely challenges our employees and the effectiveness of existing controls.
+
+14
+
+Risk from cybersecurity threats
+
+While Stewart regularly defends against, responds to and mitigates risks from IT systems and software vulnerabilities, broader cybersecurity threats and data security incidents, as of the date of this report, Stewart has not identified any cybersecurity threats that have materially affected or are reasonably anticipated to have a material effect on the organization, h owever, there can be no guarantee that we will not experience such an incident in the future. Stewart experienced no known material cyber breaches during the three-year period ending December 31, 2024. For additional information concerning Stewart’s risks related to cybersecurity, see Item 1A. Risk Factors.
+
+---
+
+STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1C
+Stewart takes a risk-based approach to cybersecurity, which begins with the identification and evaluation of cybersecurity risks that could affect Stewart’s operations, finances, legal or regulatory compliance, or reputation. Once identified, cybersecurity risks and related mitigation efforts are prioritized based upon their potential impact and likelihood. Risk mitigation strategies are developed and implemented based upon the specific nature of each cybersecurity risk. These strategies include the application of cybersecurity policies, procedures, and technologies, and employee training, education, and awareness. Additionally, Stewart’s cybersecurity program provides mechanisms for employees to report any unusual or potentially malicious activity.
+
+Stewart is regularly assessed against the cybersecurity frameworks of the National Institute of Standards and Technology (NIST CSF) and also evaluated for compliance with the SSAE-18 Systems and Organization Controls (SOC) standards of the American Institute of Certified Public Accountants (AICPA).
+
+Vendor risk management is an essential part of Stewart’s Enterprise Governance Risk and Compliance (GRC) program. Critical vendors, which includes vendors that have access to personal information, are assessed and measured against standard security frameworks. Critical vendors are monitored for performance and compliance, and vendor security requirements are well defined and included with all master service agreements and contracts.
+
+Incident response",
+C004-4,C004,conceptual,What cybersecurity risk management processes does Stewart describe?,4,4,"Vendor risk management is integrated into their Enterprise Governance Risk and Compliance (GRC) program, with critical vendors assessed against standard security frameworks",4,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1C
+Stewart takes a risk-based approach to cybersecurity, which begins with the identification and evaluation of cybersecurity risks that could affect Stewart’s operations, finances, legal or regulatory compliance, or reputation. Once identified, cybersecurity risks and related mitigation efforts are prioritized based upon their potential impact and likelihood. Risk mitigation strategies are developed and implemented based upon the specific nature of each cybersecurity risk. These strategies include the application of cybersecurity policies, procedures, and technologies, and employee training, education, and awareness. Additionally, Stewart’s cybersecurity program provides mechanisms for employees to report any unusual or potentially malicious activity.
+
+Stewart is regularly assessed against the cybersecurity frameworks of the National Institute of Standards and Technology (NIST CSF) and also evaluated for compliance with the SSAE-18 Systems and Organization Controls (SOC) standards of the American Institute of Certified Public Accountants (AICPA).
+
+Vendor risk management is an essential part of Stewart’s Enterprise Governance Risk and Compliance (GRC) program. Critical vendors, which includes vendors that have access to personal information, are assessed and measured against standard security frameworks. Critical vendors are monitored for performance and compliance, and vendor security requirements are well defined and included with all master service agreements and contracts.
+
+Incident response",
+C005-1,C005,conceptual,How does First American describe the role of its title plants?,1,3,First American describes its title plants as one of its principal assets that support its title insurance operations,1;2,2,"First American Financial Corp (FAF) | 10-K FY2024 | Item 1
+Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.
+
+Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.
+
+---
+
+First American Financial Corp (FAF) | 10-K FY2025 | Item 1
+Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.
+
+Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.",
+C005-2,C005,conceptual,How does First American describe the role of its title plants?,2,3,"The company notes that these plants are arranged on a geographic basis, which allows for more efficient searching compared to public records indexed by party names",1;2,2,"First American Financial Corp (FAF) | 10-K FY2024 | Item 1
+Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.
+
+Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.
+
+---
+
+First American Financial Corp (FAF) | 10-K FY2025 | Item 1
+Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.
+
+Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.",
+C005-3,C005,conceptual,How does First American describe the role of its title plants?,3,3,"Additionally, First American licenses this title plant data to third parties, including competing title companies and agents",1;2,2,"First American Financial Corp (FAF) | 10-K FY2024 | Item 1
+Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.
+
+Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.
+
+---
+
+First American Financial Corp (FAF) | 10-K FY2025 | Item 1
+Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.
+
+Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.",
+C006-1,C006,conceptual,What does Fidelity National Financial say about competition in the title insurance market?,1,3,Fidelity National Financial states that competition in the title insurance industry is based primarily on service and price,1,1,"Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1
+We also earn a small amount of additional income, which is reflected in our direct premiums, by assuming reinsurance for certain risks of other title insurers.
+
+Competition. Competition in the title insurance industry is based primarily on service and price. The number and size of competing companies varies in the different geographic areas in which we conduct our business. In our principal markets, competitors include other major title underwriters such as First American Financial Corporation, Old Republic International Corporation, Stewart Information Services Corporation , Westcor Land Title Insurance Company, Title Resources Guaranty Company, and WFG National Title Insurance Company, as well as numerous regional title insurance companies, underwritten title companies and independent agency operations at the regional and local level. The addition or removal of regulatory barriers might result in changes to competition in the title insurance business. New competitors may include diversified financial services companies that have greater financial resources than we do and possess other competitive advantages. Competition among the major title insurance companies, expansion by regional companies and any new entrants with alternative products could affect our business operations and financial condition.",
+C006-2,C006,conceptual,What does Fidelity National Financial say about competition in the title insurance market?,2,3,"The company identifies major competitors including First American Financial Corporation, Old Republic International Corporation, Stewart Information Services Corporation, Westcor Land Title Insurance Company, Title Resources Guaranty Company, and WFG National Title Insurance Company, as well as numerous regional and local operators",1,1,"Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1
+We also earn a small amount of additional income, which is reflected in our direct premiums, by assuming reinsurance for certain risks of other title insurers.
+
+Competition. Competition in the title insurance industry is based primarily on service and price. The number and size of competing companies varies in the different geographic areas in which we conduct our business. In our principal markets, competitors include other major title underwriters such as First American Financial Corporation, Old Republic International Corporation, Stewart Information Services Corporation , Westcor Land Title Insurance Company, Title Resources Guaranty Company, and WFG National Title Insurance Company, as well as numerous regional title insurance companies, underwritten title companies and independent agency operations at the regional and local level. The addition or removal of regulatory barriers might result in changes to competition in the title insurance business. New competitors may include diversified financial services companies that have greater financial resources than we do and possess other competitive advantages. Competition among the major title insurance companies, expansion by regional companies and any new entrants with alternative products could affect our business operations and financial condition.",
+C006-3,C006,conceptual,What does Fidelity National Financial say about competition in the title insurance market?,3,3,"FNF notes that changes in regulatory barriers, the entry of diversified financial services companies with greater resources, and expansion by regional companies could affect its business operations and financial condition",1,1,"Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1
+We also earn a small amount of additional income, which is reflected in our direct premiums, by assuming reinsurance for certain risks of other title insurers.
+
+Competition. Competition in the title insurance industry is based primarily on service and price. The number and size of competing companies varies in the different geographic areas in which we conduct our business. In our principal markets, competitors include other major title underwriters such as First American Financial Corporation, Old Republic International Corporation, Stewart Information Services Corporation , Westcor Land Title Insurance Company, Title Resources Guaranty Company, and WFG National Title Insurance Company, as well as numerous regional title insurance companies, underwritten title companies and independent agency operations at the regional and local level. The addition or removal of regulatory barriers might result in changes to competition in the title insurance business. New competitors may include diversified financial services companies that have greater financial resources than we do and possess other competitive advantages. Competition among the major title insurance companies, expansion by regional companies and any new entrants with alternative products could affect our business operations and financial condition.",
+C007-1,C007,conceptual,What factors does Stewart say drive its commercial title revenue?,1,2,"Stewart Information Services Corp attributes the growth in its domestic commercial title revenues to increased sizes and volume of commercial transactions, specifically related to data center, energy, retail, and mixed-use asset classes",1,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 7
+23
+
+Title revenues. Direct title revenue information is presented below:
+
+Direct title revenues improved 13% in 2025 compared to 2024, primarily due to growth in both commercial and non-commercial domestic revenues. Domestic commercial revenues in 2025 increased 35% compared to the prior year, driven by increased sizes and volume of commercial transactions, primarily related to data center, energy, retail and mixed-use asset classes. Total non-commercial domestic revenues in 2025 increased 6% compared to 2024, primarily as a result of higher combined purchase and refinancing closed transactions and increased average fee per file. Domestic commercial transactions closed improved 13%, while combined purchase and refinancing orders increased 1% in 2025 compared to 2024. Average domestic commercial fee per file in 2025 improved 18% to $19,300, compared to $16,300 in 2024, while average residential fee per file in 2025 improved 6% to $3,200, compared to $3,000 in the prior year. Total international revenues in 2025 improved $14.2 million, 11%, primarily due to overall higher transaction volumes compared to 2024.",
+C007-2,C007,conceptual,What factors does Stewart say drive its commercial title revenue?,2,2,"In the prior year, the company noted that commercial revenue improvements were driven by increased commercial transactions and higher average transaction sizes",2,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 7
+22
+
+Title revenues. Direct title revenue information is presented below:
+
+Direct title revenues in 2024 improved 6% compared to 2023, primarily driven by increased commercial revenues resulting from increased commercial transactions and higher average transaction size in 2024. Total non-commercial domestic revenues in 2024 declined 3% compared to 2023, primarily as a result of lower total residential transactions influenced by the continued elevated interest rates and weaker existing home sales in 2024. Purchase closed orders during 2024 declined 8%, partially offset by an 8% improvement in refinancing closed orders compared to 2023. Average domestic commercial fee per file in 2024 was $16,300, which was 34% higher compared to 2023, while average residential fee per file in 2024 was $3,000, which was 7% lower compared to 2023, primarily due to lower purchase transaction mix in 2024. Total international revenues in 2024 improved $8.6 million, 7%, primarily due to higher transaction volumes in our Canadian and Australian operations compared to 2023.",
+C008-1,C008,conceptual,What does First American disclose about its escrow deposits and trust assets?,1,5,"First American Financial Corp discloses that it administers escrow deposits as a service to customers in its direct title operations, with these deposits not considered assets of the Company and excluded from its consolidated balance sheets",1;2;3;4,4,"First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+11
+
+FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)
+
+Note 2 –Trust Assets, Escrow and Other Deposits
+
+The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $ 12.2 billion and $ 9.3 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 4.9 billion and $ 3.7 billion, respectively, were held at First American Trust, FSB (“FA Trust”). The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $ 6.0 billion and $ 5.6 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 196.8 million and $ 173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.
+
+---
+
+First American Financial Corp (FAF) | 10-K FY2024 | Item 7
+Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $8.9 billion and $10.6 billion at December 31, 2024 and 2023, respectively, of which $4.0 billion and $6.3 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $4.8 billion and $4.4 billion at December 31, 2024 and 2023, respectively, of which $169.4 million and $197.1 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.
+
+---
+
+First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+39
+
+Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $12.2 billion and $9.3 billion at June 30, 2026 and December 31, 2025, respectively, of which $4.9 billion and $3.7 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $6.0 billion and $5.6 billion at June 30, 2026 and December 31, 2025, respectively, of which $196.8 million and $173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.
+
+---
+
+First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $9.3 billion and $8.9 billion at December 31, 2025 and 2024, respectively, of which $3.7 billion and $4.0 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $5.6 billion and $4.8 billion at December 31, 2025 and 2024, respectively, of which $173.9 million and $169.4 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.",
+C008-2,C008,conceptual,What does First American disclose about its escrow deposits and trust assets?,2,5,"For example, escrow deposits totaled $12.2 billion at June 30, 2026, and $9.3 billion at December 31, 2025",1;3,2,"First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+11
+
+FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)
+
+Note 2 –Trust Assets, Escrow and Other Deposits
+
+The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $ 12.2 billion and $ 9.3 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 4.9 billion and $ 3.7 billion, respectively, were held at First American Trust, FSB (“FA Trust”). The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $ 6.0 billion and $ 5.6 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 196.8 million and $ 173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.
+
+---
+
+First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+39
+
+Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $12.2 billion and $9.3 billion at June 30, 2026 and December 31, 2025, respectively, of which $4.9 billion and $3.7 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $6.0 billion and $5.6 billion at June 30, 2026 and December 31, 2025, respectively, of which $196.8 million and $173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.",
+C008-3,C008,conceptual,What does First American disclose about its escrow deposits and trust assets?,3,5,"Additionally, the Company discloses that trust assets administered by its subsidiary, FA Trust, are fiduciary client assets that are also not considered assets of the Company and are excluded from the balance sheets",1;2;3;4,4,"First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+11
+
+FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)
+
+Note 2 –Trust Assets, Escrow and Other Deposits
+
+The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $ 12.2 billion and $ 9.3 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 4.9 billion and $ 3.7 billion, respectively, were held at First American Trust, FSB (“FA Trust”). The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $ 6.0 billion and $ 5.6 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 196.8 million and $ 173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.
+
+---
+
+First American Financial Corp (FAF) | 10-K FY2024 | Item 7
+Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $8.9 billion and $10.6 billion at December 31, 2024 and 2023, respectively, of which $4.0 billion and $6.3 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $4.8 billion and $4.4 billion at December 31, 2024 and 2023, respectively, of which $169.4 million and $197.1 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.
+
+---
+
+First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+39
+
+Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $12.2 billion and $9.3 billion at June 30, 2026 and December 31, 2025, respectively, of which $4.9 billion and $3.7 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $6.0 billion and $5.6 billion at June 30, 2026 and December 31, 2025, respectively, of which $196.8 million and $173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.
+
+---
+
+First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $9.3 billion and $8.9 billion at December 31, 2025 and 2024, respectively, of which $3.7 billion and $4.0 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $5.6 billion and $4.8 billion at December 31, 2025 and 2024, respectively, of which $173.9 million and $169.4 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.",
+C008-4,C008,conceptual,What does First American disclose about its escrow deposits and trust assets?,4,5,"Trust assets administered by FA Trust totaled $6.0 billion at June 30, 2026, and $5.6 billion at December 31, 2025",1;3,2,"First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+11
+
+FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)
+
+Note 2 –Trust Assets, Escrow and Other Deposits
+
+The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $ 12.2 billion and $ 9.3 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 4.9 billion and $ 3.7 billion, respectively, were held at First American Trust, FSB (“FA Trust”). The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $ 6.0 billion and $ 5.6 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 196.8 million and $ 173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.
+
+---
+
+First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+39
+
+Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $12.2 billion and $9.3 billion at June 30, 2026 and December 31, 2025, respectively, of which $4.9 billion and $3.7 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $6.0 billion and $5.6 billion at June 30, 2026 and December 31, 2025, respectively, of which $196.8 million and $173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.",
+C008-5,C008,conceptual,What does First American disclose about its escrow deposits and trust assets?,5,5,The Company notes it could be held contingently liable for the disposition of escrow assets or if FA Trust breaches its fiduciary duties,1;2;3;4,4,"First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+11
+
+FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)
+
+Note 2 –Trust Assets, Escrow and Other Deposits
+
+The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $ 12.2 billion and $ 9.3 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 4.9 billion and $ 3.7 billion, respectively, were held at First American Trust, FSB (“FA Trust”). The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $ 6.0 billion and $ 5.6 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 196.8 million and $ 173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.
+
+---
+
+First American Financial Corp (FAF) | 10-K FY2024 | Item 7
+Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $8.9 billion and $10.6 billion at December 31, 2024 and 2023, respectively, of which $4.0 billion and $6.3 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $4.8 billion and $4.4 billion at December 31, 2024 and 2023, respectively, of which $169.4 million and $197.1 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.
+
+---
+
+First American Financial Corp (FAF) | 10-Q FY2026 | Item 1
+39
+
+Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $12.2 billion and $9.3 billion at June 30, 2026 and December 31, 2025, respectively, of which $4.9 billion and $3.7 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $6.0 billion and $5.6 billion at June 30, 2026 and December 31, 2025, respectively, of which $196.8 million and $173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.
+
+---
+
+First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $9.3 billion and $8.9 billion at December 31, 2025 and 2024, respectively, of which $3.7 billion and $4.0 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.
+
+Trust assets administered by FA Trust totaled $5.6 billion and $4.8 billion at December 31, 2025 and 2024, respectively, of which $173.9 million and $169.4 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.",
+M001-1,M001,comparative,"Which had higher total revenues in fiscal 2025, First American or Stewart Information Services?",1,2,"First American Financial Corp had higher total revenues in fiscal 2025, with total revenues of $7.5 billion",1,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+The Company’s total revenues for 2025 were $7.5 billion, which reflected an increase of $1.3 billion, or 21.6%, when compared with $6.1 billion for 2024. This increase was primarily attributable to increases in direct premiums and escrow fees of $316.7 million, or 12.9%, agent premiums of $397.5 million, or 15.5%, and information and other revenue of $127.4 million, or 13.3%. The Company’s total revenues for 2025 also included $20.9 million of net investment gains compared to $401.6 million of net investment losses for the prior year. The increase in direct premiums and escrow fees attributable to the title insurance and services segment for 2025 totaled $299.2 million, or 14.6%, which included increases from domestic commercial and residential refinance transactions of $241.4 million, or 31.7%, and $39.7 million, or 42.1%, respectively, in 2025 when compared to 2024. Direct premiums and escrow fees from domestic residential purchase transactions decreased $21.5 million, or 2.2%, in 2025 when compared to 2024.",
+M001-2,M001,comparative,"Which had higher total revenues in fiscal 2025, First American or Stewart Information Services?",2,2,Stewart Information Services Corp reported total operating revenues of $2.86 billion for the same period,4,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 6
+Item 6. Reserved.
+
+Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations (MD&A)
+
+MANAGEMENT'S OVERVIEW
+
+Net income attributable to Stewart for 2025 was $115.5 million, or $4.05 per diluted share, compared to $73.3 million, or $2.61 per diluted share, in 2024. Pretax income before noncontrolling interests in 2025 was $165.6 million (5.7% pretax margin) compared to $114.3 million (4.6% pretax margin) in 2024. During 2025, total operating revenues increased 18% to $2.86 billion compared to $2.42 billion in 2024, while total expenses increased 16% to $2.76 billion, compared to $2.38 billion in 2024, primarily driven by higher revenues in the title and real estate solutions services operations. Refer to "" Results of Operations "" for detailed year-to-year income statement discussions, and "" Liquidity and Capital Resources "" for an analysis of Stewart's financial condition.",
+M002-1,M002,comparative,"Which had higher net income attributable to the parent in fiscal 2025, First American or Stewart Information Services?",1,2,"First American Financial Corp had higher net income attributable to the parent in fiscal 2025, with $621.8 million",1,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+[TABLE]
+Section: Item 7 - Management's Discussion and Analysis (MD&A)
+Caption: Net income and per share information are summarized as follows:
+Figures in millions.
+Columns: Year ended December 31,
+2025 | 2024 | 2023
+(in millions, except per share amounts)
+Net income attributable to the Company | 621.8 | 131.1 | 216.8
+Net income per share attributable to the Company’s stockholders:
+Basic | 6.02 | 1.26 | 2.08
+Diluted | 6.00 | 1.26 | 2.07
+Weighted-average common shares outstanding:
+Basic | 103.3 | 103.9 | 104.3
+Diluted | 103.7 | 104.3 | 104.6",
+M002-2,M002,comparative,"Which had higher net income attributable to the parent in fiscal 2025, First American or Stewart Information Services?",2,2,compared to Stewart Information Services Corp's $150.9 million,2,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 8
+[TABLE]
+Section: Item 8 - Financial Statements
+Caption: The components of income before taxes and after deducting noncontrolling interests are as follows:
+Figures in thousands.
+Columns: 2025 | 2024 | 2023
+(in $ thousands)
+Domestic | 107,710 | 56,657 | 4,980
+Foreign | 43,236 | 42,808 | 40,722
+Income Loss Attributable To Parent | 150,946 | 99,465 | 45,702",
+M003-1,M003,comparative,Compare net cash provided by operating activities in fiscal 2025 for First American and Stewart Information Services.,1,2,"For fiscal year 2025, First American Financial Corp reported cash provided by operating activities of $950.8 million",1,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+Cash provided by operating activities totaled $950.8 million, $897.5 million and $354.3 million for 2025, 2024 and 2023, respectively, after claim payments, net of recoveries, of $358.4 million, $397.8 million and $381.8 million, respectively. The principal nonoperating uses of cash and cash equivalents for 2025, 2024 and 2023 were advances and repayments under secured financing agreements, purchases of debt and equity securities, dividends to common stockholders, capital expenditures and repurchases of company common shares. Principal nonoperating uses of cash and cash equivalents also included decreases in deposits at the Company’s banking operations for 2024 and repayments of senior unsecured notes for 2024 and 2023. The most significant nonoperating sources of cash and cash equivalents for 2025, 2024 and 2023 were borrowings and collections under secured financing agreements, and proceeds from the sales and maturities of debt and equity securities. Principal nonoperating sources of cash and cash equivalents also included increases in deposits at the Company’s banking operations for 2025 and 2023 and proceeds from issuance of unsecured senior notes in 2024. The net effect of all activities on total cash and cash equivalents were decreases of $330.8 million and $1.9 billion for 2025 and 2024, respectively, and an increase of $2.4 billion for 2023.",
+M003-2,M003,comparative,Compare net cash provided by operating activities in fiscal 2025 for First American and Stewart Information Services.,2,2,"In contrast, Stewart Information Services Corp reported net cash provided by operating activities of $194.3 million (listed as $194,349 in thousands) for the same period",4,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 8
+[TABLE] part 1 of 2
+Section: Item 8 - Financial Statements
+Caption: STATEMENTS OF CASH FLOWS
+Figures in thousands.
+Columns: For the Years Ended December 31,
+2025 | 2024 | 2023
+(in $ thousands)
+Reconciliation of net income to cash provided by operating activities:
+Net income | 115,535 | 73,310 | 30,439
+Add (deduct):
+Depreciation | 408 | 355 | 169
+(Increase) decrease in receivables – net) | ( 41,765 ) | 46,411 | ( 1,128 )
+(Increase) decrease in other assets – net) | ( 3,065 ) | 1,301 | ( 764 )
+Increase (decrease) in payables and accrued liabilities – net | 4,099 | ( 2,881 ) | 1,717
+Income from and other adjustments for subsidiaries | 119,137 | ( 13,743 ) | 11,753
+Cash provided by operating activities | 194,349 | 104,753 | 42,186
+Investing activities:
+Investments in and contributions to subsidiaries | ( 370,251 ) | ( 62,197 ) | ( 19,000 )
+Purchase of property and equipment | — | ( 346 ) | ( 1,692 )
+Cash used by investing activities | ( 370,251 ) | ( 62,543 ) | ( 20,692 )
+Financing activities:
+Dividends paid | ( 58,485 ) | ( 53,916 ) | ( 50,523 )
+Repurchases of Common Stock | ( 3,887 ) | ( 3,844 ) | ( 1,783 )",
+M004-1,M004,comparative,Which of the three title insurers reported the lowest total revenues in fiscal 2025?,1,4,First American Financial Corp reported the lowest total revenues in fiscal 2025 at $7.5 billion,1,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+The Company’s total revenues for 2025 were $7.5 billion, which reflected an increase of $1.3 billion, or 21.6%, when compared with $6.1 billion for 2024. This increase was primarily attributable to increases in direct premiums and escrow fees of $316.7 million, or 12.9%, agent premiums of $397.5 million, or 15.5%, and information and other revenue of $127.4 million, or 13.3%. The Company’s total revenues for 2025 also included $20.9 million of net investment gains compared to $401.6 million of net investment losses for the prior year. The increase in direct premiums and escrow fees attributable to the title insurance and services segment for 2025 totaled $299.2 million, or 14.6%, which included increases from domestic commercial and residential refinance transactions of $241.4 million, or 31.7%, and $39.7 million, or 42.1%, respectively, in 2025 when compared to 2024. Direct premiums and escrow fees from domestic residential purchase transactions decreased $21.5 million, or 2.2%, in 2025 when compared to 2024.",
+M004-2,M004,comparative,Which of the three title insurers reported the lowest total revenues in fiscal 2025?,2,4,"Fidelity National Financial, Inc. reported total revenues of $10.4 billion in 2025, calculated by adding the $764 million increase to the 2024 base, though the specific 2024 total is not explicitly stated in the provided text, the 2025 interest and investment income alone was $3,237 million",2,1,"Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 7
+67
+
+Results of Operations
+
+Consolidated Results of Operations
+
+Net Earnings. The following table presents certain financial data for the years indicated:
+
+Revenues.
+
+Total revenues increased by $764 million in 2025 as compared to 2024. The increase was attributable to increases in direct title insurance premiums, agency title insurance premiums, escrow, title-related and other fees, and interest and investment income, partially offset by net recognized losses in 2025 as compared to net recognized gains in 2024. Total revenues increased by $1,929 million in 2024 as compared to 2023, primarily attributable to increases in direct title insurance premiums, agency title insurance premiums, escrow, title-related and other fees, interest and investment income and net recognized gains in 2024 as compared to net recognized losses in 2023.
+
+See Note K Revenue Recognition to our Consolidated Financial Statements included in Item 8 of Part II of this Annual Report for a breakout of our consolidated revenues.
+
+Total net earnings from continuing operations decreased by $712 million in 2025 as compared to 2024, and increased by $873 million in 2024 as compared to 2023.
+
+The change in revenue and net earnings from our reportable segments is discussed in further detail at the segment level below.
+
+Interest and investment income levels are primarily a function of securities markets, interest rates and the amount of cash available for investment. Interest and investment income was $3,237 million, $3,124 million and $2,607 million for the years ended December 31, 2025, 2024 and 2023, respectively.",
+M004-3,M004,comparative,Which of the three title insurers reported the lowest total revenues in fiscal 2025?,3,4,"Stewart Information Services Corp did not report a total company revenue figure in the provided passages, only segment and quarterly data",3,1,"STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 7
+Direct title revenue information is presented below (in $ millions, except % change) :
+
+Domestic commercial revenues in the fourth quarter 2025 improved by $32.0 million, or 38%, primarily driven by increased sizes of commercial closed transactions, principally related to data center and energy asset classes, while domestic non-commercial revenues increased $17.7 million, or 11%, primarily driven by higher combined purchase and refinancing closed transactions and increased average fee per file compared to the prior year quarter. Fourth quarter 2025 average domestic commercial fee per file was $27,300, or 39% higher compared to $19,600 in the fourth quarter 2024, while average domestic residential fee per file improved 13% to $3,300, compared to $2,900 in the fourth quarter 2024. Total international revenues in the fourth quarter 2025 increased by $1.5 million, or 4%, primarily due to higher residential transaction volumes compared to the prior year quarter.
+
+Real estate solutions segment . Summary results of the real estate solutions segment are as follows (in $ millions, except pretax margin and % change):
+
+The segment’s fourth quarter 2025 operating revenues improved $24.9 million, or 29%, primarily driven by our credit information services business. Combined employee costs and other operating expenses in the fourth quarter 2025 increased $21.6 million, or 27%, primarily due to increased costs of services related to revenue growth. The segment's pretax income included acquisition intangible asset amortization expenses of $5.6 million and $5.5 million in the fourth quarters 2025 and 2024, respectively.
+
+19",
+M004-4,M004,comparative,Which of the three title insurers reported the lowest total revenues in fiscal 2025?,4,4,"Comparing the explicit figures, First American's $7.5 billion is the lowest reported total among the companies with disclosed total revenues",1,1,"First American Financial Corp (FAF) | 10-K FY2025 | Item 7
+The Company’s total revenues for 2025 were $7.5 billion, which reflected an increase of $1.3 billion, or 21.6%, when compared with $6.1 billion for 2024. This increase was primarily attributable to increases in direct premiums and escrow fees of $316.7 million, or 12.9%, agent premiums of $397.5 million, or 15.5%, and information and other revenue of $127.4 million, or 13.3%. The Company’s total revenues for 2025 also included $20.9 million of net investment gains compared to $401.6 million of net investment losses for the prior year. The increase in direct premiums and escrow fees attributable to the title insurance and services segment for 2025 totaled $299.2 million, or 14.6%, which included increases from domestic commercial and residential refinance transactions of $241.4 million, or 31.7%, and $39.7 million, or 42.1%, respectively, in 2025 when compared to 2024. Direct premiums and escrow fees from domestic residential purchase transactions decreased $21.5 million, or 2.2%, in 2025 when compared to 2024.",

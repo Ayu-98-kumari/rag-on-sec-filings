@@ -1,0 +1,1798 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Groundedness labelling</title>
+<style>
+:root{
+  --bg:#faf9f7; --fg:#1b1b1a; --dim:#6b6b68; --line:#e2e0db; --card:#fff;
+  --claim:#fffbe9; --claim-b:#e8d9a0; --psg:#f4f6f8; --y:#1a7f4b; --n:#b4371f;
+  --accent:#2d5f8a;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#17181a; --fg:#e8e6e3; --dim:#9b9a97; --line:#303236; --card:#1e2023;
+  --claim:#2a2616; --claim-b:#5c5021; --psg:#22252a; --y:#4fb37a; --n:#e2765c;
+  --accent:#7aa8d2;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+#top{position:sticky;top:0;z-index:9;background:var(--card);
+  border-bottom:1px solid var(--line);padding:10px 20px;
+  display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+#top h1{font-size:15px;margin:0;font-weight:650}
+#bar{flex:1;min-width:120px;height:7px;background:var(--line);border-radius:4px;overflow:hidden}
+#fill{height:100%;width:0;background:var(--accent);transition:width .2s}
+#count{font-variant-numeric:tabular-nums;color:var(--dim);font-size:13px}
+#top button{font:inherit;font-size:13px;padding:5px 11px;border:1px solid var(--line);
+  background:var(--bg);color:var(--fg);border-radius:6px;cursor:pointer}
+#top button:hover{border-color:var(--accent)}
+#rule{max-width:860px;margin:22px auto 0;padding:0 20px;color:var(--dim);font-size:14px}
+#rule b{color:var(--fg)}
+main{max-width:860px;margin:0 auto;padding:10px 20px 60vh}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:18px 20px;margin:22px 0;scroll-margin-top:70px}
+.card.done{border-color:var(--y)}
+.card.done.no{border-color:var(--n)}
+.card.here{box-shadow:0 0 0 2px var(--accent)}
+.hdr{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.pid{font:600 13px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent)}
+.tag{font-size:11.5px;color:var(--dim);border:1px solid var(--line);
+  border-radius:20px;padding:1px 9px}
+.tag.cited{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.n{margin-left:auto;font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.q{color:var(--dim);font-size:13.5px;font-style:italic;margin-bottom:14px}
+.claim-l,.psg-l{font:650 11px/1 system-ui;letter-spacing:.09em;color:var(--dim);
+  margin:0 0 6px}
+.psg-l{margin-top:18px}
+.claim{background:var(--claim);border:1px solid var(--claim-b);border-radius:7px;
+  padding:11px 13px;font-size:15.5px}
+.psg{background:var(--psg);border:1px solid var(--line);border-radius:7px;
+  padding:11px 13px;margin-bottom:10px;overflow-x:auto}
+.psg-n{font:650 10.5px/1 system-ui;letter-spacing:.08em;color:var(--dim);margin-bottom:8px}
+.ident{font:650 12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;
+  color:var(--fg);margin-bottom:6px}
+.meta{font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--dim)}
+.prose{margin:7px 0;font-size:14px}
+.tbl{border-collapse:collapse;margin:9px 0;font-size:13px;
+  font-variant-numeric:tabular-nums;width:auto}
+.tbl td{border:1px solid var(--line);padding:3px 9px;vertical-align:top}
+.tbl td.num{text-align:right;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  white-space:nowrap}
+.tbl td.lab{max-width:430px}
+.tbl tr:nth-child(odd) td{background:color-mix(in srgb,var(--fg) 3%,transparent)}
+.vote{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px;
+  padding-top:14px;border-top:1px solid var(--line)}
+.vq{font-size:13.5px;color:var(--dim);margin-right:3px}
+.vote button{font:inherit;font-size:14px;padding:7px 15px;border-radius:7px;
+  cursor:pointer;border:1.5px solid var(--line);background:var(--bg);color:var(--fg)}
+.vote button.y:hover,.vote button.y[aria-pressed=true]{border-color:var(--y);
+  background:var(--y);color:#fff}
+.vote button.n:hover,.vote button.n[aria-pressed=true]{border-color:var(--n);
+  background:var(--n);color:#fff}
+.vote button.s{font-size:12.5px;color:var(--dim);padding:7px 11px}
+kbd{font:600 11px ui-monospace,monospace;opacity:.75;border:1px solid currentColor;
+  border-radius:3px;padding:0 4px}
+.mark{font-size:13px;color:var(--dim)}
+.note-l{font:650 11px/1 system-ui;letter-spacing:.09em;color:var(--dim);margin:14px 0 6px}
+.note-h{font-weight:400;letter-spacing:0;font-size:11.5px;text-transform:none}
+textarea.note{width:100%;resize:vertical;font:13.5px/1.5 inherit;padding:8px 10px;
+  background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px}
+textarea.note:focus{outline:none;border-color:var(--accent)}
+.card.noted .note-l{color:var(--accent)}
+#out{position:fixed;inset:auto 0 0 0;background:var(--card);
+  border-top:1px solid var(--line);padding:14px 20px;display:none;z-index:10}
+#out textarea{width:100%;height:150px;font:12px/1.5 ui-monospace,monospace;
+  background:var(--bg);color:var(--fg);border:1px solid var(--line);
+  border-radius:6px;padding:9px}
+#out .row{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+#out button{font:inherit;font-size:13px;padding:5px 11px;border:1px solid var(--line);
+  background:var(--bg);color:var(--fg);border-radius:6px;cursor:pointer}
+</style></head><body>
+
+<div id="top">
+  <h1>Groundedness labelling</h1>
+  <div id="bar"><div id="fill"></div></div>
+  <span id="count">0 / 51</span>
+  <button id="jump">next unlabelled</button>
+  <button id="export">export labels</button>
+</div>
+
+<div id="rule">
+  <p><b>One question per claim: does the passage below it actually say the claim?</b></p>
+  <p>Not whether the claim is true. Not whether it answers the question. Not whether
+  it is the figure you would have picked &mdash; a wrong-but-quoted number is still
+  supported. Only: is it in the passage.</p>
+  <p>Keys: <kbd>y</kbd> supported &middot; <kbd>n</kbd> not supported &middot;
+  <kbd>j</kbd>/<kbd>k</kbd> or <kbd>&darr;</kbd>/<kbd>&uarr;</kbd> move.
+  Labelling with <kbd>y</kbd>/<kbd>n</kbd> advances on its own. Progress is saved in
+  this browser, so you can close the page and come back.</p>
+  <p>Each card has a <b>note</b> box &mdash; use it for anything the label alone
+  cannot carry: a missing column header, a qualifier the claim dropped, a judgement
+  you were unsure about. Notes are exported alongside the labels. While you are
+  typing in one, <kbd>y</kbd>/<kbd>n</kbd> type instead of voting; press
+  <kbd>esc</kbd> to leave the box.</p>
+</div>
+
+<main>
+<section class="card" id="c0" data-pid="L001-1">
+  <div class="hdr">
+    <span class="pid">L001-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [2]</span>
+    <span class="n">1 / 51</span>
+  </div>
+  <div class="q">What was First American Financial&#x27;s total revenues in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">First American Financial&#x27;s total revenues in fiscal 2025 were $7.5 billion</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 2</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<p class="prose">The Company’s total revenues for 2025 were $7.5 billion, which reflected an increase of $1.3 billion, or 21.6%, when compared with $6.1 billion for 2024. This increase was primarily attributable to increases in direct premiums and escrow fees of $316.7 million, or 12.9%, agent premiums of $397.5 million, or 15.5%, and information and other revenue of $127.4 million, or 13.3%. The Company’s total revenues for 2025 also included $20.9 million of net investment gains compared to $401.6 million of net investment losses for the prior year. The increase in direct premiums and escrow fees attributable to the title insurance and services segment for 2025 totaled $299.2 million, or 14.6%, which included increases from domestic commercial and residential refinance transactions of $241.4 million, or 31.7%, and $39.7 million, or 42.1%, respectively, in 2025 when compared to 2024. Direct premiums and escrow fees from domestic residential purchase transactions decreased $21.5 million, or 2.2%, in 2025 when compared to 2024.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c1" data-pid="L002-1">
+  <div class="hdr">
+    <span class="pid">L002-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [3]</span>
+    <span class="n">2 / 51</span>
+  </div>
+  <div class="q">What was Fidelity National Financial&#x27;s total revenues in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Fidelity National Financial&#x27;s total revenues in fiscal 2025 were $14,445 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 3</div><div class="ident">Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 8</div>
+<div class="meta">[TABLE] part 2 of 2</div>
+<div class="meta">Section: Item 8 - Financial Statements</div>
+<div class="meta">Caption: Our revenue consists of:</div>
+<div class="meta">Columns: Year Ended December 31,</div>
+<table class="tbl"><tr><td class="lab">Other</td><td class="lab">Escrow, title-related and other fees</td><td class="lab">Corporate and other</td><td class="num">44</td><td class="num">44</td><td class="num">36</td></tr><tr><td class="lab">Interest and investment income</td><td class="lab">Interest and investment income</td><td class="lab">Various</td><td class="num">3,237</td><td class="num">3,124</td><td class="num">2,607</td></tr><tr><td class="lab">Recognized gains and losses, net</td><td class="lab">Recognized gains and losses, net</td><td class="lab">Various</td><td class="num">( 60 )</td><td class="num">83</td><td class="num">( 164 )</td></tr><tr><td class="lab">Total revenues</td><td class="lab">Total revenues</td><td class="num">14,445</td><td class="num">13,681</td><td class="num">11,752</td><td class="lab"></td></tr></table>
+<p class="prose">(1) Includes $ 2,108 , $ 2,217 , and $ 1,964 of life-contingent pension risk transfer premiums in 2025, 2024, and 2023, respectively.)</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c2" data-pid="L003-1">
+  <div class="hdr">
+    <span class="pid">L003-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [2]</span>
+    <span class="n">3 / 51</span>
+  </div>
+  <div class="q">What was Stewart Information Services&#x27; total revenues in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Stewart Information Services&#x27; total operating revenues in fiscal 2025 were $2.86 billion</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 2</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 6</div>
+<p class="prose">Item 6. Reserved.</p>
+<p class="prose">Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations (MD&amp;A)</p>
+<p class="prose">MANAGEMENT&#x27;S OVERVIEW</p>
+<p class="prose">Net income attributable to Stewart for 2025 was $115.5 million, or $4.05 per diluted share, compared to $73.3 million, or $2.61 per diluted share, in 2024. Pretax income before noncontrolling interests in 2025 was $165.6 million (5.7% pretax margin) compared to $114.3 million (4.6% pretax margin) in 2024. During 2025, total operating revenues increased 18% to $2.86 billion compared to $2.42 billion in 2024, while total expenses increased 16% to $2.76 billion, compared to $2.38 billion in 2024, primarily driven by higher revenues in the title and real estate solutions services operations. Refer to &quot; Results of Operations &quot; for detailed year-to-year income statement discussions, and &quot; Liquidity and Capital Resources &quot; for an analysis of Stewart&#x27;s financial condition.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c3" data-pid="L004-1">
+  <div class="hdr">
+    <span class="pid">L004-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [4]</span>
+    <span class="n">4 / 51</span>
+  </div>
+  <div class="q">What was First American Financial&#x27;s net income attributable to the parent in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">First American Financial&#x27;s net income attributable to the Company in fiscal 2025 was $621.8 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 4</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<div class="meta">[TABLE]</div>
+<div class="meta">Section: Item 7 - Management&#x27;s Discussion and Analysis (MD&amp;A)</div>
+<div class="meta">Caption: Net income and per share information are summarized as follows:</div>
+<div class="meta">Figures in millions.</div>
+<div class="meta">Columns: Year ended December 31,</div>
+<table class="tbl"><tr><td class="num">2025</td><td class="num">2024</td><td class="num">2023</td></tr></table>
+<p class="prose">(in millions, except per share amounts)</p>
+<table class="tbl"><tr><td class="lab">Net income attributable to the Company</td><td class="num">621.8</td><td class="num">131.1</td><td class="num">216.8</td></tr></table>
+<p class="prose">Net income per share attributable to the Company’s stockholders:</p>
+<table class="tbl"><tr><td class="lab">Basic</td><td class="num">6.02</td><td class="num">1.26</td><td class="num">2.08</td></tr><tr><td class="lab">Diluted</td><td class="num">6.00</td><td class="num">1.26</td><td class="num">2.07</td></tr></table>
+<p class="prose">Weighted-average common shares outstanding:</p>
+<table class="tbl"><tr><td class="lab">Basic</td><td class="num">103.3</td><td class="num">103.9</td><td class="num">104.3</td></tr><tr><td class="lab">Diluted</td><td class="num">103.7</td><td class="num">104.3</td><td class="num">104.6</td></tr></table></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c4" data-pid="L006-1">
+  <div class="hdr">
+    <span class="pid">L006-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [2]</span>
+    <span class="n">5 / 51</span>
+  </div>
+  <div class="q">What was Stewart Information Services&#x27; net income attributable to the parent in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Stewart Information Services&#x27; net income attributable to the parent in fiscal 2025 was $115.5 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 2</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 6</div>
+<p class="prose">Item 6. Reserved.</p>
+<p class="prose">Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations (MD&amp;A)</p>
+<p class="prose">MANAGEMENT&#x27;S OVERVIEW</p>
+<p class="prose">Net income attributable to Stewart for 2025 was $115.5 million, or $4.05 per diluted share, compared to $73.3 million, or $2.61 per diluted share, in 2024. Pretax income before noncontrolling interests in 2025 was $165.6 million (5.7% pretax margin) compared to $114.3 million (4.6% pretax margin) in 2024. During 2025, total operating revenues increased 18% to $2.86 billion compared to $2.42 billion in 2024, while total expenses increased 16% to $2.76 billion, compared to $2.38 billion in 2024, primarily driven by higher revenues in the title and real estate solutions services operations. Refer to &quot; Results of Operations &quot; for detailed year-to-year income statement discussions, and &quot; Liquidity and Capital Resources &quot; for an analysis of Stewart&#x27;s financial condition.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c5" data-pid="L007-1">
+  <div class="hdr">
+    <span class="pid">L007-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [2]</span>
+    <span class="n">6 / 51</span>
+  </div>
+  <div class="q">What was First American Financial&#x27;s income tax expense in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">First American Financial&#x27;s income tax expense for fiscal 2025 was $201.0 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 2</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 8</div>
+<div class="meta">[TABLE]</div>
+<div class="meta">Section: Item 8 - Financial Statements</div>
+<div class="meta">Caption: Income taxes are summarized as follows:</div>
+<div class="meta">Figures in millions.</div>
+<div class="meta">Columns: Year ended December 31,</div>
+<table class="tbl"><tr><td class="num">2025</td><td class="num">2024</td><td class="num">2023</td></tr></table>
+<p class="prose">(in millions)</p>
+<p class="prose">Current:</p>
+<table class="tbl"><tr><td class="lab">Federal</td><td class="num">24.2</td><td class="num">(0.7)</td><td class="num">55.4</td></tr><tr><td class="lab">State</td><td class="num">11.7</td><td class="num">6.1</td><td class="num">2.8</td></tr><tr><td class="lab">Foreign</td><td class="num">27.3</td><td class="num">17.3</td><td class="num">11.6</td></tr><tr><td class="lab">Current Income Tax Expense Benefit</td><td class="num">63.2</td><td class="num">22.7</td><td class="num">69.8</td></tr></table>
+<p class="prose">Deferred:</p>
+<table class="tbl"><tr><td class="lab">Federal</td><td class="num">114.6</td><td class="num">21.4</td><td class="num">(8.6)</td></tr><tr><td class="lab">State</td><td class="num">17.5</td><td class="num">(16.6)</td><td class="num">(10.9)</td></tr><tr><td class="lab">Foreign</td><td class="num">5.7</td><td class="num">5.3</td><td class="num">8.6</td></tr><tr><td class="lab">Deferred Income Tax Expense Benefit</td><td class="num">137.8</td><td class="num">10.1</td><td class="num">(10.9)</td></tr><tr><td class="lab">Income Tax Expense Benefit</td><td class="num">201.0</td><td class="num">32.8</td><td class="num">58.9</td></tr></table></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c6" data-pid="L008-1">
+  <div class="hdr">
+    <span class="pid">L008-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [3]</span>
+    <span class="n">7 / 51</span>
+  </div>
+  <div class="q">What was Fidelity National Financial&#x27;s income tax expense in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Fidelity National Financial&#x27;s income tax expense for the fiscal year ended December 31, 2025, was $753 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 3</div><div class="ident">Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 7</div>
+<p class="prose">The Provision for title claim losses includes an estimate of anticipated title and title-related claims, and escrow losses.</p>
+<p class="prose">The change in expenses attributable to our reportable segments is discussed in further detail at the segment level below.</p>
+<p class="prose">Income tax expense was $753 million, $367 million and $192 million for the years ended December 31, 2025, 2024, and 2023, respectively. Income tax expense as a percentage of earnings before income taxes was 53.9%, 21.1% and 27.7% in the years ended December 31, 2025, 2024, and 2023 respectively. The increase in income tax expense as a percentage of earnings before taxes in 2025 as compared to 2024 is primarily attributable to the recording of the deferred tax liability for the outside basis difference in FNF&#x27;s investment in F&amp;G, offset by releasing a portion of the valuation allowances in the 2025 period that were recorded in prior periods. The decrease in income tax expense as a percentage of earnings before taxes in 2024 as compared to 2023 is primarily attributable to favorable movement in the valuation allowance in 2024 as compared to 2023.</p>
+<p class="prose">For the years ended December 31, 2025 and 2024, changes in market conditions, including varying interest rates, resulted in deferred tax assets related to the net unrealized capital losses in the Company’s investment portfolio. U.S. GAAP requires the evaluation of the recoverability of deferred tax assets and the establishment of a valuation allowance, if necessary, to reduce the deferred tax asset to an amount that is more likely than not to be realized.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c7" data-pid="L009-1">
+  <div class="hdr">
+    <span class="pid">L009-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">8 / 51</span>
+  </div>
+  <div class="q">What was Stewart Information Services&#x27; income tax expense in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Stewart Information Services&#x27; total income tax expense for fiscal 2025 was $35,411 thousand</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 8</div>
+<div class="meta">[TABLE]</div>
+<div class="meta">Section: Item 8 - Financial Statements</div>
+<div class="meta">Caption: Income tax expense consists of the following:</div>
+<div class="meta">Figures in thousands.</div>
+<div class="meta">Columns: 2025 | 2024 | 2023</div>
+<p class="prose">(in $ thousands)</p>
+<p class="prose">Current income tax expense:</p>
+<table class="tbl"><tr><td class="lab">Federal</td><td class="num">12,555</td><td class="num">7,170</td><td class="num">5,638</td></tr><tr><td class="lab">State</td><td class="num">583</td><td class="num">955</td><td class="num">62</td></tr><tr><td class="lab">Foreign</td><td class="num">13,999</td><td class="num">13,409</td><td class="num">16,347</td></tr><tr><td class="lab">Current Income Tax Expense Benefit</td><td class="num">27,137</td><td class="num">21,534</td><td class="num">22,047</td></tr></table>
+<p class="prose">Deferred income tax expense (benefit):</p>
+<table class="tbl"><tr><td class="lab">Federal</td><td class="num">11,587</td><td class="num">6,536</td><td class="num">( 1,919 )</td></tr><tr><td class="lab">State</td><td class="num">( 1,852 )</td><td class="num">( 179 )</td><td class="num">107</td></tr><tr><td class="lab">Foreign</td><td class="num">( 1,461 )</td><td class="num">( 1,736 )</td><td class="num">( 4,972 )</td></tr><tr><td class="lab">Deferred Income Tax Expense Benefit</td><td class="num">8,274</td><td class="num">4,621</td><td class="num">( 6,784 )</td></tr><tr><td class="lab">Total income tax expense</td><td class="num">35,411</td><td class="num">26,155</td><td class="num">15,263</td></tr></table></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c8" data-pid="L010-1">
+  <div class="hdr">
+    <span class="pid">L010-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [2]</span>
+    <span class="n">9 / 51</span>
+  </div>
+  <div class="q">What was First American Financial&#x27;s net cash provided by operating activities in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">First American Financial Corp&#x27;s net cash provided by operating activities for fiscal year 2025 was $950.8 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 2</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<p class="prose">Cash provided by operating activities totaled $950.8 million, $897.5 million and $354.3 million for 2025, 2024 and 2023, respectively, after claim payments, net of recoveries, of $358.4 million, $397.8 million and $381.8 million, respectively. The principal nonoperating uses of cash and cash equivalents for 2025, 2024 and 2023 were advances and repayments under secured financing agreements, purchases of debt and equity securities, dividends to common stockholders, capital expenditures and repurchases of company common shares. Principal nonoperating uses of cash and cash equivalents also included decreases in deposits at the Company’s banking operations for 2024 and repayments of senior unsecured notes for 2024 and 2023. The most significant nonoperating sources of cash and cash equivalents for 2025, 2024 and 2023 were borrowings and collections under secured financing agreements, and proceeds from the sales and maturities of debt and equity securities. Principal nonoperating sources of cash and cash equivalents also included increases in deposits at the Company’s banking operations for 2025 and 2023 and proceeds from issuance of unsecured senior notes in 2024. The net effect of all activities on total cash and cash equivalents were decreases of $330.8 million and $1.9 billion for 2025 and 2024, respectively, and an increase of $2.4 billion for 2023.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c9" data-pid="L011-1">
+  <div class="hdr">
+    <span class="pid">L011-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [2]</span>
+    <span class="n">10 / 51</span>
+  </div>
+  <div class="q">What was Fidelity National Financial&#x27;s net cash provided by operating activities in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Fidelity National Financial&#x27;s net cash provided by operating activities for the year ended December 31, 2025, was $5,828 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 2</div><div class="ident">Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 7</div>
+<p class="prose">Cash flow from our operations will be used for general corporate purposes including to reinvest in operations, repay debt, pay dividends, repurchase stock, pursue other strategic initiatives and/or conserve cash.</p>
+<p class="prose">Operating Cash Flow . Our cash flows provided by operations for the years ended December 31, 2025, 2024, and 2023 were $5,828 million, $6,815 million, and $6,478 million, respectively. The decrease in cash provided by operating activities of $987 million in 2025 as compared to 2024 is primarily attributable to the decrease in cash inflows from net earnings, decreased cash inflows associated with the change in funds withheld from reinsurers of $518 million and decreased cash inflows associated with the change in future policy benefits of $143 million, partially offset by increased cash inflows from the change in derivative collateral liabilities of $158 million and increased cash inflows associated with the change in other assets and other liabilities of $206 million. The increase in cash provided by operating activities of $337 million in 2024 as compared to 2023 is primarily attributable to the increase in net earnings of $873 million, increased cash inflows associated with the change in future policy benefits of $528 million, increased cash inflows associated with the change in funds withheld from reinsurers of $409 million and net cash inflows associated with the change in income taxes of $83 million in 2024 as compared to net cash</p>
+<p class="prose">89</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c10" data-pid="L012-1">
+  <div class="hdr">
+    <span class="pid">L012-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [3]</span>
+    <span class="n">11 / 51</span>
+  </div>
+  <div class="q">What was Stewart Information Services&#x27; net cash provided by operating activities in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Stewart Information Services&#x27; net cash provided by operating activities in fiscal 2025 was $194.3 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 3</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 8</div>
+<div class="meta">[TABLE] part 1 of 2</div>
+<div class="meta">Section: Item 8 - Financial Statements</div>
+<div class="meta">Caption: STATEMENTS OF CASH FLOWS</div>
+<div class="meta">Figures in thousands.</div>
+<div class="meta">Columns: For the Years Ended December 31,</div>
+<table class="tbl"><tr><td class="num">2025</td><td class="num">2024</td><td class="num">2023</td></tr></table>
+<p class="prose">(in $ thousands)</p>
+<p class="prose">Reconciliation of net income to cash provided by operating activities:</p>
+<table class="tbl"><tr><td class="lab">Net income</td><td class="num">115,535</td><td class="num">73,310</td><td class="num">30,439</td></tr></table>
+<p class="prose">Add (deduct):</p>
+<table class="tbl"><tr><td class="lab">Depreciation</td><td class="num">408</td><td class="num">355</td><td class="num">169</td></tr><tr><td class="lab">(Increase) decrease in receivables – net)</td><td class="num">( 41,765 )</td><td class="num">46,411</td><td class="num">( 1,128 )</td></tr><tr><td class="lab">(Increase) decrease in other assets – net)</td><td class="num">( 3,065 )</td><td class="num">1,301</td><td class="num">( 764 )</td></tr><tr><td class="lab">Increase (decrease) in payables and accrued liabilities – net</td><td class="num">4,099</td><td class="num">( 2,881 )</td><td class="num">1,717</td></tr><tr><td class="lab">Income from and other adjustments for subsidiaries</td><td class="num">119,137</td><td class="num">( 13,743 )</td><td class="num">11,753</td></tr><tr><td class="lab">Cash provided by operating activities</td><td class="num">194,349</td><td class="num">104,753</td><td class="num">42,186</td></tr></table>
+<p class="prose">Investing activities:</p>
+<table class="tbl"><tr><td class="lab">Investments in and contributions to subsidiaries</td><td class="num">( 370,251 )</td><td class="num">( 62,197 )</td><td class="num">( 19,000 )</td></tr><tr><td class="lab">Purchase of property and equipment</td><td class="num">—</td><td class="num">( 346 )</td><td class="num">( 1,692 )</td></tr><tr><td class="lab">Cash used by investing activities</td><td class="num">( 370,251 )</td><td class="num">( 62,543 )</td><td class="num">( 20,692 )</td></tr></table>
+<p class="prose">Financing activities:</p>
+<table class="tbl"><tr><td class="lab">Dividends paid</td><td class="num">( 58,485 )</td><td class="num">( 53,916 )</td><td class="num">( 50,523 )</td></tr><tr><td class="lab">Repurchases of Common Stock</td><td class="num">( 3,887 )</td><td class="num">( 3,844 )</td><td class="num">( 1,783 )</td></tr></table></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c11" data-pid="L013-1">
+  <div class="hdr">
+    <span class="pid">L013-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 2</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">12 / 51</span>
+  </div>
+  <div class="q">What was First American Financial&#x27;s share-based compensation expense in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">First American Financial&#x27;s total allocated share-based compensation expense for fiscal year 2025 was $68.4 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 8</div>
+<div class="meta">[TABLE]</div>
+<div class="meta">Section: Item 8 - Financial Statements</div>
+<div class="meta">Caption: The following table summarizes the costs associated with the Company’s share-based compensation plans:</div>
+<div class="meta">Figures in millions.</div>
+<div class="meta">Columns: Year ended December 31,</div>
+<table class="tbl"><tr><td class="num">2025</td><td class="num">2024</td><td class="num">2023</td></tr></table>
+<p class="prose">(in millions)</p>
+<p class="prose">Expense:</p>
+<table class="tbl"><tr><td class="lab">RSUs</td><td class="num">54.7</td><td class="num">40.2</td><td class="num">38.4</td></tr><tr><td class="lab">PRSUs</td><td class="num">7.3</td><td class="num">5.6</td><td class="num">4.5</td></tr><tr><td class="lab">Employee stock purchase plan</td><td class="num">6.4</td><td class="num">6.2</td><td class="num">6.2</td></tr><tr><td class="lab">Allocated Share Based Compensation Expense</td><td class="num">68.4</td><td class="num">52.0</td><td class="num">49.1</td></tr></table></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c12" data-pid="L013-2">
+  <div class="hdr">
+    <span class="pid">L013-2</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 2 of 2</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">13 / 51</span>
+  </div>
+  <div class="q">What was First American Financial&#x27;s share-based compensation expense in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">This total comprised $54.7 million for RSUs, $7.3 million for PRSUs, and $6.4 million for the employee stock purchase plan</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 8</div>
+<div class="meta">[TABLE]</div>
+<div class="meta">Section: Item 8 - Financial Statements</div>
+<div class="meta">Caption: The following table summarizes the costs associated with the Company’s share-based compensation plans:</div>
+<div class="meta">Figures in millions.</div>
+<div class="meta">Columns: Year ended December 31,</div>
+<table class="tbl"><tr><td class="num">2025</td><td class="num">2024</td><td class="num">2023</td></tr></table>
+<p class="prose">(in millions)</p>
+<p class="prose">Expense:</p>
+<table class="tbl"><tr><td class="lab">RSUs</td><td class="num">54.7</td><td class="num">40.2</td><td class="num">38.4</td></tr><tr><td class="lab">PRSUs</td><td class="num">7.3</td><td class="num">5.6</td><td class="num">4.5</td></tr><tr><td class="lab">Employee stock purchase plan</td><td class="num">6.4</td><td class="num">6.2</td><td class="num">6.2</td></tr><tr><td class="lab">Allocated Share Based Compensation Expense</td><td class="num">68.4</td><td class="num">52.0</td><td class="num">49.1</td></tr></table></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c13" data-pid="L015-1">
+  <div class="hdr">
+    <span class="pid">L015-1</span>
+    <span class="tag">lookup</span>
+    <span class="tag">claim 1 of 1</span>
+    <span class="tag cited">cited: [2]</span>
+    <span class="n">14 / 51</span>
+  </div>
+  <div class="q">What was Stewart Information Services&#x27; share-based compensation expense in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Stewart Information Services&#x27; share-based compensation expense in fiscal 2025 was approximately $16.1 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 2</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 8</div>
+<p class="prose">As of December 31, 2025, the aggregate intrinsic value and weighted average remaining contractual term related to outstanding options was $ 13.8 million and 4.3 years, respectively.</p>
+<p class="prose">The fair value of grants that vested in 2025 and 2024 aggregated to $ 13.2 million and $ 13.0 million, respectively. For the years ended December 31, 2025, 2024 and 2023, compensation costs recognized related to share-based awards to employees were approximately $ 16.1 million, $ 12.7 million and $ 10.1 million, respectively. The total tax benefits recognized in the consolidated statements of income and comprehensive income from tax deductions relating to vesting of equity awards in 2025, 2024 and 2023 were $ 2.3 million, $ 2.2 million and $ 0.9 million, respectively. As of December 31, 2025, compensation costs not yet recognized related to all employee nonvested awards was $ 13.8 million, which is expected to be recognized over a weighted average period of 1.0 year.</p>
+<p class="prose">F - 28</p>
+<p class="prose">NOTE 12</p>
+<p class="prose">Earnings per share. Basic earnings per share (EPS) attributable to Stewart is calculated by dividing net income attributable to Stewart by the weighted-average number of shares of Common Stock outstanding during the reporting periods. To calculate diluted EPS, the number of shares is adjusted to include the number of additional shares that would have been outstanding if restricted units were vested and issued, and stock options were exercised. In periods of loss, dilutive shares are excluded from the calculation of the diluted EPS and diluted EPS is computed in the same manner as basic EPS.</p>
+<p class="prose">The calculation of the basic and diluted EPS is as follows:</p>
+<p class="prose">NOTE 13</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c14" data-pid="C001-1">
+  <div class="hdr">
+    <span class="pid">C001-1</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 1 of 3</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">15 / 51</span>
+  </div>
+  <div class="q">What risks does Stewart Information Services identify relating to interest rates?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Stewart Information Services identifies that adverse changes in economic conditions, particularly mortgage interest rates, may reduce its revenues and negatively impact its financial condition and results of operations</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1A</div>
+<p class="prose">Stewart’s risk management program may not effectively assess, identify, and manage risks, which could negatively impact our business, financial condition and results of operations.</p>
+<p class="prose">Stewart has an enterprise risk management (ERM) program to assess, identify, and manage risks. Our ERM program involves risk management policies and procedures that operate in various functions across our organization. The risk management function is overseen broadly by our cross-functional ERM committee, but the nature of our business requires us to also rely, to some degree, on localized risk mitigation efforts. This is particularly true with respect to certain risks inherent in the process of underwriting title insurance policies and providing certain related services, which may involve a significant degree of individual judgment. Although we have policies, procedures and tools in place to mitigate these and other identified risks, these aspects of our ERM may not be sufficient to address the risks inherent in our business. Additionally, while we regularly update and evaluate our risk management policies and procedures, our existing ERM program may not successfully identify and mitigate emerging risks to our business. If our ERM program does not adequately address the risks related to our business, our financial condition and results of operations may be adversely impacted.</p>
+<p class="prose">Operational Risk Factors</p>
+<p class="prose">Adverse changes in economic conditions, especially those affecting the levels of real estate and mortgage activity, may reduce our revenues.</p>
+<p class="prose">Our financial condition and results of operations are affected by changes in economic conditions, particularly mortgage interest rates, credit availability, real estate prices and consumer confidence. Our revenues and earnings have fluctuated in the past due to the cyclical nature of the housing industry, and we expect them to continue to fluctuate in the future.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c15" data-pid="C001-2">
+  <div class="hdr">
+    <span class="pid">C001-2</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 2 of 3</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">16 / 51</span>
+  </div>
+  <div class="q">What risks does Stewart Information Services identify relating to interest rates?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">The company notes that its revenues and earnings have fluctuated in the past due to the cyclical nature of the housing industry and are expected to continue to fluctuate in the future</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1A</div>
+<p class="prose">Stewart’s risk management program may not effectively assess, identify, and manage risks, which could negatively impact our business, financial condition and results of operations.</p>
+<p class="prose">Stewart has an enterprise risk management (ERM) program to assess, identify, and manage risks. Our ERM program involves risk management policies and procedures that operate in various functions across our organization. The risk management function is overseen broadly by our cross-functional ERM committee, but the nature of our business requires us to also rely, to some degree, on localized risk mitigation efforts. This is particularly true with respect to certain risks inherent in the process of underwriting title insurance policies and providing certain related services, which may involve a significant degree of individual judgment. Although we have policies, procedures and tools in place to mitigate these and other identified risks, these aspects of our ERM may not be sufficient to address the risks inherent in our business. Additionally, while we regularly update and evaluate our risk management policies and procedures, our existing ERM program may not successfully identify and mitigate emerging risks to our business. If our ERM program does not adequately address the risks related to our business, our financial condition and results of operations may be adversely impacted.</p>
+<p class="prose">Operational Risk Factors</p>
+<p class="prose">Adverse changes in economic conditions, especially those affecting the levels of real estate and mortgage activity, may reduce our revenues.</p>
+<p class="prose">Our financial condition and results of operations are affected by changes in economic conditions, particularly mortgage interest rates, credit availability, real estate prices and consumer confidence. Our revenues and earnings have fluctuated in the past due to the cyclical nature of the housing industry, and we expect them to continue to fluctuate in the future.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c16" data-pid="C001-3">
+  <div class="hdr">
+    <span class="pid">C001-3</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 3 of 3</span>
+    <span class="tag cited">cited: [5]</span>
+    <span class="n">17 / 51</span>
+  </div>
+  <div class="q">What risks does Stewart Information Services identify relating to interest rates?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Additionally, interest rates are listed as a principal factor contributing to changes in operating revenues</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 5</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 7</div>
+<p class="prose">Factors affecting revenues. Our primary business is title insurance and settlement-related services. We close transactions and issue title policies on homes, commercial and other real properties located across the U.S. and international markets through policy-issuing offices, agencies and centralized title services centers. Our real estate solutions operations include credit and real estate information services, property preservation and field services, valuation management services, online notarization and closing services, and search services. The corporate segment includes our parent holding company and centralized support services departments. Refer to Item 1. Business for details.</p>
+<p class="prose">The principal factors that contribute to changes in our operating revenues include:</p>
+<p class="prose">• interest rates;</p>
+<p class="prose">• availability of mortgage loans;</p>
+<p class="prose">• number and average value of mortgage loan originations;</p>
+<p class="prose">• ability of potential purchasers to qualify for loans;</p>
+<p class="prose">• inventory of existing homes available for sale;</p>
+<p class="prose">• ratio of purchase transactions compared with refinance transactions;</p>
+<p class="prose">• ratio of closed orders to open orders;</p>
+<p class="prose">• home prices;</p>
+<p class="prose">• consumer confidence, including employment trends;</p>
+<p class="prose">• demand by buyers;</p>
+<p class="prose">• premium rates and related state regulations;</p>
+<p class="prose">• foreign currency exchange rates;</p>
+<p class="prose">• market share;</p>
+<p class="prose">• ability to attract and retain highly productive sales associates;</p>
+<p class="prose">• independent agency remittance rates;</p>
+<p class="prose">• opening and integration of new offices and acquisitions;</p>
+<p class="prose">• office closures;</p>
+<p class="prose">• number and value of commercial transactions, which typically yield higher premiums;</p>
+<p class="prose">• government or regulatory initiatives;</p>
+<p class="prose">• acquisitions or divestitures of businesses;</p>
+<p class="prose">• volume of distressed property transactions; and</p>
+<p class="prose">• seasonality and/or weather.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c17" data-pid="C002-1">
+  <div class="hdr">
+    <span class="pid">C002-1</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 1 of 4</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">18 / 51</span>
+  </div>
+  <div class="q">How does First American account for title insurance loss reserves?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">First American Financial Corp accounts for title insurance loss reserves by recording a provision for title insurance losses, which is expressed as a percentage of title insurance premiums and escrow fees</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">Note 8 – Reserve for Known and Incurred But Not Reported Claims</p>
+<p class="prose">Activity in the reserve for known and incurred but not reported claims is summarized as follows:</p>
+<p class="prose">The provision for title insurance losses, expressed as a percentage of title insurance premiums and escrow fees, was 3.0 % for the three and six months ended June 30, 2026 and 2025.</p>
+<p class="prose">The 3.0 % loss provision rate for the three and six months ended June 30, 2026 reflects an ultimate loss rate of 3.75 % for the 2026 policy year and reserve releases of 0.75 %, or $ 11.3 million and $ 21.2 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2026.</p>
+<p class="prose">The 3.0 % loss provision rate for the three and six months ended June 30, 2025 reflected an ultimate loss rate of 3.75 % for the 2025 policy year and reserve releases of 0.75 %, or $ 9.9 million and $ 18.3 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2025.</p>
+<p class="prose">A summary of the Company’s loss reserves is as follows:</p>
+<p class="prose">19</p>
+<p class="prose">FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)</p>
+<p class="prose">Note 9 – Income Taxes</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c18" data-pid="C002-2">
+  <div class="hdr">
+    <span class="pid">C002-2</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 2 of 4</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">19 / 51</span>
+  </div>
+  <div class="q">How does First American account for title insurance loss reserves?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">This provision consists of an ultimate loss rate for the current policy year and reserve releases for prior policy years</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">Note 8 – Reserve for Known and Incurred But Not Reported Claims</p>
+<p class="prose">Activity in the reserve for known and incurred but not reported claims is summarized as follows:</p>
+<p class="prose">The provision for title insurance losses, expressed as a percentage of title insurance premiums and escrow fees, was 3.0 % for the three and six months ended June 30, 2026 and 2025.</p>
+<p class="prose">The 3.0 % loss provision rate for the three and six months ended June 30, 2026 reflects an ultimate loss rate of 3.75 % for the 2026 policy year and reserve releases of 0.75 %, or $ 11.3 million and $ 21.2 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2026.</p>
+<p class="prose">The 3.0 % loss provision rate for the three and six months ended June 30, 2025 reflected an ultimate loss rate of 3.75 % for the 2025 policy year and reserve releases of 0.75 %, or $ 9.9 million and $ 18.3 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2025.</p>
+<p class="prose">A summary of the Company’s loss reserves is as follows:</p>
+<p class="prose">19</p>
+<p class="prose">FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)</p>
+<p class="prose">Note 9 – Income Taxes</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c19" data-pid="C002-3">
+  <div class="hdr">
+    <span class="pid">C002-3</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 3 of 4</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">20 / 51</span>
+  </div>
+  <div class="q">How does First American account for title insurance loss reserves?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">For example, in the three and six months ended June 30, 2026, the 3.0% loss provision rate reflected a 3.75% ultimate loss rate for the 2026 policy year and 0.75% reserve releases for prior years</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">Note 8 – Reserve for Known and Incurred But Not Reported Claims</p>
+<p class="prose">Activity in the reserve for known and incurred but not reported claims is summarized as follows:</p>
+<p class="prose">The provision for title insurance losses, expressed as a percentage of title insurance premiums and escrow fees, was 3.0 % for the three and six months ended June 30, 2026 and 2025.</p>
+<p class="prose">The 3.0 % loss provision rate for the three and six months ended June 30, 2026 reflects an ultimate loss rate of 3.75 % for the 2026 policy year and reserve releases of 0.75 %, or $ 11.3 million and $ 21.2 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2026.</p>
+<p class="prose">The 3.0 % loss provision rate for the three and six months ended June 30, 2025 reflected an ultimate loss rate of 3.75 % for the 2025 policy year and reserve releases of 0.75 %, or $ 9.9 million and $ 18.3 million, respectively, for prior policy years, all based on title insurance premiums and escrow fees for the three and six months ended June 30, 2025.</p>
+<p class="prose">A summary of the Company’s loss reserves is as follows:</p>
+<p class="prose">19</p>
+<p class="prose">FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)</p>
+<p class="prose">Note 9 – Income Taxes</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c20" data-pid="C002-4">
+  <div class="hdr">
+    <span class="pid">C002-4</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 4 of 4</span>
+    <span class="tag cited">cited: [2]</span>
+    <span class="n">21 / 51</span>
+  </div>
+  <div class="q">How does First American account for title insurance loss reserves?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">The company maintains separate reserves for known title claims and incurred but not reported (IBNR) title claims</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 2</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<p class="prose">A summary of the Company’s loss reserves is as follows:</p>
+<p class="prose">30</p>
+<p class="prose">Activity in the reserve for known title claims is summarized as follows:</p>
+<p class="prose">Activity in the reserve for IBNR title claims is summarized as follows:</p>
+<p class="prose">The provisions for title insurance losses, expressed as a percentage of title insurance premiums and escrow fees, were 3.0% for the years ended December 31, 2025 and 2024 and 3.25% for the year ended December 31, 2023. The 3.0% loss provision rate in the current year reflects an ultimate loss rate of 3.75% for the current policy year and a reserve release of 0.75%, or $39.8 million, for prior policy years, all of which are based on title insurance premiums and escrow fees for the year ended December 31, 2025.</p>
+<p class="prose">The provision in 2025 related to current year increased by $26.1 million, or 15.1%, from 2024 as a result of increases in title premiums and escrow fees in 2025 from 2024. The provision in 2024 related to current year increased by $11.4 million, or 7.1%, from 2023 as a result of increases in title premiums and escrow fees in 2024 from 2023.</p>
+<p class="prose">For further discussion of title provision recorded in 2025, 2024 and 2023, see Results of Operations, page 38 .</p>
+<p class="prose">31</p>
+<p class="prose">Fair value of debt securities</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c21" data-pid="C003-1">
+  <div class="hdr">
+    <span class="pid">C003-1</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 1 of 3</span>
+    <span class="tag cited">cited: [4]</span>
+    <span class="n">22 / 51</span>
+  </div>
+  <div class="q">What does Fidelity National Financial describe as its principal business segments?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Fidelity National Financial describes its principal business segments as Title, F&amp;G, and Corporate and Other</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 4</div><div class="ident">Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1</div>
+<p class="prose">As of December 31, 2025, we had the following reporting segments:</p>
+<p class="prose">• Title. This segment consists of the operations of our title insurance underwriters and related businesses, which provide title insurance and escrow and other title-related services including trust activities, trustee sales guarantees, and home warranty products. This segment also includes our transaction services business, which includes other title-related services used in the production and management of mortgage loans, including mortgage loans that experience default.</p>
+<p class="prose">• F&amp;G . This segment primarily consists of operations of our annuities and life insurance related businesses. This segment issues a broad portfolio of annuity and life insurance products, including deferred annuities, immediate annuities, and IUL insurance, through its retail distribution channels. This segment also provides funding agreements and PRTs through its institutional channels.</p>
+<p class="prose">• Corporate and Other. This segment consists of the operations of the parent holding company, our real estate technology subsidiaries, other smaller, non-title businesses and certain unallocated corporate overhead expenses and eliminations of revenues and expenses between it and our Title segment.</p>
+<p class="prose">4</p>
+<p class="prose">C ompetitive Strengths</p>
+<p class="prose">We believe that our competitive strengths include the following:</p>
+<p class="prose">Corporate principles. A cornerstone of our management philosophy and operating success is the six fundamental precepts upon which we were founded, which are:</p>
+<p class="prose">• Autonomy and entrepreneurship;</p>
+<p class="prose">• Bias for action;</p>
+<p class="prose">• Customer-oriented and motivated;</p>
+<p class="prose">• Minimize bureaucracy;</p>
+<p class="prose">• Employee ownership; and</p>
+<p class="prose">• Highest standard of conduct.</p>
+<p class="prose">These six precepts are emphasized to our employees from the first day of employment and are integral to many of our strategies described below.</p>
+<p class="prose">Title</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c22" data-pid="C003-2">
+  <div class="hdr">
+    <span class="pid">C003-2</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 2 of 3</span>
+    <span class="tag cited">cited: [4]</span>
+    <span class="n">23 / 51</span>
+  </div>
+  <div class="q">What does Fidelity National Financial describe as its principal business segments?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">The Title segment consists of title insurance underwriters and related businesses, while the F&amp;G segment primarily consists of annuities and life insurance related businesses</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 4</div><div class="ident">Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1</div>
+<p class="prose">As of December 31, 2025, we had the following reporting segments:</p>
+<p class="prose">• Title. This segment consists of the operations of our title insurance underwriters and related businesses, which provide title insurance and escrow and other title-related services including trust activities, trustee sales guarantees, and home warranty products. This segment also includes our transaction services business, which includes other title-related services used in the production and management of mortgage loans, including mortgage loans that experience default.</p>
+<p class="prose">• F&amp;G . This segment primarily consists of operations of our annuities and life insurance related businesses. This segment issues a broad portfolio of annuity and life insurance products, including deferred annuities, immediate annuities, and IUL insurance, through its retail distribution channels. This segment also provides funding agreements and PRTs through its institutional channels.</p>
+<p class="prose">• Corporate and Other. This segment consists of the operations of the parent holding company, our real estate technology subsidiaries, other smaller, non-title businesses and certain unallocated corporate overhead expenses and eliminations of revenues and expenses between it and our Title segment.</p>
+<p class="prose">4</p>
+<p class="prose">C ompetitive Strengths</p>
+<p class="prose">We believe that our competitive strengths include the following:</p>
+<p class="prose">Corporate principles. A cornerstone of our management philosophy and operating success is the six fundamental precepts upon which we were founded, which are:</p>
+<p class="prose">• Autonomy and entrepreneurship;</p>
+<p class="prose">• Bias for action;</p>
+<p class="prose">• Customer-oriented and motivated;</p>
+<p class="prose">• Minimize bureaucracy;</p>
+<p class="prose">• Employee ownership; and</p>
+<p class="prose">• Highest standard of conduct.</p>
+<p class="prose">These six precepts are emphasized to our employees from the first day of employment and are integral to many of our strategies described below.</p>
+<p class="prose">Title</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c23" data-pid="C003-3">
+  <div class="hdr">
+    <span class="pid">C003-3</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 3 of 3</span>
+    <span class="tag cited">cited: [4]</span>
+    <span class="n">24 / 51</span>
+  </div>
+  <div class="q">What does Fidelity National Financial describe as its principal business segments?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">The Corporate and Other segment includes the parent holding company, real estate technology subsidiaries, and other smaller, non-title businesses</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 4</div><div class="ident">Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1</div>
+<p class="prose">As of December 31, 2025, we had the following reporting segments:</p>
+<p class="prose">• Title. This segment consists of the operations of our title insurance underwriters and related businesses, which provide title insurance and escrow and other title-related services including trust activities, trustee sales guarantees, and home warranty products. This segment also includes our transaction services business, which includes other title-related services used in the production and management of mortgage loans, including mortgage loans that experience default.</p>
+<p class="prose">• F&amp;G . This segment primarily consists of operations of our annuities and life insurance related businesses. This segment issues a broad portfolio of annuity and life insurance products, including deferred annuities, immediate annuities, and IUL insurance, through its retail distribution channels. This segment also provides funding agreements and PRTs through its institutional channels.</p>
+<p class="prose">• Corporate and Other. This segment consists of the operations of the parent holding company, our real estate technology subsidiaries, other smaller, non-title businesses and certain unallocated corporate overhead expenses and eliminations of revenues and expenses between it and our Title segment.</p>
+<p class="prose">4</p>
+<p class="prose">C ompetitive Strengths</p>
+<p class="prose">We believe that our competitive strengths include the following:</p>
+<p class="prose">Corporate principles. A cornerstone of our management philosophy and operating success is the six fundamental precepts upon which we were founded, which are:</p>
+<p class="prose">• Autonomy and entrepreneurship;</p>
+<p class="prose">• Bias for action;</p>
+<p class="prose">• Customer-oriented and motivated;</p>
+<p class="prose">• Minimize bureaucracy;</p>
+<p class="prose">• Employee ownership; and</p>
+<p class="prose">• Highest standard of conduct.</p>
+<p class="prose">These six precepts are emphasized to our employees from the first day of employment and are integral to many of our strategies described below.</p>
+<p class="prose">Title</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c24" data-pid="C004-1">
+  <div class="hdr">
+    <span class="pid">C004-1</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 1 of 4</span>
+    <span class="tag cited">cited: [1;2]</span>
+    <span class="n">25 / 51</span>
+  </div>
+  <div class="q">What cybersecurity risk management processes does Stewart describe?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Stewart Information Services Corp describes an enterprise risk management (ERM) program where cybersecurity risks are evaluated alongside other critical business risks and monitored by the Vice President of IT and the Senior Leadership Team</div>
+  <div class="psg-l">CITED PASSAGES</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 1B</div>
+<p class="prose">Item 1B. Unresolved Staff Comments</p>
+<p class="prose">None.</p>
+<p class="prose">Item 1C. Cybersecurity</p>
+<p class="prose">Stewart recognizes the importance of protecting our customers&#x27;, employees&#x27; and partners’ confidentiality and data integrity. To that end, we continuously and methodically evaluate cyber risks, how they evolve and how they may affect us. We utilize considerable resources in our cybersecurity efforts, and we are committed to continuous cybersecurity education and training across our entire organization as well as our partners and customers. We continuously evaluate and monitor third-party risk relating to the protection of sensitive data. Our program focuses on a broad area of security domains, including, but not limited to: risk management, data protection, incident response, identity and access management, threat and vulnerability management, disaster recovery, business resiliency, and continuity.</p>
+<p class="prose">Risk assessment and management</p>
+<p class="prose">Stewart has an enterprise risk management (ERM) program to assess, identify, and manage risks. Cybersecurity risks are evaluated alongside other critical business risks under the ERM program to align cybersecurity efforts with Stewart’s broader business goals and objectives. The cybersecurity risk is assigned to the Vice President, Information Technology (IT), who is a member of the ERM committee, for monitoring. The cybersecurity risk is also under the management oversight of Stewart&#x27;s Senior Leadership Team.</p>
+<p class="prose">14</p></div><div class="psg"><div class="psg-n">passage 2</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1B</div>
+<p class="prose">Item 1B. Unresolved Staff Comments</p>
+<p class="prose">None.</p>
+<p class="prose">Item 1C. Cybersecurity</p>
+<p class="prose">Stewart recognizes the importance of protecting our customers&#x27;, employees&#x27; and partners’ confidentiality and data integrity. To that end, we continuously and methodically evaluate cyber risks, how they evolve and how they may affect us. We utilize considerable resources in our cybersecurity efforts, and we are committed to continuous cybersecurity education and training across our entire organization as well as our partners and customers. We continuously evaluate and monitor third-party risk relating to the protection of sensitive data. Our program focuses on a broad area of security domains, including, but not limited to: risk management, data protection, incident response, identity and access management, threat and vulnerability management, disaster recovery, business resiliency, and continuity.</p>
+<p class="prose">13</p>
+<p class="prose">Risk assessment and management</p>
+<p class="prose">Stewart has an enterprise risk management (ERM) program to assess, identify, and manage risks. Cybersecurity risks are evaluated alongside other critical business risks under the ERM program to align cybersecurity efforts with Stewart’s broader business goals and objectives. The cybersecurity risk is assigned to the Vice President, Information Technology (IT), who is a member of the ERM committee, for monitoring. The cybersecurity risk is also under the management oversight of Stewart&#x27;s Senior Leadership Team.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c25" data-pid="C004-2">
+  <div class="hdr">
+    <span class="pid">C004-2</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 2 of 4</span>
+    <span class="tag cited">cited: [4]</span>
+    <span class="n">26 / 51</span>
+  </div>
+  <div class="q">What cybersecurity risk management processes does Stewart describe?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">The company takes a risk-based approach to identify, evaluate, and prioritize cybersecurity risks based on potential impact and likelihood, implementing mitigation strategies through policies, technologies, and employee training</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 4</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1C</div>
+<p class="prose">Stewart takes a risk-based approach to cybersecurity, which begins with the identification and evaluation of cybersecurity risks that could affect Stewart’s operations, finances, legal or regulatory compliance, or reputation. Once identified, cybersecurity risks and related mitigation efforts are prioritized based upon their potential impact and likelihood. Risk mitigation strategies are developed and implemented based upon the specific nature of each cybersecurity risk. These strategies include the application of cybersecurity policies, procedures, and technologies, and employee training, education, and awareness. Additionally, Stewart’s cybersecurity program provides mechanisms for employees to report any unusual or potentially malicious activity.</p>
+<p class="prose">Stewart is regularly assessed against the cybersecurity frameworks of the National Institute of Standards and Technology (NIST CSF) and also evaluated for compliance with the SSAE-18 Systems and Organization Controls (SOC) standards of the American Institute of Certified Public Accountants (AICPA).</p>
+<p class="prose">Vendor risk management is an essential part of Stewart’s Enterprise Governance Risk and Compliance (GRC) program. Critical vendors, which includes vendors that have access to personal information, are assessed and measured against standard security frameworks. Critical vendors are monitored for performance and compliance, and vendor security requirements are well defined and included with all master service agreements and contracts.</p>
+<p class="prose">Incident response</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c26" data-pid="C004-3">
+  <div class="hdr">
+    <span class="pid">C004-3</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 3 of 4</span>
+    <span class="tag cited">cited: [3;4]</span>
+    <span class="n">27 / 51</span>
+  </div>
+  <div class="q">What cybersecurity risk management processes does Stewart describe?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Additionally, Stewart utilizes third-party consultants, conducts annual tabletop exercises, and regularly assesses its program against NIST CSF and SSAE-18 SOC standards</div>
+  <div class="psg-l">CITED PASSAGES</div>
+  <div class="psg"><div class="psg-n">passage 3</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1C</div>
+<p class="prose">Management’s role</p>
+<p class="prose">Stewart’s cybersecurity function is led by Stewart’s CISO, who reports to the Group President, Technology and Operations. The Group President, Technology and Operations, is responsible for all areas of Stewart’s digital business strategy, enterprise technology solutions, innovation, and global information technology. The CISO leads a holistic security program to defend enterprises against emerging threats. He has served in various roles in information technology and security leadership for over 30 years.</p>
+<p class="prose">Management uses third party consultants , as necessary, to assist in assessing, identifying and managing risks from cybersecurity threats. Annually, senior management participates in tabletop exercises to assess its readiness responding to cybersecurity incidents. Our cybersecurity team routinely challenges our employees and the effectiveness of existing controls.</p>
+<p class="prose">14</p>
+<p class="prose">Risk from cybersecurity threats</p>
+<p class="prose">While Stewart regularly defends against, responds to and mitigates risks from IT systems and software vulnerabilities, broader cybersecurity threats and data security incidents, as of the date of this report, Stewart has not identified any cybersecurity threats that have materially affected or are reasonably anticipated to have a material effect on the organization, h owever, there can be no guarantee that we will not experience such an incident in the future. Stewart experienced no known material cyber breaches during the three-year period ending December 31, 2024. For additional information concerning Stewart’s risks related to cybersecurity, see Item 1A. Risk Factors.</p></div><div class="psg"><div class="psg-n">passage 4</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1C</div>
+<p class="prose">Stewart takes a risk-based approach to cybersecurity, which begins with the identification and evaluation of cybersecurity risks that could affect Stewart’s operations, finances, legal or regulatory compliance, or reputation. Once identified, cybersecurity risks and related mitigation efforts are prioritized based upon their potential impact and likelihood. Risk mitigation strategies are developed and implemented based upon the specific nature of each cybersecurity risk. These strategies include the application of cybersecurity policies, procedures, and technologies, and employee training, education, and awareness. Additionally, Stewart’s cybersecurity program provides mechanisms for employees to report any unusual or potentially malicious activity.</p>
+<p class="prose">Stewart is regularly assessed against the cybersecurity frameworks of the National Institute of Standards and Technology (NIST CSF) and also evaluated for compliance with the SSAE-18 Systems and Organization Controls (SOC) standards of the American Institute of Certified Public Accountants (AICPA).</p>
+<p class="prose">Vendor risk management is an essential part of Stewart’s Enterprise Governance Risk and Compliance (GRC) program. Critical vendors, which includes vendors that have access to personal information, are assessed and measured against standard security frameworks. Critical vendors are monitored for performance and compliance, and vendor security requirements are well defined and included with all master service agreements and contracts.</p>
+<p class="prose">Incident response</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c27" data-pid="C004-4">
+  <div class="hdr">
+    <span class="pid">C004-4</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 4 of 4</span>
+    <span class="tag cited">cited: [4]</span>
+    <span class="n">28 / 51</span>
+  </div>
+  <div class="q">What cybersecurity risk management processes does Stewart describe?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Vendor risk management is integrated into their Enterprise Governance Risk and Compliance (GRC) program, with critical vendors assessed against standard security frameworks</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 4</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 1C</div>
+<p class="prose">Stewart takes a risk-based approach to cybersecurity, which begins with the identification and evaluation of cybersecurity risks that could affect Stewart’s operations, finances, legal or regulatory compliance, or reputation. Once identified, cybersecurity risks and related mitigation efforts are prioritized based upon their potential impact and likelihood. Risk mitigation strategies are developed and implemented based upon the specific nature of each cybersecurity risk. These strategies include the application of cybersecurity policies, procedures, and technologies, and employee training, education, and awareness. Additionally, Stewart’s cybersecurity program provides mechanisms for employees to report any unusual or potentially malicious activity.</p>
+<p class="prose">Stewart is regularly assessed against the cybersecurity frameworks of the National Institute of Standards and Technology (NIST CSF) and also evaluated for compliance with the SSAE-18 Systems and Organization Controls (SOC) standards of the American Institute of Certified Public Accountants (AICPA).</p>
+<p class="prose">Vendor risk management is an essential part of Stewart’s Enterprise Governance Risk and Compliance (GRC) program. Critical vendors, which includes vendors that have access to personal information, are assessed and measured against standard security frameworks. Critical vendors are monitored for performance and compliance, and vendor security requirements are well defined and included with all master service agreements and contracts.</p>
+<p class="prose">Incident response</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c28" data-pid="C005-1">
+  <div class="hdr">
+    <span class="pid">C005-1</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 1 of 3</span>
+    <span class="tag cited">cited: [1;2]</span>
+    <span class="n">29 / 51</span>
+  </div>
+  <div class="q">How does First American describe the role of its title plants?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">First American describes its title plants as one of its principal assets that support its title insurance operations</div>
+  <div class="psg-l">CITED PASSAGES</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2024 | Item 1</div>
+<p class="prose">Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.</p>
+<p class="prose">Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.</p></div><div class="psg"><div class="psg-n">passage 2</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 1</div>
+<p class="prose">Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.</p>
+<p class="prose">Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c29" data-pid="C005-2">
+  <div class="hdr">
+    <span class="pid">C005-2</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 2 of 3</span>
+    <span class="tag cited">cited: [1;2]</span>
+    <span class="n">30 / 51</span>
+  </div>
+  <div class="q">How does First American describe the role of its title plants?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">The company notes that these plants are arranged on a geographic basis, which allows for more efficient searching compared to public records indexed by party names</div>
+  <div class="psg-l">CITED PASSAGES</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2024 | Item 1</div>
+<p class="prose">Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.</p>
+<p class="prose">Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.</p></div><div class="psg"><div class="psg-n">passage 2</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 1</div>
+<p class="prose">Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.</p>
+<p class="prose">Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c30" data-pid="C005-3">
+  <div class="hdr">
+    <span class="pid">C005-3</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 3 of 3</span>
+    <span class="tag cited">cited: [1;2]</span>
+    <span class="n">31 / 51</span>
+  </div>
+  <div class="q">How does First American describe the role of its title plants?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Additionally, First American licenses this title plant data to third parties, including competing title companies and agents</div>
+  <div class="psg-l">CITED PASSAGES</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2024 | Item 1</div>
+<p class="prose">Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.</p>
+<p class="prose">Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.</p></div><div class="psg"><div class="psg-n">passage 2</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 1</div>
+<p class="prose">Our title plants constitute one of our principal assets. A title search is typically conducted by searching the abstracted information from public records or utilizing a title plant holding information abstracted from public records. While public title records generally are indexed by reference to the names of the parties to a given recorded document, our title plants primarily arrange their records on a geographic basis. Because of this difference, title plant data and records generally may be searched more efficiently. Many of our title plants also index prior title insurance policies, adding to searching efficiency. These title plants support not only our title insurance operations, but we also license this data to third parties, including competing title companies and agents.</p>
+<p class="prose">Reserves for Claims and Losses. We provide for losses associated with title insurance policies, closing protection letters and other risk-based products based upon our historical experience and other factors by a charge to expense when the related premium revenue is recognized. The resulting reserve for incurred but not reported claims, together with the reserve for known claims, reflects management’s best estimate of the total costs required to settle all claims reported to us and claims incurred but not reported, and are considered to be adequate for such purpose. Each period the reasonableness of the estimated reserves is assessed; if the estimate requires adjustment, such an adjustment is recorded.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c31" data-pid="C006-1">
+  <div class="hdr">
+    <span class="pid">C006-1</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 1 of 3</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">32 / 51</span>
+  </div>
+  <div class="q">What does Fidelity National Financial say about competition in the title insurance market?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Fidelity National Financial states that competition in the title insurance industry is based primarily on service and price</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1</div>
+<p class="prose">We also earn a small amount of additional income, which is reflected in our direct premiums, by assuming reinsurance for certain risks of other title insurers.</p>
+<p class="prose">Competition. Competition in the title insurance industry is based primarily on service and price. The number and size of competing companies varies in the different geographic areas in which we conduct our business. In our principal markets, competitors include other major title underwriters such as First American Financial Corporation, Old Republic International Corporation, Stewart Information Services Corporation , Westcor Land Title Insurance Company, Title Resources Guaranty Company, and WFG National Title Insurance Company, as well as numerous regional title insurance companies, underwritten title companies and independent agency operations at the regional and local level. The addition or removal of regulatory barriers might result in changes to competition in the title insurance business. New competitors may include diversified financial services companies that have greater financial resources than we do and possess other competitive advantages. Competition among the major title insurance companies, expansion by regional companies and any new entrants with alternative products could affect our business operations and financial condition.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c32" data-pid="C006-2">
+  <div class="hdr">
+    <span class="pid">C006-2</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 2 of 3</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">33 / 51</span>
+  </div>
+  <div class="q">What does Fidelity National Financial say about competition in the title insurance market?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">The company identifies major competitors including First American Financial Corporation, Old Republic International Corporation, Stewart Information Services Corporation, Westcor Land Title Insurance Company, Title Resources Guaranty Company, and WFG National Title Insurance Company, as well as numerous regional and local operators</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1</div>
+<p class="prose">We also earn a small amount of additional income, which is reflected in our direct premiums, by assuming reinsurance for certain risks of other title insurers.</p>
+<p class="prose">Competition. Competition in the title insurance industry is based primarily on service and price. The number and size of competing companies varies in the different geographic areas in which we conduct our business. In our principal markets, competitors include other major title underwriters such as First American Financial Corporation, Old Republic International Corporation, Stewart Information Services Corporation , Westcor Land Title Insurance Company, Title Resources Guaranty Company, and WFG National Title Insurance Company, as well as numerous regional title insurance companies, underwritten title companies and independent agency operations at the regional and local level. The addition or removal of regulatory barriers might result in changes to competition in the title insurance business. New competitors may include diversified financial services companies that have greater financial resources than we do and possess other competitive advantages. Competition among the major title insurance companies, expansion by regional companies and any new entrants with alternative products could affect our business operations and financial condition.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c33" data-pid="C006-3">
+  <div class="hdr">
+    <span class="pid">C006-3</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 3 of 3</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">34 / 51</span>
+  </div>
+  <div class="q">What does Fidelity National Financial say about competition in the title insurance market?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">FNF notes that changes in regulatory barriers, the entry of diversified financial services companies with greater resources, and expansion by regional companies could affect its business operations and financial condition</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 1</div>
+<p class="prose">We also earn a small amount of additional income, which is reflected in our direct premiums, by assuming reinsurance for certain risks of other title insurers.</p>
+<p class="prose">Competition. Competition in the title insurance industry is based primarily on service and price. The number and size of competing companies varies in the different geographic areas in which we conduct our business. In our principal markets, competitors include other major title underwriters such as First American Financial Corporation, Old Republic International Corporation, Stewart Information Services Corporation , Westcor Land Title Insurance Company, Title Resources Guaranty Company, and WFG National Title Insurance Company, as well as numerous regional title insurance companies, underwritten title companies and independent agency operations at the regional and local level. The addition or removal of regulatory barriers might result in changes to competition in the title insurance business. New competitors may include diversified financial services companies that have greater financial resources than we do and possess other competitive advantages. Competition among the major title insurance companies, expansion by regional companies and any new entrants with alternative products could affect our business operations and financial condition.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c34" data-pid="C007-1">
+  <div class="hdr">
+    <span class="pid">C007-1</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 1 of 2</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">35 / 51</span>
+  </div>
+  <div class="q">What factors does Stewart say drive its commercial title revenue?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Stewart Information Services Corp attributes the growth in its domestic commercial title revenues to increased sizes and volume of commercial transactions, specifically related to data center, energy, retail, and mixed-use asset classes</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 7</div>
+<p class="prose">23</p>
+<p class="prose">Title revenues. Direct title revenue information is presented below:</p>
+<p class="prose">Direct title revenues improved 13% in 2025 compared to 2024, primarily due to growth in both commercial and non-commercial domestic revenues. Domestic commercial revenues in 2025 increased 35% compared to the prior year, driven by increased sizes and volume of commercial transactions, primarily related to data center, energy, retail and mixed-use asset classes. Total non-commercial domestic revenues in 2025 increased 6% compared to 2024, primarily as a result of higher combined purchase and refinancing closed transactions and increased average fee per file. Domestic commercial transactions closed improved 13%, while combined purchase and refinancing orders increased 1% in 2025 compared to 2024. Average domestic commercial fee per file in 2025 improved 18% to $19,300, compared to $16,300 in 2024, while average residential fee per file in 2025 improved 6% to $3,200, compared to $3,000 in the prior year. Total international revenues in 2025 improved $14.2 million, 11%, primarily due to overall higher transaction volumes compared to 2024.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c35" data-pid="C007-2">
+  <div class="hdr">
+    <span class="pid">C007-2</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 2 of 2</span>
+    <span class="tag cited">cited: [2]</span>
+    <span class="n">36 / 51</span>
+  </div>
+  <div class="q">What factors does Stewart say drive its commercial title revenue?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">In the prior year, the company noted that commercial revenue improvements were driven by increased commercial transactions and higher average transaction sizes</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 2</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2024 | Item 7</div>
+<p class="prose">22</p>
+<p class="prose">Title revenues. Direct title revenue information is presented below:</p>
+<p class="prose">Direct title revenues in 2024 improved 6% compared to 2023, primarily driven by increased commercial revenues resulting from increased commercial transactions and higher average transaction size in 2024. Total non-commercial domestic revenues in 2024 declined 3% compared to 2023, primarily as a result of lower total residential transactions influenced by the continued elevated interest rates and weaker existing home sales in 2024. Purchase closed orders during 2024 declined 8%, partially offset by an 8% improvement in refinancing closed orders compared to 2023. Average domestic commercial fee per file in 2024 was $16,300, which was 34% higher compared to 2023, while average residential fee per file in 2024 was $3,000, which was 7% lower compared to 2023, primarily due to lower purchase transaction mix in 2024. Total international revenues in 2024 improved $8.6 million, 7%, primarily due to higher transaction volumes in our Canadian and Australian operations compared to 2023.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c36" data-pid="C008-1">
+  <div class="hdr">
+    <span class="pid">C008-1</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 1 of 5</span>
+    <span class="tag cited">cited: [1;2;3;4]</span>
+    <span class="n">37 / 51</span>
+  </div>
+  <div class="q">What does First American disclose about its escrow deposits and trust assets?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">First American Financial Corp discloses that it administers escrow deposits as a service to customers in its direct title operations, with these deposits not considered assets of the Company and excluded from its consolidated balance sheets</div>
+  <div class="psg-l">CITED PASSAGES</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">11</p>
+<p class="prose">FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)</p>
+<p class="prose">Note 2 –Trust Assets, Escrow and Other Deposits</p>
+<p class="prose">The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $ 12.2 billion and $ 9.3 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 4.9 billion and $ 3.7 billion, respectively, were held at First American Trust, FSB (“FA Trust”). The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $ 6.0 billion and $ 5.6 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 196.8 million and $ 173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div><div class="psg"><div class="psg-n">passage 2</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2024 | Item 7</div>
+<p class="prose">Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $8.9 billion and $10.6 billion at December 31, 2024 and 2023, respectively, of which $4.0 billion and $6.3 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $4.8 billion and $4.4 billion at December 31, 2024 and 2023, respectively, of which $169.4 million and $197.1 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div><div class="psg"><div class="psg-n">passage 3</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">39</p>
+<p class="prose">Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $12.2 billion and $9.3 billion at June 30, 2026 and December 31, 2025, respectively, of which $4.9 billion and $3.7 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $6.0 billion and $5.6 billion at June 30, 2026 and December 31, 2025, respectively, of which $196.8 million and $173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div><div class="psg"><div class="psg-n">passage 4</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<p class="prose">Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $9.3 billion and $8.9 billion at December 31, 2025 and 2024, respectively, of which $3.7 billion and $4.0 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $5.6 billion and $4.8 billion at December 31, 2025 and 2024, respectively, of which $173.9 million and $169.4 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c37" data-pid="C008-2">
+  <div class="hdr">
+    <span class="pid">C008-2</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 2 of 5</span>
+    <span class="tag cited">cited: [1;3]</span>
+    <span class="n">38 / 51</span>
+  </div>
+  <div class="q">What does First American disclose about its escrow deposits and trust assets?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">For example, escrow deposits totaled $12.2 billion at June 30, 2026, and $9.3 billion at December 31, 2025</div>
+  <div class="psg-l">CITED PASSAGES</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">11</p>
+<p class="prose">FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)</p>
+<p class="prose">Note 2 –Trust Assets, Escrow and Other Deposits</p>
+<p class="prose">The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $ 12.2 billion and $ 9.3 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 4.9 billion and $ 3.7 billion, respectively, were held at First American Trust, FSB (“FA Trust”). The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $ 6.0 billion and $ 5.6 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 196.8 million and $ 173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div><div class="psg"><div class="psg-n">passage 3</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">39</p>
+<p class="prose">Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $12.2 billion and $9.3 billion at June 30, 2026 and December 31, 2025, respectively, of which $4.9 billion and $3.7 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $6.0 billion and $5.6 billion at June 30, 2026 and December 31, 2025, respectively, of which $196.8 million and $173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c38" data-pid="C008-3">
+  <div class="hdr">
+    <span class="pid">C008-3</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 3 of 5</span>
+    <span class="tag cited">cited: [1;2;3;4]</span>
+    <span class="n">39 / 51</span>
+  </div>
+  <div class="q">What does First American disclose about its escrow deposits and trust assets?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Additionally, the Company discloses that trust assets administered by its subsidiary, FA Trust, are fiduciary client assets that are also not considered assets of the Company and are excluded from the balance sheets</div>
+  <div class="psg-l">CITED PASSAGES</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">11</p>
+<p class="prose">FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)</p>
+<p class="prose">Note 2 –Trust Assets, Escrow and Other Deposits</p>
+<p class="prose">The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $ 12.2 billion and $ 9.3 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 4.9 billion and $ 3.7 billion, respectively, were held at First American Trust, FSB (“FA Trust”). The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $ 6.0 billion and $ 5.6 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 196.8 million and $ 173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div><div class="psg"><div class="psg-n">passage 2</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2024 | Item 7</div>
+<p class="prose">Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $8.9 billion and $10.6 billion at December 31, 2024 and 2023, respectively, of which $4.0 billion and $6.3 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $4.8 billion and $4.4 billion at December 31, 2024 and 2023, respectively, of which $169.4 million and $197.1 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div><div class="psg"><div class="psg-n">passage 3</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">39</p>
+<p class="prose">Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $12.2 billion and $9.3 billion at June 30, 2026 and December 31, 2025, respectively, of which $4.9 billion and $3.7 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $6.0 billion and $5.6 billion at June 30, 2026 and December 31, 2025, respectively, of which $196.8 million and $173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div><div class="psg"><div class="psg-n">passage 4</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<p class="prose">Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $9.3 billion and $8.9 billion at December 31, 2025 and 2024, respectively, of which $3.7 billion and $4.0 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $5.6 billion and $4.8 billion at December 31, 2025 and 2024, respectively, of which $173.9 million and $169.4 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c39" data-pid="C008-4">
+  <div class="hdr">
+    <span class="pid">C008-4</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 4 of 5</span>
+    <span class="tag cited">cited: [1;3]</span>
+    <span class="n">40 / 51</span>
+  </div>
+  <div class="q">What does First American disclose about its escrow deposits and trust assets?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Trust assets administered by FA Trust totaled $6.0 billion at June 30, 2026, and $5.6 billion at December 31, 2025</div>
+  <div class="psg-l">CITED PASSAGES</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">11</p>
+<p class="prose">FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)</p>
+<p class="prose">Note 2 –Trust Assets, Escrow and Other Deposits</p>
+<p class="prose">The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $ 12.2 billion and $ 9.3 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 4.9 billion and $ 3.7 billion, respectively, were held at First American Trust, FSB (“FA Trust”). The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $ 6.0 billion and $ 5.6 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 196.8 million and $ 173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div><div class="psg"><div class="psg-n">passage 3</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">39</p>
+<p class="prose">Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $12.2 billion and $9.3 billion at June 30, 2026 and December 31, 2025, respectively, of which $4.9 billion and $3.7 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $6.0 billion and $5.6 billion at June 30, 2026 and December 31, 2025, respectively, of which $196.8 million and $173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c40" data-pid="C008-5">
+  <div class="hdr">
+    <span class="pid">C008-5</span>
+    <span class="tag">conceptual</span>
+    <span class="tag">claim 5 of 5</span>
+    <span class="tag cited">cited: [1;2;3;4]</span>
+    <span class="n">41 / 51</span>
+  </div>
+  <div class="q">What does First American disclose about its escrow deposits and trust assets?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">The Company notes it could be held contingently liable for the disposition of escrow assets or if FA Trust breaches its fiduciary duties</div>
+  <div class="psg-l">CITED PASSAGES</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">11</p>
+<p class="prose">FIRST AMERICAN FINANCIAL CORPORATION AND SUBSIDIARY COMPANIES Notes to Condensed Consolidated Financial Statements – (Continued) (unaudited)</p>
+<p class="prose">Note 2 –Trust Assets, Escrow and Other Deposits</p>
+<p class="prose">The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $ 12.2 billion and $ 9.3 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 4.9 billion and $ 3.7 billion, respectively, were held at First American Trust, FSB (“FA Trust”). The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $ 6.0 billion and $ 5.6 billion at June 30 , 2026 and December 31, 2025, respectively, of which $ 196.8 million and $ 173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div><div class="psg"><div class="psg-n">passage 2</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2024 | Item 7</div>
+<p class="prose">Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $8.9 billion and $10.6 billion at December 31, 2024 and 2023, respectively, of which $4.0 billion and $6.3 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $4.8 billion and $4.4 billion at December 31, 2024 and 2023, respectively, of which $169.4 million and $197.1 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div><div class="psg"><div class="psg-n">passage 3</div><div class="ident">First American Financial Corp (FAF) | 10-Q FY2026 | Item 1</div>
+<p class="prose">39</p>
+<p class="prose">Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $12.2 billion and $9.3 billion at June 30, 2026 and December 31, 2025, respectively, of which $4.9 billion and $3.7 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $6.0 billion and $5.6 billion at June 30, 2026 and December 31, 2025, respectively, of which $196.8 million and $173.9 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets that are not considered assets of the Company and are not included in the accompanying condensed consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div><div class="psg"><div class="psg-n">passage 4</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<p class="prose">Off-balance sheet arrangements. The Company administers escrow deposits as a service to customers in its direct title operations. Escrow deposits totaled $9.3 billion and $8.9 billion at December 31, 2025 and 2024, respectively, of which $3.7 billion and $4.0 billion, respectively, were held at FA Trust. The remaining deposits were held at third-party financial institutions. Escrow deposits held at third-party financial institutions are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. All such amounts are placed in deposit accounts insured, up to applicable limits, by the Federal Deposit Insurance Corporation. The Company could be held contingently liable for the disposition of these assets.</p>
+<p class="prose">Trust assets administered by FA Trust totaled $5.6 billion and $4.8 billion at December 31, 2025 and 2024, respectively, of which $173.9 million and $169.4 million, respectively, were held at FA Trust. The remaining trust assets were held at third-party financial institutions. Trust assets administered by FA Trust and held at third-party institutions are fiduciary client assets. As such, these trust assets are not considered assets of the Company and, therefore, are not included in the accompanying consolidated balance sheets. The Company could be held contingently liable if FA Trust were to breach any of its fiduciary duties.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c41" data-pid="M001-1">
+  <div class="hdr">
+    <span class="pid">M001-1</span>
+    <span class="tag">comparative</span>
+    <span class="tag">claim 1 of 2</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">42 / 51</span>
+  </div>
+  <div class="q">Which had higher total revenues in fiscal 2025, First American or Stewart Information Services?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">First American Financial Corp had higher total revenues in fiscal 2025, with total revenues of $7.5 billion</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<p class="prose">The Company’s total revenues for 2025 were $7.5 billion, which reflected an increase of $1.3 billion, or 21.6%, when compared with $6.1 billion for 2024. This increase was primarily attributable to increases in direct premiums and escrow fees of $316.7 million, or 12.9%, agent premiums of $397.5 million, or 15.5%, and information and other revenue of $127.4 million, or 13.3%. The Company’s total revenues for 2025 also included $20.9 million of net investment gains compared to $401.6 million of net investment losses for the prior year. The increase in direct premiums and escrow fees attributable to the title insurance and services segment for 2025 totaled $299.2 million, or 14.6%, which included increases from domestic commercial and residential refinance transactions of $241.4 million, or 31.7%, and $39.7 million, or 42.1%, respectively, in 2025 when compared to 2024. Direct premiums and escrow fees from domestic residential purchase transactions decreased $21.5 million, or 2.2%, in 2025 when compared to 2024.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c42" data-pid="M001-2">
+  <div class="hdr">
+    <span class="pid">M001-2</span>
+    <span class="tag">comparative</span>
+    <span class="tag">claim 2 of 2</span>
+    <span class="tag cited">cited: [4]</span>
+    <span class="n">43 / 51</span>
+  </div>
+  <div class="q">Which had higher total revenues in fiscal 2025, First American or Stewart Information Services?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Stewart Information Services Corp reported total operating revenues of $2.86 billion for the same period</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 4</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 6</div>
+<p class="prose">Item 6. Reserved.</p>
+<p class="prose">Item 7. Management’s Discussion and Analysis of Financial Condition and Results of Operations (MD&amp;A)</p>
+<p class="prose">MANAGEMENT&#x27;S OVERVIEW</p>
+<p class="prose">Net income attributable to Stewart for 2025 was $115.5 million, or $4.05 per diluted share, compared to $73.3 million, or $2.61 per diluted share, in 2024. Pretax income before noncontrolling interests in 2025 was $165.6 million (5.7% pretax margin) compared to $114.3 million (4.6% pretax margin) in 2024. During 2025, total operating revenues increased 18% to $2.86 billion compared to $2.42 billion in 2024, while total expenses increased 16% to $2.76 billion, compared to $2.38 billion in 2024, primarily driven by higher revenues in the title and real estate solutions services operations. Refer to &quot; Results of Operations &quot; for detailed year-to-year income statement discussions, and &quot; Liquidity and Capital Resources &quot; for an analysis of Stewart&#x27;s financial condition.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c43" data-pid="M002-1">
+  <div class="hdr">
+    <span class="pid">M002-1</span>
+    <span class="tag">comparative</span>
+    <span class="tag">claim 1 of 2</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">44 / 51</span>
+  </div>
+  <div class="q">Which had higher net income attributable to the parent in fiscal 2025, First American or Stewart Information Services?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">First American Financial Corp had higher net income attributable to the parent in fiscal 2025, with $621.8 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<div class="meta">[TABLE]</div>
+<div class="meta">Section: Item 7 - Management&#x27;s Discussion and Analysis (MD&amp;A)</div>
+<div class="meta">Caption: Net income and per share information are summarized as follows:</div>
+<div class="meta">Figures in millions.</div>
+<div class="meta">Columns: Year ended December 31,</div>
+<table class="tbl"><tr><td class="num">2025</td><td class="num">2024</td><td class="num">2023</td></tr></table>
+<p class="prose">(in millions, except per share amounts)</p>
+<table class="tbl"><tr><td class="lab">Net income attributable to the Company</td><td class="num">621.8</td><td class="num">131.1</td><td class="num">216.8</td></tr></table>
+<p class="prose">Net income per share attributable to the Company’s stockholders:</p>
+<table class="tbl"><tr><td class="lab">Basic</td><td class="num">6.02</td><td class="num">1.26</td><td class="num">2.08</td></tr><tr><td class="lab">Diluted</td><td class="num">6.00</td><td class="num">1.26</td><td class="num">2.07</td></tr></table>
+<p class="prose">Weighted-average common shares outstanding:</p>
+<table class="tbl"><tr><td class="lab">Basic</td><td class="num">103.3</td><td class="num">103.9</td><td class="num">104.3</td></tr><tr><td class="lab">Diluted</td><td class="num">103.7</td><td class="num">104.3</td><td class="num">104.6</td></tr></table></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c44" data-pid="M002-2">
+  <div class="hdr">
+    <span class="pid">M002-2</span>
+    <span class="tag">comparative</span>
+    <span class="tag">claim 2 of 2</span>
+    <span class="tag cited">cited: [2]</span>
+    <span class="n">45 / 51</span>
+  </div>
+  <div class="q">Which had higher net income attributable to the parent in fiscal 2025, First American or Stewart Information Services?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">compared to Stewart Information Services Corp&#x27;s $150.9 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 2</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 8</div>
+<div class="meta">[TABLE]</div>
+<div class="meta">Section: Item 8 - Financial Statements</div>
+<div class="meta">Caption: The components of income before taxes and after deducting noncontrolling interests are as follows:</div>
+<div class="meta">Figures in thousands.</div>
+<div class="meta">Columns: 2025 | 2024 | 2023</div>
+<p class="prose">(in $ thousands)</p>
+<table class="tbl"><tr><td class="lab">Domestic</td><td class="num">107,710</td><td class="num">56,657</td><td class="num">4,980</td></tr><tr><td class="lab">Foreign</td><td class="num">43,236</td><td class="num">42,808</td><td class="num">40,722</td></tr><tr><td class="lab">Income Loss Attributable To Parent</td><td class="num">150,946</td><td class="num">99,465</td><td class="num">45,702</td></tr></table></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c45" data-pid="M003-1">
+  <div class="hdr">
+    <span class="pid">M003-1</span>
+    <span class="tag">comparative</span>
+    <span class="tag">claim 1 of 2</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">46 / 51</span>
+  </div>
+  <div class="q">Compare net cash provided by operating activities in fiscal 2025 for First American and Stewart Information Services.</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">For fiscal year 2025, First American Financial Corp reported cash provided by operating activities of $950.8 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<p class="prose">Cash provided by operating activities totaled $950.8 million, $897.5 million and $354.3 million for 2025, 2024 and 2023, respectively, after claim payments, net of recoveries, of $358.4 million, $397.8 million and $381.8 million, respectively. The principal nonoperating uses of cash and cash equivalents for 2025, 2024 and 2023 were advances and repayments under secured financing agreements, purchases of debt and equity securities, dividends to common stockholders, capital expenditures and repurchases of company common shares. Principal nonoperating uses of cash and cash equivalents also included decreases in deposits at the Company’s banking operations for 2024 and repayments of senior unsecured notes for 2024 and 2023. The most significant nonoperating sources of cash and cash equivalents for 2025, 2024 and 2023 were borrowings and collections under secured financing agreements, and proceeds from the sales and maturities of debt and equity securities. Principal nonoperating sources of cash and cash equivalents also included increases in deposits at the Company’s banking operations for 2025 and 2023 and proceeds from issuance of unsecured senior notes in 2024. The net effect of all activities on total cash and cash equivalents were decreases of $330.8 million and $1.9 billion for 2025 and 2024, respectively, and an increase of $2.4 billion for 2023.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c46" data-pid="M003-2">
+  <div class="hdr">
+    <span class="pid">M003-2</span>
+    <span class="tag">comparative</span>
+    <span class="tag">claim 2 of 2</span>
+    <span class="tag cited">cited: [4]</span>
+    <span class="n">47 / 51</span>
+  </div>
+  <div class="q">Compare net cash provided by operating activities in fiscal 2025 for First American and Stewart Information Services.</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">In contrast, Stewart Information Services Corp reported net cash provided by operating activities of $194.3 million (listed as $194,349 in thousands) for the same period</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 4</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 8</div>
+<div class="meta">[TABLE] part 1 of 2</div>
+<div class="meta">Section: Item 8 - Financial Statements</div>
+<div class="meta">Caption: STATEMENTS OF CASH FLOWS</div>
+<div class="meta">Figures in thousands.</div>
+<div class="meta">Columns: For the Years Ended December 31,</div>
+<table class="tbl"><tr><td class="num">2025</td><td class="num">2024</td><td class="num">2023</td></tr></table>
+<p class="prose">(in $ thousands)</p>
+<p class="prose">Reconciliation of net income to cash provided by operating activities:</p>
+<table class="tbl"><tr><td class="lab">Net income</td><td class="num">115,535</td><td class="num">73,310</td><td class="num">30,439</td></tr></table>
+<p class="prose">Add (deduct):</p>
+<table class="tbl"><tr><td class="lab">Depreciation</td><td class="num">408</td><td class="num">355</td><td class="num">169</td></tr><tr><td class="lab">(Increase) decrease in receivables – net)</td><td class="num">( 41,765 )</td><td class="num">46,411</td><td class="num">( 1,128 )</td></tr><tr><td class="lab">(Increase) decrease in other assets – net)</td><td class="num">( 3,065 )</td><td class="num">1,301</td><td class="num">( 764 )</td></tr><tr><td class="lab">Increase (decrease) in payables and accrued liabilities – net</td><td class="num">4,099</td><td class="num">( 2,881 )</td><td class="num">1,717</td></tr><tr><td class="lab">Income from and other adjustments for subsidiaries</td><td class="num">119,137</td><td class="num">( 13,743 )</td><td class="num">11,753</td></tr><tr><td class="lab">Cash provided by operating activities</td><td class="num">194,349</td><td class="num">104,753</td><td class="num">42,186</td></tr></table>
+<p class="prose">Investing activities:</p>
+<table class="tbl"><tr><td class="lab">Investments in and contributions to subsidiaries</td><td class="num">( 370,251 )</td><td class="num">( 62,197 )</td><td class="num">( 19,000 )</td></tr><tr><td class="lab">Purchase of property and equipment</td><td class="num">—</td><td class="num">( 346 )</td><td class="num">( 1,692 )</td></tr><tr><td class="lab">Cash used by investing activities</td><td class="num">( 370,251 )</td><td class="num">( 62,543 )</td><td class="num">( 20,692 )</td></tr></table>
+<p class="prose">Financing activities:</p>
+<table class="tbl"><tr><td class="lab">Dividends paid</td><td class="num">( 58,485 )</td><td class="num">( 53,916 )</td><td class="num">( 50,523 )</td></tr><tr><td class="lab">Repurchases of Common Stock</td><td class="num">( 3,887 )</td><td class="num">( 3,844 )</td><td class="num">( 1,783 )</td></tr></table></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c47" data-pid="M004-1">
+  <div class="hdr">
+    <span class="pid">M004-1</span>
+    <span class="tag">comparative</span>
+    <span class="tag">claim 1 of 4</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">48 / 51</span>
+  </div>
+  <div class="q">Which of the three title insurers reported the lowest total revenues in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">First American Financial Corp reported the lowest total revenues in fiscal 2025 at $7.5 billion</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<p class="prose">The Company’s total revenues for 2025 were $7.5 billion, which reflected an increase of $1.3 billion, or 21.6%, when compared with $6.1 billion for 2024. This increase was primarily attributable to increases in direct premiums and escrow fees of $316.7 million, or 12.9%, agent premiums of $397.5 million, or 15.5%, and information and other revenue of $127.4 million, or 13.3%. The Company’s total revenues for 2025 also included $20.9 million of net investment gains compared to $401.6 million of net investment losses for the prior year. The increase in direct premiums and escrow fees attributable to the title insurance and services segment for 2025 totaled $299.2 million, or 14.6%, which included increases from domestic commercial and residential refinance transactions of $241.4 million, or 31.7%, and $39.7 million, or 42.1%, respectively, in 2025 when compared to 2024. Direct premiums and escrow fees from domestic residential purchase transactions decreased $21.5 million, or 2.2%, in 2025 when compared to 2024.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c48" data-pid="M004-2">
+  <div class="hdr">
+    <span class="pid">M004-2</span>
+    <span class="tag">comparative</span>
+    <span class="tag">claim 2 of 4</span>
+    <span class="tag cited">cited: [2]</span>
+    <span class="n">49 / 51</span>
+  </div>
+  <div class="q">Which of the three title insurers reported the lowest total revenues in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Fidelity National Financial, Inc. reported total revenues of $10.4 billion in 2025, calculated by adding the $764 million increase to the 2024 base, though the specific 2024 total is not explicitly stated in the provided text, the 2025 interest and investment income alone was $3,237 million</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 2</div><div class="ident">Fidelity National Financial, Inc. (FNF) | 10-K FY2025 | Item 7</div>
+<p class="prose">67</p>
+<p class="prose">Results of Operations</p>
+<p class="prose">Consolidated Results of Operations</p>
+<p class="prose">Net Earnings. The following table presents certain financial data for the years indicated:</p>
+<p class="prose">Revenues.</p>
+<p class="prose">Total revenues increased by $764 million in 2025 as compared to 2024. The increase was attributable to increases in direct title insurance premiums, agency title insurance premiums, escrow, title-related and other fees, and interest and investment income, partially offset by net recognized losses in 2025 as compared to net recognized gains in 2024. Total revenues increased by $1,929 million in 2024 as compared to 2023, primarily attributable to increases in direct title insurance premiums, agency title insurance premiums, escrow, title-related and other fees, interest and investment income and net recognized gains in 2024 as compared to net recognized losses in 2023.</p>
+<p class="prose">See Note K Revenue Recognition to our Consolidated Financial Statements included in Item 8 of Part II of this Annual Report for a breakout of our consolidated revenues.</p>
+<p class="prose">Total net earnings from continuing operations decreased by $712 million in 2025 as compared to 2024, and increased by $873 million in 2024 as compared to 2023.</p>
+<p class="prose">The change in revenue and net earnings from our reportable segments is discussed in further detail at the segment level below.</p>
+<p class="prose">Interest and investment income levels are primarily a function of securities markets, interest rates and the amount of cash available for investment. Interest and investment income was $3,237 million, $3,124 million and $2,607 million for the years ended December 31, 2025, 2024 and 2023, respectively.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c49" data-pid="M004-3">
+  <div class="hdr">
+    <span class="pid">M004-3</span>
+    <span class="tag">comparative</span>
+    <span class="tag">claim 3 of 4</span>
+    <span class="tag cited">cited: [3]</span>
+    <span class="n">50 / 51</span>
+  </div>
+  <div class="q">Which of the three title insurers reported the lowest total revenues in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Stewart Information Services Corp did not report a total company revenue figure in the provided passages, only segment and quarterly data</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 3</div><div class="ident">STEWART INFORMATION SERVICES CORP (STC) | 10-K FY2025 | Item 7</div>
+<p class="prose">Direct title revenue information is presented below (in $ millions, except % change) :</p>
+<p class="prose">Domestic commercial revenues in the fourth quarter 2025 improved by $32.0 million, or 38%, primarily driven by increased sizes of commercial closed transactions, principally related to data center and energy asset classes, while domestic non-commercial revenues increased $17.7 million, or 11%, primarily driven by higher combined purchase and refinancing closed transactions and increased average fee per file compared to the prior year quarter. Fourth quarter 2025 average domestic commercial fee per file was $27,300, or 39% higher compared to $19,600 in the fourth quarter 2024, while average domestic residential fee per file improved 13% to $3,300, compared to $2,900 in the fourth quarter 2024. Total international revenues in the fourth quarter 2025 increased by $1.5 million, or 4%, primarily due to higher residential transaction volumes compared to the prior year quarter.</p>
+<p class="prose">Real estate solutions segment . Summary results of the real estate solutions segment are as follows (in $ millions, except pretax margin and % change):</p>
+<p class="prose">The segment’s fourth quarter 2025 operating revenues improved $24.9 million, or 29%, primarily driven by our credit information services business. Combined employee costs and other operating expenses in the fourth quarter 2025 increased $21.6 million, or 27%, primarily due to increased costs of services related to revenue growth. The segment&#x27;s pretax income included acquisition intangible asset amortization expenses of $5.6 million and $5.5 million in the fourth quarters 2025 and 2024, respectively.</p>
+<p class="prose">19</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section>
+<section class="card" id="c50" data-pid="M004-4">
+  <div class="hdr">
+    <span class="pid">M004-4</span>
+    <span class="tag">comparative</span>
+    <span class="tag">claim 4 of 4</span>
+    <span class="tag cited">cited: [1]</span>
+    <span class="n">51 / 51</span>
+  </div>
+  <div class="q">Which of the three title insurers reported the lowest total revenues in fiscal 2025?</div>
+  <div class="claim-l">CLAIM</div>
+  <div class="claim">Comparing the explicit figures, First American&#x27;s $7.5 billion is the lowest reported total among the companies with disclosed total revenues</div>
+  <div class="psg-l">CITED PASSAGE</div>
+  <div class="psg"><div class="psg-n">passage 1</div><div class="ident">First American Financial Corp (FAF) | 10-K FY2025 | Item 7</div>
+<p class="prose">The Company’s total revenues for 2025 were $7.5 billion, which reflected an increase of $1.3 billion, or 21.6%, when compared with $6.1 billion for 2024. This increase was primarily attributable to increases in direct premiums and escrow fees of $316.7 million, or 12.9%, agent premiums of $397.5 million, or 15.5%, and information and other revenue of $127.4 million, or 13.3%. The Company’s total revenues for 2025 also included $20.9 million of net investment gains compared to $401.6 million of net investment losses for the prior year. The increase in direct premiums and escrow fees attributable to the title insurance and services segment for 2025 totaled $299.2 million, or 14.6%, which included increases from domestic commercial and residential refinance transactions of $241.4 million, or 31.7%, and $39.7 million, or 42.1%, respectively, in 2025 when compared to 2024. Direct premiums and escrow fees from domestic residential purchase transactions decreased $21.5 million, or 2.2%, in 2025 when compared to 2024.</p></div>
+  <div class="vote">
+    <span class="vq">Does the passage say it?</span>
+    <button class="y" data-v="y">supported &nbsp;<kbd>y</kbd></button>
+    <button class="n" data-v="n">not supported &nbsp;<kbd>n</kbd></button>
+    <button class="s" data-v="">clear</button>
+    <span class="mark"></span>
+  </div>
+  <div class="note-l">NOTE <span class="note-h">&mdash; optional; why, or what was unclear</span></div>
+  <textarea class="note" rows="2" placeholder="e.g. the passage never says which column is 2025"></textarea>
+</section></main>
+
+<div id="out">
+  <div class="row">
+    <b style="font-size:13px">Paste this back into the chat</b>
+    <button id="copy">copy</button>
+    <button id="dl">download .csv</button>
+    <button id="hide" style="margin-left:auto">close</button>
+  </div>
+  <textarea id="csv" readonly></textarea>
+</div>
+
+<script>
+const IDS = ["L001-1", "L002-1", "L003-1", "L004-1", "L006-1", "L007-1", "L008-1", "L009-1", "L010-1", "L011-1", "L012-1", "L013-1", "L013-2", "L015-1", "C001-1", "C001-2", "C001-3", "C002-1", "C002-2", "C002-3", "C002-4", "C003-1", "C003-2", "C003-3", "C004-1", "C004-2", "C004-3", "C004-4", "C005-1", "C005-2", "C005-3", "C006-1", "C006-2", "C006-3", "C007-1", "C007-2", "C008-1", "C008-2", "C008-3", "C008-4", "C008-5", "M001-1", "M001-2", "M002-1", "M002-2", "M003-1", "M003-2", "M004-1", "M004-2", "M004-3", "M004-4"], KEY = "groundedness.v1";
+const cards = [...document.querySelectorAll(".card")];
+let labels = {}, notes = {}, here = 0;
+
+// localStorage can throw in a private window or with site data blocked, and
+// can come back with nothing. Either way the page must still work, so every
+// read and write is guarded and an unreadable store simply means a blank pass.
+try {
+  const st = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+  // v1 stored the labels at the top level; v2 keeps labels and notes side by
+  // side. An older store is read rather than discarded so a pass already made
+  // is not lost by opening a rebuilt page.
+  labels = st.labels || st || {};
+  notes = st.notes || {};
+} catch (e) { labels = {}; notes = {}; }
+const save = () => {
+  try { localStorage.setItem(KEY, JSON.stringify({ labels, notes })); } catch (e) {}
+};
+
+function paint(i) {
+  const c = cards[i], v = labels[c.dataset.pid] || "";
+  c.classList.toggle("done", v === "y" || v === "n");
+  c.classList.toggle("no", v === "n");
+  c.querySelectorAll(".vote button[data-v]").forEach(b =>
+    b.setAttribute("aria-pressed", b.dataset.v === v && v !== ""));
+  c.querySelector(".mark").textContent =
+    v === "y" ? "supported" : v === "n" ? "not supported" : "";
+  c.classList.toggle("noted", !!(notes[c.dataset.pid] || "").trim());
+}
+
+function tally() {
+  const n = IDS.filter(id => labels[id]).length;
+  document.getElementById("count").textContent = n + " / " + IDS.length;
+  document.getElementById("fill").style.width = (100 * n / IDS.length) + "%";
+}
+
+function focus(i, scroll = true) {
+  here = Math.max(0, Math.min(cards.length - 1, i));
+  cards.forEach((c, j) => c.classList.toggle("here", j === here));
+  if (scroll) cards[here].scrollIntoView({ block: "center", behavior: "smooth" });
+}
+
+function set(i, v) {
+  const id = cards[i].dataset.pid;
+  if (v) labels[id] = v; else delete labels[id];
+  save(); paint(i); tally();
+}
+
+cards.forEach((c, i) => {
+  c.querySelectorAll(".vote button[data-v]").forEach(b => b.onclick = () => {
+    set(i, b.dataset.v);
+    // Advance only on a verdict, never on "clear" -- clearing a label means
+    // reconsidering this claim, so jumping away from it would be wrong.
+    if (b.dataset.v) { focus(i + 1); } else { focus(i, false); }
+  });
+  c.onclick = e => {
+    if (!e.target.closest("button") && e.target.tagName !== "TEXTAREA") focus(i, false);
+  };
+  const ta = c.querySelector(".note");
+  ta.value = notes[c.dataset.pid] || "";
+  ta.oninput = () => {
+    const t = ta.value;
+    if (t.trim()) notes[c.dataset.pid] = t; else delete notes[c.dataset.pid];
+    save(); paint(i);
+  };
+  // Escape leaves the box so the y/n keys work again without reaching for the
+  // mouse; while the box has focus those keys must type, not vote.
+  ta.onkeydown = e => { if (e.key === "Escape") { ta.blur(); focus(i, false); } };
+  paint(i);
+});
+
+document.onkeydown = e => {
+  if (e.target.tagName === "TEXTAREA" || e.metaKey || e.ctrlKey) return;
+  const k = e.key.toLowerCase();
+  if (k === "y" || k === "n") { set(here, k); focus(here + 1); }
+  else if (k === "j" || e.key === "ArrowDown") focus(here + 1);
+  else if (k === "k" || e.key === "ArrowUp") focus(here - 1);
+  else if (k === "x" || k === "backspace") set(here, "");
+  else return;
+  e.preventDefault();
+};
+
+document.getElementById("jump").onclick = () => {
+  const i = cards.findIndex(c => !labels[c.dataset.pid]);
+  focus(i < 0 ? cards.length - 1 : i);
+};
+
+// A note can hold a comma, a quote or a newline, so every note is written as
+// a quoted CSV field with inner quotes doubled. Written raw, one comma in a
+// note would shift every later column by one.
+const q = t => '"' + String(t).replace(/"/g, '""') + '"';
+const text = () => "pair_id,my_label,my_note\n" +
+  IDS.map(id => [id, labels[id] || "", q(notes[id] || "")].join(",")).join("\n") + "\n";
+
+document.getElementById("export").onclick = () => {
+  const miss = IDS.filter(id => !labels[id]).length;
+  document.getElementById("csv").value =
+    (miss ? "# " + miss + " pair(s) still unlabelled\n" : "") + text();
+  document.getElementById("out").style.display = "block";
+};
+document.getElementById("hide").onclick = () =>
+  document.getElementById("out").style.display = "none";
+document.getElementById("copy").onclick = async () => {
+  const ta = document.getElementById("csv");
+  try { await navigator.clipboard.writeText(ta.value); }
+  catch (e) { ta.select(); document.execCommand("copy"); }
+  document.getElementById("copy").textContent = "copied";
+  setTimeout(() => document.getElementById("copy").textContent = "copy", 1200);
+};
+document.getElementById("dl").onclick = () => {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text()], { type: "text/csv" }));
+  a.download = "groundedness_my_labels.csv";
+  a.click(); URL.revokeObjectURL(a.href);
+};
+
+tally(); focus(0, false);
+</script></body></html>
