@@ -55,6 +55,41 @@ def _cache_key(payload: dict) -> str:
     return hashlib.sha256(blob.encode()).hexdigest()[:32]
 
 
+def _payload(prov: str, model: str, system: str, prompt: str,
+             max_tokens: int, temperature: float,
+             response_format: dict | None) -> dict:
+    """Everything that can change the answer, and nothing that cannot.
+
+    `response_format` is added only when present, which is what keeps every
+    answer cached before structured output existed readable instead of
+    orphaning all of them.
+    """
+    payload = {"provider": prov, "model": model, "system": system,
+               "prompt": prompt, "max_tokens": max_tokens,
+               "temperature": temperature,
+               "reasoning_effort": REASONING_EFFORT}
+    if response_format is not None:
+        payload["response_format"] = response_format
+    return payload
+
+
+def is_cached(prompt: str, system: str = "You are a helpful assistant.",
+              model: str | None = None, max_tokens: int = MAX_OUTPUT_TOKENS,
+              temperature: float = TEMPERATURE,
+              response_format: dict | None = None) -> bool:
+    """Would `complete` answer this from disk? Reads nothing but the filename.
+
+    Used by the UI to mark a question as free before anyone clicks it. It
+    touches no network and does not read the cached body, so it stays cheap
+    enough to run across every question on a settings change.
+    """
+    prov = provider()
+    model = model or (MODEL if prov == "groq" else GEMINI_MODEL)
+    key = _cache_key(_payload(prov, model, system, prompt, max_tokens,
+                              temperature, response_format))
+    return (CACHE / f"{key}.json").exists()
+
+
 def _cache_read(key: str) -> dict | None:
     f = CACHE / f"{key}.json"
     if not f.exists():
@@ -263,13 +298,8 @@ def complete(prompt: str, system: str = "You are a helpful assistant.",
     prov = provider()
     model = model or (MODEL if prov == "groq" else GEMINI_MODEL)
 
-    payload = {"provider": prov, "model": model, "system": system,
-               "prompt": prompt, "max_tokens": max_tokens,
-               "temperature": temperature,
-               "reasoning_effort": REASONING_EFFORT}
-    if response_format is not None:
-        payload["response_format"] = response_format
-    key = _cache_key(payload)
+    key = _cache_key(_payload(prov, model, system, prompt, max_tokens,
+                              temperature, response_format))
 
     if use_cache:
         hit = _cache_read(key)

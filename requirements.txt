@@ -32,3 +32,9 @@ streamlit==1.66.0
 fastapi==0.143.3
 uvicorn[standard]==0.54.0
 python-dotenv==1.2.4
+
+# routing (Step 11). Only src/jev_router.py and eval/run_router_eval.py import
+# this. route.retrieve still defaults to the rule-based planner, so the demo
+# runs without a TypeSafe key -- the key is needed to reproduce the router
+# comparison, not to answer a question.
+typesafe-sdk==0.7.5

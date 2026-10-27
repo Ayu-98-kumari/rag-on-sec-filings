@@ -16,3 +16,5 @@ fastapi
 uvicorn[standard]
 streamlit
 python-dotenv
+# routing (Step 11) -- eval only, the demo runs without it
+typesafe-sdk

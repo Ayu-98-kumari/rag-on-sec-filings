@@ -6,7 +6,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g,
   c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
 
 const S = { strategy:"improved", retriever:"hybrid", route:true,
-            generate:true, k:10, cmpGen:false };   /* k matches config.K:
+            router:"rules", generate:true, k:10, cmpGen:false };   /* k matches config.K:
    the page was asking for five passages while every measured number in the
    Evaluation tab was produced at ten, so the demo was quietly weaker than
    the results it displayed. */
@@ -22,7 +22,10 @@ const HINTS = {
              baseline:"Fixed 384-token windows. Tables flattened to a line of digits." },
   retriever:{ hybrid:"Embeddings and BM25, fused by reciprocal rank.",
               dense:"bge-small-en-v1.5 embeddings. Searches by meaning.",
-              bm25:"Keyword matching. Finds exact line-item names, blind to synonyms." }
+              bm25:"Keyword matching. Finds exact line-item names, blind to synonyms." },
+  router:{ rules:"A hand-written phrase list. Local, and it cannot fail at the network.",
+           jev:"A classifier: one search, or one per company. Returns a calibrated probability per label, and only the question is ever sent.",
+           "jev-ask":"Adds a third label, `unclear`. A question that needs one company's figures but names none gets a question back instead of a confident answer about whichever company ranked." }
 };
 
 /* ---------------- controls ---------------- */
@@ -45,6 +48,7 @@ function sw(id, key){
 }
 seg("#segStrategy", "strategy");
 seg("#segRetriever", "retriever");
+seg("#segRouter", "router");
 sw("#swRoute", "route"); sw("#swGenerate", "generate"); sw("#swCmpGen", "cmpGen");
 $("#kRange").addEventListener("input", e => {
   S.k = +e.target.value; $("#kOut").textContent = S.k; });
@@ -161,7 +165,24 @@ function numericCard(v){
       <tbody>${rows}</tbody></table></div>`;
 }
 
+function routerTag(d){
+  const j = (d.plan && d.plan.jev) || null;
+  if (!j) return "";
+  if (j.error) return " · fell back to rules";
+  const c = (j.confidence ?? 0).toFixed(2);
+  return ` · ${esc(j.choice)} ${c}${j.cached ? " (cached)" : ""}`;
+}
+
 function answerCard(d){
+  if (d.clarify){
+    const j = (d.plan && d.plan.jev) || {};
+    return `<div class="card"><h3>The question is ambiguous, so nothing was
+      searched</h3>
+      <div class="answer">${esc(d.clarify)}</div>
+      <div class="meta"><span>router jev-ask</span>
+        <span>${esc(j.choice)} ${(j.confidence ?? 0).toFixed(2)}</span>
+        <span>no search, no answering call</span></div></div>`;
+  }
   if (d.error){
     const k = d.error.kind === "quota_daily" ? "warn" : "bad";
     return `<div class="note ${k}"><b>${d.error.kind === "quota_daily"
@@ -178,7 +199,9 @@ function answerCard(d){
     <div class="meta"><span>${esc(d.model)}</span><span>${tag}</span>
       <span>k=${d.settings.k}</span><span>${esc(d.settings.retriever)}</span>
       <span>${esc(d.settings.strategy)}</span>
-      <span>routing ${d.settings.route ? "on" : "off"}</span></div></div>`;
+      <span>routing ${d.settings.route ? "on" : "off"}</span>
+      <span>router ${esc(d.settings.router || "rules")}${routerTag(d)}</span>
+      </div></div>`;
 }
 
 /* The model returns its figures as data, not prose, so each one can point at

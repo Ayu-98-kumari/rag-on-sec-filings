@@ -31,6 +31,7 @@ STATIC = Path(__file__).resolve().parent / "static"
 
 Retriever = Literal["hybrid", "dense", "bm25"]
 Strategy = Literal["improved", "baseline"]
+Router = Literal["rules", "jev", "jev-ask"]
 
 
 class Turn(BaseModel):
@@ -49,6 +50,9 @@ class AskRequest(BaseModel):
     retriever: Retriever = "hybrid"
     strategy: Strategy = "improved"
     route: bool = True
+    # rules = the local phrase list. jev = the two-label classifier. jev-ask
+    # adds `unclear`, which answers with a question instead of a search.
+    router: Router = "rules"
     generate: bool = True
     k: int = Field(default=config.K, ge=1, le=20)
     # Capped because this endpoint is public: only the last two turns are
@@ -144,6 +148,26 @@ def get_config() -> dict:
     return out
 
 
+def get_planner(router: str):
+    """The function that decides the plan, or None for the phrase list.
+
+    A failure to load the model router is reported in the response rather than
+    raised: the request can still be served by the phrase list, and a 500 here
+    would turn someone else's outage into ours. The caller puts the reason in
+    `plan_fallback` so a wrong-looking plan can be explained after the fact.
+    """
+    if router == "rules":
+        return None, None
+    try:
+        if router == "jev-ask":
+            from src import jev_router_ask
+            return jev_router_ask.plan, None
+        from src import jev_router
+        return jev_router.plan, None
+    except Exception as e:
+        return None, f"{type(e).__name__}: {e}"
+
+
 @app.post("/api/ask")
 def post_ask(req: AskRequest) -> dict:
     t0 = time.time()
@@ -154,8 +178,31 @@ def post_ask(req: AskRequest) -> dict:
 
     history = [t.model_dump() for t in req.history]
     prev = ask_mod.prev_companies(history)
+    planner, plan_fallback = get_planner(req.router)
+
+    # A question the router could not resolve to a company is answered with a
+    # question, not a search. Decided before retrieval so it costs neither a
+    # search nor an answering call; the router's own cache makes the second
+    # lookup inside ask() free.
+    if planner is not None and req.route:
+        pre = planner(req.question, prev)
+        if pre["mode"] == "clarify":
+            return {
+                "question": req.question,
+                "plan": pre,
+                "hits": [],
+                "retrieve_ms": round((time.time() - t0) * 1000, 1),
+                "companies": [],
+                "settings": req.model_dump(exclude={"history"}),
+                "history_turns": len(history),
+                "clarify": pre["ask"],
+                "answer": None, "error": None, "cached": None,
+                "model": None, "latency_s": None, "structured": None,
+                "plan_fallback": plan_fallback,
+            }
+
     hits, plan = route_mod.retrieve(s, req.question, k=req.k, route=req.route,
-                                    prev_companies=prev)
+                                    prev_companies=prev, planner=planner)
     t_retrieve = time.time() - t0
 
     out = {
@@ -171,6 +218,9 @@ def post_ask(req: AskRequest) -> dict:
         "history_turns": len(history),
         "answer": None, "error": None, "cached": None,
         "model": None, "latency_s": None, "structured": None,
+        # Non-null only when the chosen router could not be loaded and the
+        # phrase list answered instead.
+        "plan_fallback": plan_fallback,
     }
 
     if not req.generate:
@@ -179,7 +229,8 @@ def post_ask(req: AskRequest) -> dict:
     try:
         res = ask_mod.ask(req.question, k=req.k, strategy=req.strategy,
                           route=req.route, retriever=req.retriever,
-                          history=history, structured=req.structured)
+                          history=history, structured=req.structured,
+                          planner=planner)
         out.update(answer=res["answer"], cached=res["cached"],
                    model=res["model"], latency_s=round(res["latency_s"], 2),
                    completion_tokens=res.get("completion_tokens"),

@@ -238,12 +238,60 @@ def build_prompt(question: str, hits: list[dict],
             f"QUESTION: {question}\n\nAnswer, citing passage numbers:")
 
 
+def prompt_and_system(question: str, hits: list[dict],
+                      history: list[dict] | None,
+                      structured: bool) -> tuple[str, str]:
+    """The exact prompt and system prompt a question would be answered with.
+
+    One definition, used by `ask` to call the model and by `probe` to ask
+    whether that call is already on disk.
+    """
+    system = SYSTEM
+    if history_block(history):
+        system += HISTORY_RULE
+    if structured:
+        system += STRUCTURED_RULE
+    return build_prompt(question, hits, history), system
+
+
+def probe(question: str, k: int = K, strategy: str = DEFAULT_STRATEGY,
+          route: bool = False, retriever: str = "dense",
+          history: list[dict] | None = None, structured: bool = False,
+          model: str | None = None, planner=None) -> dict:
+    """Is this question already answered on disk, at these settings?
+
+    Retrieval runs -- it is local and makes no API call -- because the prompt
+    contains the retrieved passages, so the cache key cannot be known without
+    it. The model is never called. Returns the plan too, so a caller can show
+    what the question would do without spending anything to find out.
+
+    A question is only reported cached if the WHOLE call matches: same
+    passages, same k, same system prompt. Changing the retriever or k gives a
+    different prompt and so an honest `cached: False`.
+    """
+    searcher = retrieve_mod.get_retriever(retriever, strategy)
+    hits, plan = route_mod.retrieve(searcher, question, k=k, route=route,
+                                    prev_companies=prev_companies(history),
+                                    planner=planner)
+    if not hits:
+        # Nothing retrieved means no model call at all, which is free in the
+        # same way a cache hit is -- but it is not an answer, so it is named
+        # separately rather than reported as cached.
+        return {"cached": False, "no_hits": True, "plan": plan}
+    prompt, system = prompt_and_system(question, hits, history, structured)
+    return {"cached": llm.is_cached(prompt, system=system, model=model,
+                                    response_format=(RESPONSE_FORMAT
+                                                     if structured else None)),
+            "no_hits": False, "plan": plan}
+
+
 def ask(question: str, k: int = K, ticker: str | None = None,
         model: str | None = None, use_cache: bool = True,
         strategy: str = DEFAULT_STRATEGY, route: bool = False,
         retriever: str = "dense",
         history: list[dict] | None = None,
-        structured: bool = False) -> dict:
+        structured: bool = False,
+        planner=None) -> dict:
     """One question, one cited answer.
 
     `history` makes this multi-turn: previous turns resolve what a follow-up
@@ -261,8 +309,11 @@ def ask(question: str, k: int = K, ticker: str | None = None,
         plan = {"mode": "filtered", "companies": [ticker],
                 "why": "ticker given on the command line"}
     else:
+        # `planner` is passed straight through to the router. It changes WHICH
+        # searches run, never how a search works, so the answering prompt and
+        # therefore the answer cache key are untouched by the choice of router.
         hits, plan = route_mod.retrieve(searcher, question, k=k, route=route,
-                                        prev_companies=prev)
+                                        prev_companies=prev, planner=planner)
     t_retrieve = time.time() - t0
 
     if not hits:
@@ -272,12 +323,7 @@ def ask(question: str, k: int = K, ticker: str | None = None,
                 "model": model or config.MODEL, "prompt": "",
                 "structured": None}
 
-    prompt = build_prompt(question, hits, history)
-    system = SYSTEM
-    if history_block(history):
-        system += HISTORY_RULE
-    if structured:
-        system += STRUCTURED_RULE
+    prompt, system = prompt_and_system(question, hits, history, structured)
     out = llm.complete(prompt, system=system, model=model, use_cache=use_cache,
                        response_format=RESPONSE_FORMAT if structured else None)
 

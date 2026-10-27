@@ -31,6 +31,22 @@ ALIASES: dict[str, tuple[str, ...]] = {
     "STC": ("stewart", "stc"),
 }
 
+# Matched at word edges, not as bare substrings. The substring form shipped for
+# three steps described in three documents as "free and never wrong", and the
+# offline scorer in eval/run_router_named_eval.py measured it at 5/7 on
+# adversarial questions: "What lines of business does Westcor underwrite?" was
+# filtered to Stewart, because "weSTCor" contains "stc". Westcor Land Title is a
+# real competitor in this industry, so that is a question a user asks, and the
+# plan reported "1 company name(s) found" for a company the question never
+# named. An English word list does not catch it -- "westcor" is not in one --
+# and nor would a competitor list, since the next competitor is not on it
+# either. A word edge catches the whole class at no cost. Punctuation is an
+# edge, so "Stewart's", "(FNF)" and "stc," all still match.
+ALIAS_RE: dict[str, re.Pattern[str]] = {
+    tk: re.compile(r"\b(?:" + "|".join(re.escape(w) for w in words) + r")\b")
+    for tk, words in ALIASES.items()
+}
+
 # Phrases that mean every filer without naming one. "Which of the three title
 # insurers reported the lowest revenue" names nobody and still needs all three.
 ALL_PHRASES = (
@@ -117,7 +133,7 @@ def named_companies(question: str) -> tuple[list[str], str]:
     q = question.lower()
     if any(p in q for p in ALL_PHRASES):
         return list(config.TICKERS), "question refers to all filers explicitly"
-    found = {tk for tk, words in ALIASES.items() if any(w in q for w in words)}
+    found = {tk for tk, pat in ALIAS_RE.items() if pat.search(q)}
     named = [tk for tk in config.TICKERS if tk in found]
     if named:
         return named, f"{len(named)} company name(s) found in the question"
@@ -202,7 +218,8 @@ def plan(question: str, prev_companies: list[str] | None = None) -> dict:
 
 def retrieve(searcher, question: str, k: int,
              route: bool = True,
-             prev_companies: list[str] | None = None
+             prev_companies: list[str] | None = None,
+             planner=None,
              ) -> tuple[list[dict], dict]:
     """Retrieve k passages. Returns (hits, the plan that produced them).
 
@@ -213,9 +230,25 @@ def retrieve(searcher, question: str, k: int,
 
     With route=False this is the Step 5 behaviour: one unfiltered search. That
     is kept as the control, so the change can be measured rather than assumed.
+
+    `planner` is the function that decides the plan, defaulting to `plan`
+    above. Step 11 replaces the word list with a model, and that model is a
+    different planner rather than an edit to this one -- so the swap is an
+    argument, and every number already in results/ stays reproducible by
+    leaving the argument out. Anything with plan's signature works:
+    (question, prev_companies) -> dict with mode, companies and why.
     """
-    p = (plan(question, prev_companies) if route
+    decide = planner or plan
+    p = (decide(question, prev_companies) if route
          else {"mode": "single", "companies": [], "why": "routing disabled"})
+
+    if p["mode"] == "clarify":
+        # Nothing is searched. A question the router could not resolve to a
+        # company has no right answer to retrieve, and searching anyway is the
+        # failure this mode exists to prevent: an unfiltered search would land
+        # in one filer's neighbourhood and answer confidently about whichever
+        # company happened to rank. The caller asks the user instead.
+        return [], p
 
     if p["mode"] == "single":
         return searcher.search(question, k), p
